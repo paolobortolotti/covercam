@@ -377,7 +377,7 @@ export function renderCoverOverlay(ctx, width, height, preset, options) {
       lines = lines.slice(0, el.maxLines || 3);
     }
     // True baseline-to-baseline spacing, including the extra leading between wrapped lines.
-    const defaultLeading = el.role === 'headline' ? 1.18 : (isEditorialBoxRole ? 1.32 : 1.08);
+    const defaultLeading = el.role === 'headline' ? 1.2 : (isEditorialBoxRole ? 1.36 : 1.1);
     const lineH = fontPx * Math.max(1.14, Math.max(defaultLeading, el.lineHeight || 0) * Math.max(0.9, Math.min(1.65, editorialLineGap)));
     const blockH = el.bg === 'accent' ? fontPx * 1.45 : lines.length * lineH;
 
@@ -394,10 +394,12 @@ export function renderCoverOverlay(ctx, width, height, preset, options) {
       prevAlign === (el.align || 'left') &&
       Math.abs(yPos - prevFlowBottom) < height * 0.16
     ) {
-      yPos = Math.max(yPos, prevFlowBottom + fontPx * (el.role === 'headline' ? 0.22 : 0.38));
+      yPos = Math.max(yPos, prevFlowBottom + fontPx * (el.role === 'headline' ? 0.4 : 0.65));
     }
 
-    const minGap = Math.max(6, height * 0.014);
+    // Editorial rhythm: larger gaps between title, deck and supporting copy.
+    const gapScale = el.role === 'lead' ? 0.7 : el.role === 'body' ? 0.58 : el.role === 'headline' ? 0.4 : 0.28;
+    const minGap = Math.max(height * 0.012, fontPx * gapScale);
     for (const b of placedBoxes) {
       const horizOverlap = Math.min(boxRight, b.right) - Math.max(boxLeft, b.left) > width * 0.04;
       if (horizOverlap && yPos < b.bottom + minGap && yPos + blockH > b.top - minGap) {
