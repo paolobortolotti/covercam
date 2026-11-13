@@ -1,4 +1,4 @@
-const CACHE_NAME = 'covercam-v7';
+const CACHE_NAME = 'covercam-v9';
 const STATIC_ASSETS = [
   './',
   './index.html',

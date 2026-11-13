@@ -40,6 +40,10 @@ const state = {
     c10: '#FF2A6D',
     strength: 0.55
   },
+  toneAdjust: {
+    contrast: 100,
+    brightness: 100
+  },
   lightSpotMode: false,
   lightSpots: [],
   faceCutoutEnabled: false,
@@ -64,6 +68,7 @@ const dom = {
   btnSettingsToggle: document.getElementById('btnSettingsToggle'),
   genreTabs: document.getElementById('genreTabs'),
   lookGradingPanel: document.getElementById('lookGradingPanel'),
+  btnCloseLookSheet: document.getElementById('btnCloseLookSheet'),
   btnToggleGradingEnable: document.getElementById('btnToggleGradingEnable'),
   bar60: document.getElementById('bar60'),
   bar30: document.getElementById('bar30'),
@@ -76,7 +81,12 @@ const dom = {
   color60Hex: document.getElementById('color60Hex'),
   color30Hex: document.getElementById('color30Hex'),
   color10Hex: document.getElementById('color10Hex'),
+  contrastToneSlider: document.getElementById('contrastToneSlider'),
+  contrastToneValue: document.getElementById('contrastToneValue'),
+  brightnessToneSlider: document.getElementById('brightnessToneSlider'),
+  brightnessToneValue: document.getElementById('brightnessToneValue'),
   settingsDrawer: document.getElementById('settingsDrawer'),
+  btnCloseSettingsSheet: document.getElementById('btnCloseSettingsSheet'),
   opacitySlider: document.getElementById('opacitySlider'),
   opacityValue: document.getElementById('opacityValue'),
   contrastStatus: document.getElementById('contrastStatus'),
@@ -93,6 +103,10 @@ const dom = {
   btnClearLights: document.getElementById('btnClearLights'),
   btnFaceCutoutToggle: document.getElementById('btnFaceCutoutToggle'),
   faceCutoutStatusText: document.getElementById('faceCutoutStatusText'),
+  faceSizeSlider: document.getElementById('faceSizeSlider'),
+  faceSizeValue: document.getElementById('faceSizeValue'),
+  faceFeatherSlider: document.getElementById('faceFeatherSlider'),
+  faceFeatherValue: document.getElementById('faceFeatherValue'),
   btnHorizonToggle: document.getElementById('btnHorizonToggle'),
   horizonStatusText: document.getElementById('horizonStatusText'),
   btnSafeZoneToggle: document.getElementById('btnSafeZoneToggle'),
@@ -213,7 +227,7 @@ function drawPreviewOverlay() {
 
 function applyVideoFilter() {
   const f = IMAGE_FILTERS.find(item => item.id === state.filterId) || IMAGE_FILTERS[0];
-  const resolvedCss = resolveFilterCss(state.filterId, state.currentGenre);
+  const resolvedCss = resolveFilterCss(state.filterId, state.currentGenre, state.toneAdjust);
   const cssVal = resolvedCss === 'none' ? '' : resolvedCss;
   dom.cameraVideo.style.filter = cssVal;
   dom.importedPhoto.style.filter = cssVal;
@@ -493,6 +507,10 @@ function setupStageInteractions() {
   let startX = 0;
   let startY = 0;
   let tracking = false;
+  let draggingMask = false;
+  const activePointers = new Map();
+  let initialPinchDist = null;
+  let initialMaskRx = 0.24;
 
   dom.stageFrame.addEventListener('pointerdown', (e) => {
     if (e.target.closest('button')) return;
@@ -503,12 +521,74 @@ function setupStageInteractions() {
       dom.settingsDrawer.classList.add('hidden');
       dom.btnSettingsToggle.setAttribute('aria-expanded', 'false');
     }
+
+    activePointers.set(e.pointerId, { x: e.clientX, y: e.clientY });
+
+    if (activePointers.size === 2 && state.faceCutoutEnabled) {
+      const pts = [...activePointers.values()];
+      initialPinchDist = Math.hypot(pts[0].x - pts[1].x, pts[0].y - pts[1].y);
+      initialMaskRx = subjectMask.maskZone.rx;
+      tracking = false;
+      draggingMask = false;
+      return;
+    }
+
+    const rect = dom.stageFrame.getBoundingClientRect();
+    const normX = Math.max(0, Math.min(1, (e.clientX - rect.left) / rect.width));
+    const normY = Math.max(0, Math.min(1, (e.clientY - rect.top) / rect.height));
+
+    if (
+      state.faceCutoutEnabled &&
+      Math.hypot(normX - subjectMask.maskZone.x, normY - subjectMask.maskZone.y) <= Math.max(subjectMask.maskZone.rx, 0.18)
+    ) {
+      draggingMask = true;
+      tracking = false;
+      return;
+    }
+
     startX = e.clientX;
     startY = e.clientY;
     tracking = true;
   });
 
-  dom.stageFrame.addEventListener('pointerup', (e) => {
+  dom.stageFrame.addEventListener('pointermove', (e) => {
+    if (activePointers.has(e.pointerId)) {
+      activePointers.set(e.pointerId, { x: e.clientX, y: e.clientY });
+    }
+
+    if (activePointers.size === 2 && state.faceCutoutEnabled && initialPinchDist > 10) {
+      const pts = [...activePointers.values()];
+      const dist = Math.hypot(pts[0].x - pts[1].x, pts[0].y - pts[1].y);
+      const scale = dist / initialPinchDist;
+      const nextRx = Math.max(0.10, Math.min(0.50, initialMaskRx * scale));
+      subjectMask.setSize(nextRx);
+      if (dom.faceSizeSlider) {
+        const pct = Math.round(nextRx * 100);
+        dom.faceSizeSlider.value = String(pct);
+        dom.faceSizeValue.textContent = `${pct}%`;
+      }
+      scheduleOverlayRedraw();
+      return;
+    }
+
+    if (draggingMask && state.faceCutoutEnabled) {
+      const rect = dom.stageFrame.getBoundingClientRect();
+      const normX = Math.max(0.1, Math.min(0.9, (e.clientX - rect.left) / rect.width));
+      const normY = Math.max(0.06, Math.min(0.7, (e.clientY - rect.top) / rect.height));
+      subjectMask.setManualPoint(normX, normY);
+      scheduleOverlayRedraw();
+    }
+  });
+
+  const endPointer = (e) => {
+    activePointers.delete(e.pointerId);
+    if (activePointers.size < 2) {
+      initialPinchDist = null;
+    }
+    if (draggingMask) {
+      draggingMask = false;
+      return;
+    }
     if (!tracking) return;
     tracking = false;
     const dx = e.clientX - startX;
@@ -529,20 +609,23 @@ function setupStageInteractions() {
         if (state.lightSpots.length >= 6) {
           state.lightSpots.shift();
         }
-        state.lightSpots.push({ x: normX, y: normY, radius: 0.30, intensity: 0.32 });
-        logger.info('Punto luce aggiunto con tocco', {
+        state.lightSpots.push({ x: normX, y: normY, radius: 0.32, intensity: 0.38 });
+        logger.info('Alone Multiply aggiunto con tocco', {
           x: Number(normX.toFixed(2)),
           y: Number(normY.toFixed(2)),
           total: state.lightSpots.length
         });
         updateLightSpotsUI();
         scheduleOverlayRedraw();
-      } else if (state.faceCutoutEnabled && normY < 0.55) {
+      } else if (state.faceCutoutEnabled && normY < 0.65) {
         subjectMask.setManualPoint(normX, normY);
         scheduleOverlayRedraw();
       }
     }
-  });
+  };
+
+  dom.stageFrame.addEventListener('pointerup', endPointer);
+  dom.stageFrame.addEventListener('pointercancel', endPointer);
 
   window.addEventListener('keydown', (e) => {
     if (dom.exportDialog.open || dom.debugDialog.open) return;
@@ -643,7 +726,8 @@ async function handleShutter() {
           enabled: state.faceCutoutEnabled,
           zone: subjectMask.maskZone
         },
-        grading: state.grading
+        grading: state.grading,
+        toneAdjust: state.toneAdjust
       }
     });
 
@@ -787,6 +871,20 @@ async function bootstrap() {
     dom.btnSettingsToggle.setAttribute('aria-expanded', String(!isHidden));
   });
 
+  if (dom.btnCloseSettingsSheet) {
+    dom.btnCloseSettingsSheet.addEventListener('click', () => {
+      dom.settingsDrawer.classList.add('hidden');
+      dom.btnSettingsToggle.setAttribute('aria-expanded', 'false');
+    });
+  }
+
+  if (dom.btnCloseLookSheet) {
+    dom.btnCloseLookSheet.addEventListener('click', () => {
+      dom.lookGradingPanel.classList.add('hidden');
+      dom.btnGenreLookToggle.setAttribute('aria-pressed', String(state.grading.enabled));
+    });
+  }
+
   if (dom.btnGenreLookToggle) {
     dom.btnGenreLookToggle.addEventListener('click', () => {
       if (dom.settingsDrawer) {
@@ -840,6 +938,24 @@ async function bootstrap() {
   dom.color30Input.addEventListener('input', onCustomGradeColor);
   dom.color10Input.addEventListener('input', onCustomGradeColor);
 
+  if (dom.contrastToneSlider) {
+    dom.contrastToneSlider.addEventListener('input', (e) => {
+      const val = Number(e.target.value);
+      state.toneAdjust.contrast = val;
+      dom.contrastToneValue.textContent = `${val}%`;
+      applyVideoFilter();
+    });
+  }
+
+  if (dom.brightnessToneSlider) {
+    dom.brightnessToneSlider.addEventListener('input', (e) => {
+      const val = Number(e.target.value);
+      state.toneAdjust.brightness = val;
+      dom.brightnessToneValue.textContent = `${val}%`;
+      applyVideoFilter();
+    });
+  }
+
   dom.opacitySlider.addEventListener('input', (e) => {
     const val = Number(e.target.value);
     state.opacity = val / 100;
@@ -873,11 +989,37 @@ async function bootstrap() {
     state.faceCutoutEnabled = !state.faceCutoutEnabled;
     subjectMask.enabled = state.faceCutoutEnabled;
     dom.btnFaceCutoutToggle.setAttribute('aria-pressed', String(state.faceCutoutEnabled));
+    dom.btnFaceCutoutToggle.classList.toggle('active', state.faceCutoutEnabled);
     dom.faceCutoutStatusText.textContent = state.faceCutoutEnabled ? 'ON' : 'OFF';
     logger.info('Scontorno volto su testata', { enabled: state.faceCutoutEnabled });
     runSceneColorSample();
     scheduleOverlayRedraw();
   });
+
+  if (dom.faceSizeSlider) {
+    dom.faceSizeSlider.addEventListener('input', (e) => {
+      const val = Number(e.target.value);
+      dom.faceSizeValue.textContent = `${val}%`;
+      subjectMask.setSize(val / 100);
+      if (!state.faceCutoutEnabled) {
+        state.faceCutoutEnabled = true;
+        subjectMask.enabled = true;
+        dom.btnFaceCutoutToggle.setAttribute('aria-pressed', 'true');
+        dom.btnFaceCutoutToggle.classList.add('active');
+        dom.faceCutoutStatusText.textContent = 'ON';
+      }
+      scheduleOverlayRedraw();
+    });
+  }
+
+  if (dom.faceFeatherSlider) {
+    dom.faceFeatherSlider.addEventListener('input', (e) => {
+      const val = Number(e.target.value);
+      dom.faceFeatherValue.textContent = `${val}%`;
+      subjectMask.setFeather(val / 100);
+      scheduleOverlayRedraw();
+    });
+  }
 
   dom.btnHorizonToggle.addEventListener('click', async () => {
     if (!horizonLevel.enabled) {

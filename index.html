@@ -67,6 +67,13 @@
       <nav class="genre-tabs" id="genreTabs" aria-label="Generi copertina"></nav>
 
       <section id="lookGradingPanel" class="grading-panel hidden" aria-label="Color Grading 60-30-10">
+        <div class="sheet-handle-bar">
+          <span class="sheet-pill-indicator"></span>
+        </div>
+        <div class="sheet-header-row">
+          <strong>Look & Color Grading (60 · 30 · 10)</strong>
+          <button type="button" id="btnCloseLookSheet" class="icon-btn" aria-label="Chiudi pannello Look">✕</button>
+        </div>
         <div class="grading-top">
           <button type="button" id="btnToggleGradingEnable" class="chip-btn active" aria-pressed="true">
             <span>60·30·10 ON</span>
@@ -86,14 +93,14 @@
 
         <div class="grading-pickers">
           <label class="color-slot">
-            <span class="slot-pct">60% Dominante</span>
+            <span class="slot-pct">60% Multiply Base</span>
             <div class="slot-input-wrap">
               <input type="color" id="color60Input" value="#1A242D">
               <code id="color60Hex">#1A242D</code>
             </div>
           </label>
           <label class="color-slot">
-            <span class="slot-pct">30% Secondario</span>
+            <span class="slot-pct">30% Multiply Caldo</span>
             <div class="slot-input-wrap">
               <input type="color" id="color30Input" value="#D8C3A5">
               <code id="color30Hex">#D8C3A5</code>
@@ -107,9 +114,33 @@
             </div>
           </label>
         </div>
+
+        <div class="tone-sliders">
+          <label class="tone-control">
+            <div class="setting-header">
+              <span>Contrasto B/N</span>
+              <span id="contrastToneValue">100%</span>
+            </div>
+            <input type="range" id="contrastToneSlider" min="70" max="180" value="100" step="2">
+          </label>
+          <label class="tone-control">
+            <div class="setting-header">
+              <span>Punto Bianco / Nero</span>
+              <span id="brightnessToneValue">100%</span>
+            </div>
+            <input type="range" id="brightnessToneSlider" min="70" max="140" value="100" step="2">
+          </label>
+        </div>
       </section>
 
       <section id="settingsDrawer" class="settings-drawer hidden" aria-label="Pannello impostazioni">
+        <div class="sheet-handle-bar">
+          <span class="sheet-pill-indicator"></span>
+        </div>
+        <div class="sheet-header-row">
+          <strong>Strumenti Copertina & Scontorno</strong>
+          <button type="button" id="btnCloseSettingsSheet" class="icon-btn" aria-label="Chiudi impostazioni">✕</button>
+        </div>
         <div class="setting-group">
           <div class="setting-header">
             <label for="opacitySlider">Opacità layout</label>
@@ -135,7 +166,7 @@
         <div class="setting-group">
           <div class="setting-header">
             <span>Guida composizione (solo mirino)</span>
-            <span id="guideStatusText" class="contrast-badge">Nessuna</span>
+            <span id="guideStatusText" class="contrast-badge">Spirale Aurea</span>
           </div>
           <div class="color-row" id="guideBar" role="radiogroup" aria-label="Guide di composizione fotografica"></div>
         </div>
@@ -150,26 +181,47 @@
 
         <div class="setting-group">
           <div class="setting-header">
-            <span>Punti luce (tocca sulla foto)</span>
+            <span>Scontorno volto su testata (trascina o pizzica sul volto)</span>
+            <button type="button" id="btnFaceCutoutToggle" class="chip-btn" aria-pressed="false">
+              <strong id="faceCutoutStatusText">OFF</strong>
+            </button>
+          </div>
+          <div class="tone-sliders">
+            <label class="tone-control">
+              <div class="setting-header">
+                <span>Grandezza zona</span>
+                <span id="faceSizeValue">24%</span>
+              </div>
+              <input type="range" id="faceSizeSlider" min="10" max="50" value="24" step="1">
+            </label>
+            <label class="tone-control">
+              <div class="setting-header">
+                <span>Sfumatura bordo</span>
+                <span id="faceFeatherValue">72%</span>
+              </div>
+              <input type="range" id="faceFeatherSlider" min="20" max="95" value="72" step="1">
+            </label>
+          </div>
+        </div>
+
+        <div class="setting-group">
+          <div class="setting-header">
+            <span>Aloni caldi Multiply (tocca sulla foto)</span>
             <span id="lightSpotCountText" class="contrast-badge">0 punti</span>
           </div>
           <div class="setting-toggles">
             <button type="button" id="btnLightModeToggle" class="toggle-pill" aria-pressed="false">
-              <span>Aggiungi punto luce col tocco</span>
+              <span>Tocca foto per alone Multiply</span>
               <strong id="lightModeStatusText">OFF</strong>
             </button>
             <button type="button" id="btnClearLights" class="toggle-pill">
-              <span>Rimuovi punti luce</span>
+              <span>Rimuovi aloni</span>
               <strong>RESET</strong>
             </button>
           </div>
         </div>
 
         <div class="setting-toggles">
-          <button type="button" id="btnFaceCutoutToggle" class="toggle-pill" aria-pressed="false">
-            <span>Scontorno volto su testata</span>
-            <strong id="faceCutoutStatusText">OFF</strong>
-          </button>
           <button type="button" id="btnHorizonToggle" class="toggle-pill" aria-pressed="false">
             <span>Livella orizzonte</span>
             <strong id="horizonStatusText">OFF</strong>

@@ -104,14 +104,27 @@ export const GENRE_FILTER_MAP = {
   sport: 'news-grit'
 };
 
-export function resolveFilterCss(filterId, currentGenre) {
-  if (!filterId || filterId === 'none') return 'none';
-  let targetId = filterId;
-  if (filterId === 'auto-genre') {
-    targetId = GENRE_FILTER_MAP[currentGenre] || 'fashion-gloss';
+export function resolveFilterCss(filterId, currentGenre, toneAdjust = { contrast: 100, brightness: 100 }) {
+  let base = '';
+  if (filterId && filterId !== 'none') {
+    let targetId = filterId;
+    if (filterId === 'auto-genre') {
+      targetId = GENRE_FILTER_MAP[currentGenre] || 'fashion-gloss';
+    }
+    const found = IMAGE_FILTERS.find(f => f.id === targetId);
+    if (found && found.css !== 'auto' && found.css !== 'none') {
+      base = found.css;
+    }
   }
-  const found = IMAGE_FILTERS.find(f => f.id === targetId);
-  return found && found.css !== 'auto' ? found.css : 'none';
+
+  const c = toneAdjust && typeof toneAdjust.contrast === 'number' ? toneAdjust.contrast : 100;
+  const b = toneAdjust && typeof toneAdjust.brightness === 'number' ? toneAdjust.brightness : 100;
+  const extra = [];
+  if (c !== 100) extra.push(`contrast(${(c / 100).toFixed(2)})`);
+  if (b !== 100) extra.push(`brightness(${(b / 100).toFixed(2)})`);
+
+  const combined = [base, ...extra].filter(Boolean).join(' ').trim();
+  return combined || 'none';
 }
 
 export const GRADING_TRIADS = [
@@ -137,47 +150,38 @@ export function renderColorGrading603010(ctx, width, height, grading) {
   ctx.save();
 
   ctx.save();
-  ctx.globalCompositeOperation = 'soft-light';
+  ctx.globalCompositeOperation = 'multiply';
   const baseGrad = ctx.createLinearGradient(0, height, 0, 0);
-  baseGrad.addColorStop(0, `rgba(${rgb60.r}, ${rgb60.g}, ${rgb60.b}, ${(0.72 * strength).toFixed(3)})`);
-  baseGrad.addColorStop(0.55, `rgba(${rgb60.r}, ${rgb60.g}, ${rgb60.b}, ${(0.36 * strength).toFixed(3)})`);
-  baseGrad.addColorStop(1, `rgba(${rgb30.r}, ${rgb30.g}, ${rgb30.b}, ${(0.52 * strength).toFixed(3)})`);
+  baseGrad.addColorStop(0, `rgba(${rgb60.r}, ${rgb60.g}, ${rgb60.b}, ${(0.76 * strength).toFixed(3)})`);
+  baseGrad.addColorStop(0.55, `rgba(${rgb60.r}, ${rgb60.g}, ${rgb60.b}, ${(0.35 * strength).toFixed(3)})`);
+  baseGrad.addColorStop(1, `rgba(${rgb30.r}, ${rgb30.g}, ${rgb30.b}, ${(0.48 * strength).toFixed(3)})`);
   ctx.fillStyle = baseGrad;
   ctx.fillRect(0, 0, width, height);
   ctx.restore();
 
   ctx.save();
-  ctx.globalCompositeOperation = 'screen';
-  const glowGrad = ctx.createRadialGradient(
-    width * 0.5,
-    height * 0.34,
-    width * 0.04,
+  ctx.globalCompositeOperation = 'multiply';
+  const warmHalo = ctx.createRadialGradient(
     width * 0.5,
     height * 0.38,
-    width * 0.72
+    width * 0.14,
+    width * 0.5,
+    height * 0.42,
+    width * 0.78
   );
-  glowGrad.addColorStop(0, `rgba(${rgb30.r}, ${rgb30.g}, ${rgb30.b}, ${(0.34 * strength).toFixed(3)})`);
-  glowGrad.addColorStop(0.65, `rgba(${rgb30.r}, ${rgb30.g}, ${rgb30.b}, ${(0.12 * strength).toFixed(3)})`);
-  glowGrad.addColorStop(1, 'rgba(0, 0, 0, 0)');
-  ctx.fillStyle = glowGrad;
+  warmHalo.addColorStop(0, 'rgba(255, 255, 255, 0)');
+  warmHalo.addColorStop(0.58, `rgba(${rgb30.r}, ${rgb30.g}, ${rgb30.b}, ${(0.38 * strength).toFixed(3)})`);
+  warmHalo.addColorStop(1, `rgba(${rgb60.r}, ${rgb60.g}, ${rgb60.b}, ${(0.72 * strength).toFixed(3)})`);
+  ctx.fillStyle = warmHalo;
   ctx.fillRect(0, 0, width, height);
   ctx.restore();
 
   ctx.save();
   ctx.globalCompositeOperation = 'multiply';
-  const vignetteGrad = ctx.createLinearGradient(0, height * 0.52, 0, height);
-  vignetteGrad.addColorStop(0, 'rgba(255, 255, 255, 0)');
-  vignetteGrad.addColorStop(1, `rgba(${rgb60.r}, ${rgb60.g}, ${rgb60.b}, ${(0.58 * strength).toFixed(3)})`);
-  ctx.fillStyle = vignetteGrad;
-  ctx.fillRect(0, 0, width, height);
-  ctx.restore();
-
-  ctx.save();
-  ctx.globalCompositeOperation = 'screen';
-  const flareGrad = ctx.createLinearGradient(0, 0, width, height * 0.65);
-  flareGrad.addColorStop(0, `rgba(${rgb10.r}, ${rgb10.g}, ${rgb10.b}, ${(0.22 * strength).toFixed(3)})`);
-  flareGrad.addColorStop(0.45, 'rgba(0, 0, 0, 0)');
-  ctx.fillStyle = flareGrad;
+  const accentWash = ctx.createLinearGradient(0, 0, width, height * 0.7);
+  accentWash.addColorStop(0, `rgba(${rgb10.r}, ${rgb10.g}, ${rgb10.b}, ${(0.28 * strength).toFixed(3)})`);
+  accentWash.addColorStop(0.55, 'rgba(255, 255, 255, 0)');
+  ctx.fillStyle = accentWash;
   ctx.fillRect(0, 0, width, height);
   ctx.restore();
 
@@ -190,36 +194,33 @@ export function renderLightSpots(ctx, width, height, spots = [], isExport = fals
   for (const spot of spots) {
     const cx = spot.x * width;
     const cy = spot.y * height;
-    const radius = (spot.radius || 0.28) * Math.min(width, height);
-    const intensity = spot.intensity || 0.28;
-
-    const grad = ctx.createRadialGradient(cx, cy, 0, cx, cy, radius);
-    grad.addColorStop(0, `rgba(255, 252, 245, ${intensity})`);
-    grad.addColorStop(0.45, `rgba(255, 250, 240, ${intensity * 0.45})`);
-    grad.addColorStop(1, 'rgba(255, 255, 255, 0)');
+    const radius = (spot.radius || 0.32) * Math.min(width, height);
+    const intensity = spot.intensity || 0.38;
 
     ctx.save();
-    ctx.globalCompositeOperation = 'soft-light';
-    ctx.fillStyle = grad;
-    ctx.beginPath();
-    ctx.arc(cx, cy, radius, 0, Math.PI * 2);
-    ctx.fill();
+    ctx.globalCompositeOperation = 'multiply';
+    const mulGrad = ctx.createRadialGradient(cx, cy, radius * 0.08, cx, cy, radius * 1.35);
+    mulGrad.addColorStop(0, 'rgba(255, 248, 235, 0)');
+    mulGrad.addColorStop(0.45, `rgba(235, 195, 145, ${(intensity * 0.55).toFixed(3)})`);
+    mulGrad.addColorStop(1, `rgba(42, 26, 16, ${(intensity * 0.85).toFixed(3)})`);
+    ctx.fillStyle = mulGrad;
+    ctx.fillRect(0, 0, width, height);
     ctx.restore();
 
     ctx.save();
-    ctx.globalCompositeOperation = 'screen';
-    const coreGrad = ctx.createRadialGradient(cx, cy, 0, cx, cy, radius * 0.65);
-    coreGrad.addColorStop(0, `rgba(255, 255, 255, ${intensity * 0.42})`);
-    coreGrad.addColorStop(1, 'rgba(255, 255, 255, 0)');
-    ctx.fillStyle = coreGrad;
+    ctx.globalCompositeOperation = 'soft-light';
+    const warmCore = ctx.createRadialGradient(cx, cy, 0, cx, cy, radius * 0.7);
+    warmCore.addColorStop(0, `rgba(255, 236, 205, ${(intensity * 0.75).toFixed(3)})`);
+    warmCore.addColorStop(1, 'rgba(255, 236, 205, 0)');
+    ctx.fillStyle = warmCore;
     ctx.beginPath();
-    ctx.arc(cx, cy, radius * 0.65, 0, Math.PI * 2);
+    ctx.arc(cx, cy, radius * 0.7, 0, Math.PI * 2);
     ctx.fill();
     ctx.restore();
 
     if (!isExport) {
       ctx.save();
-      ctx.strokeStyle = 'rgba(255, 255, 255, 0.35)';
+      ctx.strokeStyle = 'rgba(255, 215, 160, 0.45)';
       ctx.lineWidth = 1;
       ctx.setLineDash([3, 3]);
       ctx.beginPath();
@@ -398,18 +399,22 @@ export function renderCoverOverlay(ctx, width, height, preset, options) {
       const z = faceCutout.zone;
       const cx = z.x * width;
       const cy = z.y * height;
-      const rx = (z.rx || 0.22) * width;
-      const ry = (z.ry || 0.19) * height;
+      const rx = (z.rx || 0.24) * width;
+      const ry = (z.ry || 0.20) * height;
+      const feather = typeof z.feather === 'number' ? z.feather : 0.72;
+      const maxR = Math.max(rx, ry);
+      const innerR = Math.max(2, maxR * (1 - feather));
 
       ctx.save();
       ctx.globalCompositeOperation = 'destination-out';
-      const cutGrad = ctx.createRadialGradient(cx, cy, Math.min(rx, ry) * 0.55, cx, cy, Math.max(rx, ry));
+      const cutGrad = ctx.createRadialGradient(cx, cy, innerR, cx, cy, maxR);
       cutGrad.addColorStop(0, 'rgba(0, 0, 0, 1)');
-      cutGrad.addColorStop(0.78, 'rgba(0, 0, 0, 0.92)');
+      cutGrad.addColorStop(0.45, 'rgba(0, 0, 0, 0.82)');
+      cutGrad.addColorStop(0.78, 'rgba(0, 0, 0, 0.35)');
       cutGrad.addColorStop(1, 'rgba(0, 0, 0, 0)');
       ctx.fillStyle = cutGrad;
       ctx.beginPath();
-      ctx.ellipse(cx, cy, rx, ry, 0, 0, Math.PI * 2);
+      ctx.ellipse(cx, cy, rx * 1.15, ry * 1.15, 0, 0, Math.PI * 2);
       ctx.fill();
       ctx.restore();
     }
@@ -427,12 +432,17 @@ export function renderCoverOverlay(ctx, width, height, preset, options) {
   if (!isExport && faceCutout && faceCutout.enabled && faceCutout.zone) {
     const z = faceCutout.zone;
     ctx.save();
-    ctx.strokeStyle = 'rgba(34, 197, 94, 0.55)';
-    ctx.lineWidth = 1.25;
-    ctx.setLineDash([5, 4]);
+    ctx.strokeStyle = 'rgba(255, 255, 255, 0.65)';
+    ctx.lineWidth = 1.5;
+    ctx.setLineDash([6, 5]);
     ctx.beginPath();
-    ctx.ellipse(z.x * width, z.y * height, (z.rx || 0.22) * width, (z.ry || 0.19) * height, 0, 0, Math.PI * 2);
+    ctx.ellipse(z.x * width, z.y * height, (z.rx || 0.24) * width, (z.ry || 0.20) * height, 0, 0, Math.PI * 2);
     ctx.stroke();
+
+    ctx.fillStyle = 'rgba(255, 255, 255, 0.85)';
+    ctx.beginPath();
+    ctx.arc(z.x * width, z.y * height, 4, 0, Math.PI * 2);
+    ctx.fill();
     ctx.restore();
   }
 

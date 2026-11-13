@@ -51,7 +51,8 @@ export async function captureDualResolution({
   const cleanCtx = cleanCanvas.getContext('2d');
   const filterCss = resolveFilterCss(
     renderOptions && renderOptions.filterId,
-    preset ? preset.genre : 'fashion'
+    preset ? preset.genre : 'fashion',
+    renderOptions && renderOptions.toneAdjust
   );
   if (filterCss !== 'none' && 'filter' in cleanCtx) {
     cleanCtx.filter = filterCss;
