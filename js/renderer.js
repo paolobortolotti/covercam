@@ -279,6 +279,7 @@ export function renderCoverOverlay(ctx, width, height, preset, options) {
 
   const {
     formatId = 'magazine',
+    editorialLineGap = 1,
     opacity = 1,
     colorMode = 'auto',
     manualColor = null,
@@ -375,7 +376,9 @@ export function renderCoverOverlay(ctx, width, height, preset, options) {
     if (isEditorialBoxRole && lines.length > (el.maxLines || 3)) {
       lines = lines.slice(0, el.maxLines || 3);
     }
-    const lineH = fontPx * (el.lineHeight || (isEditorialBoxRole ? 1.2 : 1.06));
+    // True baseline-to-baseline spacing, including the extra leading between wrapped lines.
+    const defaultLeading = el.role === 'headline' ? 1.18 : (isEditorialBoxRole ? 1.32 : 1.08);
+    const lineH = fontPx * Math.max(1.08, (el.lineHeight || defaultLeading) * Math.max(0.9, Math.min(1.65, editorialLineGap)));
     const blockH = el.bg === 'accent' ? fontPx * 1.45 : lines.length * lineH;
 
     let boxLeft = xPos;
