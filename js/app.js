@@ -558,11 +558,6 @@ function renderGenreTabs() {
       state.variantIndex = 0;
       applyGenreDefaultTriad(g.id);
       logger.info('Cambio genere copertina', { genre: g.id });
-      if (dom.genreTabs && !dom.genreTabs.classList.contains('hidden')) {
-        dom.genreTabs.classList.add('hidden');
-        if (dom.btnToggleGenresBar) dom.btnToggleGenresBar.setAttribute('aria-expanded', 'false');
-        if (dom.genreChevron) dom.genreChevron.textContent = '▾';
-      }
       if (dom.variantPickerRow) {
         dom.variantPickerRow.classList.remove('hidden');
         if (dom.btnToggleVariantList) dom.btnToggleVariantList.setAttribute('aria-expanded', 'true');
@@ -1209,11 +1204,6 @@ async function bootstrap() {
 
   if (dom.btnToggleGenresBar && dom.genreTabs) {
     dom.btnToggleGenresBar.addEventListener('click', () => {
-      if (dom.variantPickerRow && !dom.variantPickerRow.classList.contains('hidden')) {
-        dom.variantPickerRow.classList.add('hidden');
-        if (dom.btnToggleVariantList) dom.btnToggleVariantList.setAttribute('aria-expanded', 'false');
-        if (dom.variantChevron) dom.variantChevron.textContent = '▾';
-      }
       const isHidden = dom.genreTabs.classList.toggle('hidden');
       dom.btnToggleGenresBar.setAttribute('aria-expanded', String(!isHidden));
       if (dom.genreChevron) dom.genreChevron.textContent = isHidden ? '▾' : '▴';
