@@ -13,7 +13,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Anton&family=Archivo+Black&family=Barlow+Condensed:ital,wght@0,600;0,700;0,800;1,700&family=Bebas+Neue&family=Bodoni+Moda:ital,opsz,wght@0,6..96,700;0,6..96,900;1,6..96,700&family=Cinzel:wght@700;800&family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400;1,600;1,700&family=DM+Sans:ital,wght@0,400;0,500;0,700;1,400&family=Inter:wght@400;500;600;700;800&family=Jost:ital,wght@0,400;0,500;0,600;0,700;0,800;0,900;1,500;1,700&family=Lato:ital,wght@0,400;0,700;0,900;1,400;1,700&family=League+Spartan:wght@600;700;800;900&family=Montserrat:wght@400;500;600;700;800;900&family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,600;0,6..72,800;1,6..72,400;1,6..72,800&family=Oswald:wght@500;600;700&family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400;1,700;1,900&family=Plus+Jakarta+Sans:wght@500;600;700;800&family=Space+Grotesk:wght@500;600;700&family=Syne:wght@700;800&family=Work+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="./styles.css?v=19">
+  <link rel="stylesheet" href="./styles.css?v=27">
 </head>
 <body>
   <div class="app-shell">
@@ -58,8 +58,31 @@
         </div>
       </div>
 
-      <nav class="genre-tabs" id="genreTabs" aria-label="Generi copertina"></nav>
-      <div class="variant-picker-row" id="variantPickerRow" role="listbox" aria-label="Seleziona variante del genere corrente"></div>
+      <nav class="genre-tabs" id="genreTabs" aria-label="Generi copertina">
+        <button type="button" class="genre-tab active" data-genre="fashion">Moda</button>
+        <button type="button" class="genre-tab" data-genre="news">Attualità</button>
+        <button type="button" class="genre-tab" data-genre="product">Prodotto</button>
+        <button type="button" class="genre-tab" data-genre="luxury">Lusso &amp; Orologi</button>
+        <button type="button" class="genre-tab" data-genre="design">Design &amp; Arch.</button>
+        <button type="button" class="genre-tab" data-genre="music">Musica &amp; Pop</button>
+        <button type="button" class="genre-tab" data-genre="sport">Sport &amp; Outdoor</button>
+        <button type="button" class="genre-tab" data-genre="nature">Natura &amp; Scienza</button>
+        <button type="button" class="genre-tab" data-genre="animals">Animali</button>
+      </nav>
+      <div class="variant-picker-row" id="variantPickerRow" role="listbox" aria-label="Seleziona variante del genere corrente">
+        <button type="button" class="variant-chip active" data-index="0"><b>1/12</b><span>Futura Editoriale</span></button>
+        <button type="button" class="variant-chip" data-index="1"><b>2/12</b><span>Bastoni Geometrico</span></button>
+        <button type="button" class="variant-chip" data-index="2"><b>3/12</b><span>Doppio Lato Sans</span></button>
+        <button type="button" class="variant-chip" data-index="3"><b>4/12</b><span>Testata Bassa Futura</span></button>
+        <button type="button" class="variant-chip" data-index="4"><b>5/12</b><span>Angolo Sinistro</span></button>
+        <button type="button" class="variant-chip" data-index="5"><b>6/12</b><span>Cornice Gallery</span></button>
+        <button type="button" class="variant-chip" data-index="6"><b>7/12</b><span>Manifesto Futura</span></button>
+        <button type="button" class="variant-chip" data-index="7"><b>8/12</b><span>Colonna Destra</span></button>
+        <button type="button" class="variant-chip" data-index="8"><b>9/12</b><span>Taglio Brutalista</span></button>
+        <button type="button" class="variant-chip" data-index="9"><b>10/12</b><span>Intimo Poetico</span></button>
+        <button type="button" class="variant-chip" data-index="10"><b>11/12</b><span>Striscia Street</span></button>
+        <button type="button" class="variant-chip" data-index="11"><b>12/12</b><span>Monografia</span></button>
+      </div>
     </header>
 
     <main class="viewport-area" id="viewportArea">
@@ -483,6 +506,6 @@
     </div>
   </dialog>
 
-  <script type="module" src="./js/app.js?v=26"></script>
+  <script type="module" src="./js/app.js?v=27"></script>
 </body>
 </html>
