@@ -216,30 +216,39 @@ export function renderLightSpots(ctx, width, height, spots = [], isExport = fals
     ctx.save();
     ctx.globalCompositeOperation = mode;
 
-    if (mode === 'difference' || mode === 'exclusion') {
-      const diffGrad = ctx.createRadialGradient(cx, cy, 0, cx, cy, radius * 1.15);
-      diffGrad.addColorStop(0, `rgba(${rgb30.r}, ${rgb30.g}, ${rgb30.b}, ${(intensity * 0.85).toFixed(3)})`);
-      diffGrad.addColorStop(0.5, `rgba(${rgb10.r}, ${rgb10.g}, ${rgb10.b}, ${(intensity * 0.52).toFixed(3)})`);
-      diffGrad.addColorStop(1, 'rgba(0, 0, 0, 0)');
-      ctx.fillStyle = diffGrad;
-      ctx.beginPath();
-      ctx.arc(cx, cy, radius * 1.15, 0, Math.PI * 2);
-      ctx.fill();
-    } else if (mode === 'multiply' || mode === 'color-burn') {
-      const mulGrad = ctx.createRadialGradient(cx, cy, radius * 0.06, cx, cy, radius * 1.35);
-      mulGrad.addColorStop(0, 'rgba(255, 255, 255, 0)');
-      mulGrad.addColorStop(0.45, `rgba(${rgb30.r}, ${rgb30.g}, ${rgb30.b}, ${(intensity * 0.62).toFixed(3)})`);
-      mulGrad.addColorStop(1, `rgba(${rgb60.r}, ${rgb60.g}, ${rgb60.b}, ${(intensity * 0.88).toFixed(3)})`);
+    const addEased = (grad, stops) => {
+      const steps = 12;
+      for (let i = 0; i <= steps; i++) {
+        const t = i / steps;
+        const eased = 1 - (t * t * (3 - 2 * t));
+        const c = stops(t);
+        grad.addColorStop(t, `rgba(${c.r}, ${c.g}, ${c.b}, ${(c.a * eased).toFixed(4)})`);
+      }
+    };
+
+    if (mode === 'multiply' || mode === 'color-burn') {
+      const outer = radius * 1.9;
+      const mulGrad = ctx.createRadialGradient(cx, cy, 0, cx, cy, outer);
+      for (let i = 0; i <= 12; i++) {
+        const t = i / 12;
+        const k = t * t * (3 - 2 * t);
+        const a = Math.min(1, intensity * 0.88) * (1 - k);
+        mulGrad.addColorStop(t, `rgba(${rgb30.r}, ${rgb30.g}, ${rgb30.b}, ${a.toFixed(4)})`);
+      }
       ctx.fillStyle = mulGrad;
       ctx.fillRect(0, 0, width, height);
     } else {
-      const softGrad = ctx.createRadialGradient(cx, cy, 0, cx, cy, radius * 1.15);
-      softGrad.addColorStop(0, `rgba(${rgb30.r}, ${rgb30.g}, ${rgb30.b}, ${(intensity * 0.82).toFixed(3)})`);
-      softGrad.addColorStop(0.6, `rgba(${rgb10.r}, ${rgb10.g}, ${rgb10.b}, ${(intensity * 0.42).toFixed(3)})`);
-      softGrad.addColorStop(1, `rgba(${rgb60.r}, ${rgb60.g}, ${rgb60.b}, 0)`);
-      ctx.fillStyle = softGrad;
+      const outer = radius * 1.9;
+      const grad = ctx.createRadialGradient(cx, cy, 0, cx, cy, outer);
+      addEased(grad, (t) => {
+        const r = Math.round(rgb30.r + (rgb10.r - rgb30.r) * Math.min(1, t * 1.6));
+        const g = Math.round(rgb30.g + (rgb10.g - rgb30.g) * Math.min(1, t * 1.6));
+        const bl = Math.round(rgb30.b + (rgb10.b - rgb30.b) * Math.min(1, t * 1.6));
+        return { r, g, b: bl, a: Math.min(1, intensity * 0.85) };
+      });
+      ctx.fillStyle = grad;
       ctx.beginPath();
-      ctx.arc(cx, cy, radius * 1.15, 0, Math.PI * 2);
+      ctx.arc(cx, cy, outer, 0, Math.PI * 2);
       ctx.fill();
     }
     ctx.restore();
