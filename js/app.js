@@ -885,17 +885,19 @@ async function forcePurgeAndReload() {
 async function registerServiceWorker() {
   if ('serviceWorker' in navigator) {
     try {
-      const reg = await navigator.serviceWorker.register('./sw.js?v=14', { updateViaCache: 'none' });
-      reg.update();
-      navigator.serviceWorker.addEventListener('controllerchange', () => {
-        if (!window.__swReloading) {
-          window.__swReloading = true;
-          window.location.reload();
+      const regs = await navigator.serviceWorker.getRegistrations();
+      for (const r of regs) {
+        await r.unregister();
+      }
+      if ('caches' in window) {
+        const keys = await caches.keys();
+        for (const k of keys) {
+          await caches.delete(k);
         }
-      });
-      logger.info('Service Worker registrato', { scope: reg.scope });
+      }
+      logger.info('Cache e Service Worker rimossi per garantire aggiornamenti istantanei');
     } catch (err) {
-      logger.warn('Registrazione Service Worker non riuscita', err);
+      logger.warn('Pulizia Service Worker non riuscita', err);
     }
   }
 }
