@@ -330,6 +330,7 @@ export function renderCoverOverlay(ctx, width, height, preset, options) {
   const placedBoxes = [];
 
   for (const el of preset.elements) {
+    if (typeof el.text !== 'string' || !el.text.trim()) continue;
     const { y: adaptedY, size: adaptedSize } = adaptElementPosition(el, formatId, showSafeZones);
     let fontPx = Math.max(11, Math.round(adaptedSize * width));
     const fontStyle = el.italic ? 'italic' : 'normal';
