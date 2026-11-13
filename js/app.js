@@ -28,6 +28,7 @@ const state = {
   variantIndex: 0,
   formatId: 'magazine',
   opacity: 1.0,
+  editorialLineGap: 1,
   colorMode: 'auto',
   manualColor: '#FFFFFF',
   autoColors: {
@@ -117,6 +118,8 @@ const dom = {
   brightnessToneValue: document.getElementById('brightnessToneValue'),
   settingsDrawer: document.getElementById('settingsDrawer'),
   editorialFocusFields: document.getElementById('editorialFocusFields'),
+  editorialLineGap: document.getElementById('editorialLineGap'),
+  editorialLineGapValue: document.getElementById('editorialLineGapValue'),
   btnResetEditorialFocus: document.getElementById('btnResetEditorialFocus'),
   btnCloseSettingsSheet: document.getElementById('btnCloseSettingsSheet'),
   opacitySlider: document.getElementById('opacitySlider'),
@@ -253,6 +256,7 @@ function drawPreviewOverlay() {
 
   renderCoverOverlay(ctx, canvas.width, canvas.height, preset, {
     formatId: state.formatId,
+    editorialLineGap: state.editorialLineGap,
     opacity: state.opacity,
     colorMode: state.colorMode,
     manualColor: state.manualColor,
@@ -1146,6 +1150,11 @@ async function bootstrap() {
     logger.error('Errore caricamento presets.json', err);
   }
 
+  dom.editorialLineGap?.addEventListener('input', () => {
+    state.editorialLineGap = Number(dom.editorialLineGap.value) / 100;
+    dom.editorialLineGapValue.textContent = dom.editorialLineGap.value + '%';
+    scheduleOverlayRedraw();
+  });
   dom.btnResetEditorialFocus?.addEventListener('click', () => {
     const preset = getCurrentPreset();
     if (!preset) return;
