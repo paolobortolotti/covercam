@@ -83,7 +83,7 @@
           "text": "L'Estetica del Silenzio",
           "x": 0.06,
           "y": 0.68,
-          "w": 0.72,
+          "w": 0.58,
           "align": "left",
           "font": "Bodoni Moda",
           "weight": "700",
@@ -93,15 +93,17 @@
         },
         {
           "role": "lead",
-          "text": "Forme pure, volumi scultorei e il ritorno della sartoria radicale nelle capitali della moda.",
+          "text": "Volumi scultorei e sartoria radicale nelle capitali della moda.",
           "x": 0.06,
           "y": 0.76,
-          "w": 0.68,
+          "w": 0.44,
           "align": "left",
           "font": "Lato",
           "weight": "400",
           "size": 0.027,
-          "lineHeight": 1.32
+          "lineHeight": 1.32,
+          "box": "bar",
+          "maxLines": 3
         },
         {
           "role": "cta",
@@ -158,7 +160,7 @@
           "text": "LUCE NOTTURNA",
           "x": 0.5,
           "y": 0.72,
-          "w": 0.88,
+          "w": 0.78,
           "align": "center",
           "font": "Futura",
           "weight": "800",
@@ -168,15 +170,17 @@
         },
         {
           "role": "lead",
-          "text": "Seta, velluto e riflessi metallici: il nuovo vocabolario della sera secondo i maestri del taglio.",
+          "text": "Seta, velluto e riflessi metallici: il nuovo vocabolario della sera.",
           "x": 0.5,
           "y": 0.795,
-          "w": 0.78,
+          "w": 0.56,
           "align": "center",
           "font": "Lato",
           "weight": "400",
           "size": 0.028,
-          "lineHeight": 1.3
+          "lineHeight": 1.3,
+          "box": "bracket",
+          "maxLines": 3
         },
         {
           "role": "cta",
@@ -241,15 +245,17 @@
         },
         {
           "role": "body",
-          "text": "Linee essenziali, cromie neutre e tessuti grezzi ridisegnano il guardaroba.",
+          "text": "Linee essenziali e tessuti grezzi ridisegnano il guardaroba.",
           "x": 0.06,
           "y": 0.56,
-          "w": 0.4,
+          "w": 0.36,
           "align": "left",
           "font": "Inter",
           "weight": "500",
           "size": 0.025,
-          "lineHeight": 1.3
+          "lineHeight": 1.3,
+          "box": "bar",
+          "maxLines": 3
         },
         {
           "role": "kicker",
@@ -267,7 +273,7 @@
         },
         {
           "role": "lead",
-          "text": "Oltre l'immagine pubblica, la voce di una nuova generazione creativa.",
+          "text": "La voce autentica di una nuova generazione creativa.",
           "x": 0.94,
           "y": 0.57,
           "w": 0.38,
@@ -276,7 +282,9 @@
           "weight": "700",
           "italic": true,
           "size": 0.026,
-          "lineHeight": 1.3
+          "lineHeight": 1.3,
+          "box": "bar",
+          "maxLines": 3
         },
         {
           "role": "cta",
@@ -319,7 +327,7 @@
           "text": "AVANT-GARDE SENZA CONFINI",
           "x": 0.06,
           "y": 0.085,
-          "w": 0.72,
+          "w": 0.58,
           "align": "left",
           "font": "Futura",
           "weight": "800",
@@ -328,15 +336,17 @@
         },
         {
           "role": "lead",
-          "text": "Dalle passerelle underground agli atelier storici: chi sta riscrivendo i codici dell'eleganza.",
+          "text": "Dalle passerelle underground agli atelier: i nuovi codici.",
           "x": 0.06,
           "y": 0.19,
-          "w": 0.62,
+          "w": 0.44,
           "align": "left",
           "font": "Lato",
           "weight": "400",
           "size": 0.026,
-          "lineHeight": 1.32
+          "lineHeight": 1.32,
+          "box": "bar",
+          "maxLines": 3
         },
         {
           "role": "cta",
@@ -367,16 +377,18 @@
         },
         {
           "role": "body",
-          "text": "TRIMESTRALE DI CULTURA VISIVA E MODA D'AUTORE — STAMPATO IN ITALIA",
+          "text": "TRIMESTRALE DI CULTURA VISIVA — STAMPATO IN ITALIA",
           "x": 0.5,
           "y": 0.915,
-          "w": 0.88,
+          "w": 0.64,
           "align": "center",
           "font": "Inter",
           "weight": "600",
           "size": 0.017,
           "tracking": 0.18,
-          "uppercase": true
+          "uppercase": true,
+          "box": "frame",
+          "maxLines": 3
         }
       ]
     },
@@ -418,7 +430,7 @@
           "text": "Monocromo Assoluto",
           "x": 0.94,
           "y": 0.66,
-          "w": 0.64,
+          "w": 0.58,
           "align": "right",
           "font": "Futura",
           "weight": "800",
@@ -427,15 +439,17 @@
         },
         {
           "role": "lead",
-          "text": "Perché il nero resta la tela definitiva della sperimentazione tessile contemporanea.",
+          "text": "Il nero resta la tela definitiva della sperimentazione tessile.",
           "x": 0.94,
           "y": 0.75,
-          "w": 0.6,
+          "w": 0.44,
           "align": "right",
           "font": "Lato",
           "weight": "400",
           "size": 0.026,
-          "lineHeight": 1.32
+          "lineHeight": 1.32,
+          "box": "bar",
+          "maxLines": 3
         },
         {
           "role": "cta",
@@ -509,7 +523,7 @@
           "text": "Corpi in Movimento",
           "x": 0.5,
           "y": 0.735,
-          "w": 0.82,
+          "w": 0.78,
           "align": "center",
           "font": "Bodoni Moda",
           "weight": "700",
@@ -518,15 +532,17 @@
         },
         {
           "role": "lead",
-          "text": "La danza contemporanea incontra il drappeggio classico in uno studio sulla leggerezza.",
+          "text": "Danza contemporanea e drappeggio classico in uno studio sulla luce.",
           "x": 0.5,
           "y": 0.805,
-          "w": 0.74,
+          "w": 0.56,
           "align": "center",
           "font": "Lato",
           "weight": "400",
           "size": 0.026,
-          "lineHeight": 1.32
+          "lineHeight": 1.32,
+          "box": "bracket",
+          "maxLines": 3
         },
         {
           "role": "cta",
@@ -582,7 +598,7 @@
           "text": "OLTRE IL TEMPO",
           "x": 0.5,
           "y": 0.465,
-          "w": 0.88,
+          "w": 0.78,
           "align": "center",
           "font": "Futura",
           "weight": "900",
@@ -595,25 +611,29 @@
           "text": "Vestire il futuro recuperando i gesti lenti del passato.",
           "x": 0.5,
           "y": 0.55,
-          "w": 0.72,
+          "w": 0.56,
           "align": "center",
           "font": "Lato",
           "weight": "700",
           "italic": true,
           "size": 0.03,
-          "lineHeight": 1.25
+          "lineHeight": 1.25,
+          "box": "bracket",
+          "maxLines": 3
         },
         {
           "role": "body",
-          "text": "14 designer indipendenti raccontano la rinascita del fatto a mano.",
+          "text": "Quattordici designer raccontano la rinascita del fatto a mano.",
           "x": 0.06,
           "y": 0.84,
-          "w": 0.62,
+          "w": 0.36,
           "align": "left",
           "font": "Inter",
           "weight": "500",
           "size": 0.024,
-          "lineHeight": 1.3
+          "lineHeight": 1.3,
+          "box": "bar",
+          "maxLines": 3
         },
         {
           "role": "cta",
@@ -686,7 +706,9 @@
           "font": "Lato",
           "weight": "400",
           "size": 0.025,
-          "lineHeight": 1.3
+          "lineHeight": 1.3,
+          "box": "bar",
+          "maxLines": 3
         },
         {
           "role": "kicker",
@@ -707,12 +729,14 @@
           "text": "La nuova guardia del cinema europeo posa in esclusiva.",
           "x": 0.94,
           "y": 0.67,
-          "w": 0.44,
+          "w": 0.36,
           "align": "right",
           "font": "Lato",
           "weight": "700",
           "size": 0.026,
-          "lineHeight": 1.3
+          "lineHeight": 1.3,
+          "box": "bar",
+          "maxLines": 3
         },
         {
           "role": "cta",
@@ -769,7 +793,7 @@
           "text": "VOLUMI RADICALI",
           "x": 0.05,
           "y": 0.7,
-          "w": 0.86,
+          "w": 0.58,
           "align": "left",
           "font": "Archivo Black",
           "weight": "400",
@@ -779,15 +803,17 @@
         },
         {
           "role": "lead",
-          "text": "Spalle scolpite, geometrie asimmetriche e materiali tecnici: la moda incontra il design industriale.",
+          "text": "Spalle scolpite, geometrie asimmetriche e materiali tecnici d'avanguardia.",
           "x": 0.05,
           "y": 0.78,
-          "w": 0.8,
+          "w": 0.44,
           "align": "left",
           "font": "Inter",
           "weight": "500",
           "size": 0.026,
-          "lineHeight": 1.32
+          "lineHeight": 1.32,
+          "box": "bar",
+          "maxLines": 3
         },
         {
           "role": "cta",
@@ -842,7 +868,7 @@
           "text": "Stanze della Memoria",
           "x": 0.07,
           "y": 0.71,
-          "w": 0.76,
+          "w": 0.58,
           "align": "left",
           "font": "Cormorant Garamond",
           "weight": "700",
@@ -852,15 +878,17 @@
         },
         {
           "role": "lead",
-          "text": "Un viaggio fotografico tra dimore storiche, lino grezzo e silenzi pomeridiani.",
+          "text": "Viaggio fotografico tra dimore storiche, lino grezzo e silenzi.",
           "x": 0.07,
           "y": 0.79,
-          "w": 0.7,
+          "w": 0.44,
           "align": "left",
           "font": "Lato",
           "weight": "400",
           "size": 0.026,
-          "lineHeight": 1.34
+          "lineHeight": 1.34,
+          "box": "bar",
+          "maxLines": 3
         },
         {
           "role": "cta",
@@ -917,7 +945,7 @@
           "text": "RIBELLI PER SCELTA",
           "x": 0.5,
           "y": 0.695,
-          "w": 0.88,
+          "w": 0.78,
           "align": "center",
           "font": "League Spartan",
           "weight": "900",
@@ -926,15 +954,17 @@
         },
         {
           "role": "lead",
-          "text": "Dai club sotterranei alle passerelle internazionali: lo stile di strada detta ancora legge.",
+          "text": "Dai club sotterranei alle passerelle: lo street style detta legge.",
           "x": 0.5,
           "y": 0.77,
-          "w": 0.8,
+          "w": 0.56,
           "align": "center",
           "font": "Lato",
           "weight": "400",
           "size": 0.026,
-          "lineHeight": 1.32
+          "lineHeight": 1.32,
+          "box": "bracket",
+          "maxLines": 3
         },
         {
           "role": "cta",
@@ -1005,7 +1035,7 @@
           "text": "Anatomia di un Abito",
           "x": 0.06,
           "y": 0.705,
-          "w": 0.82,
+          "w": 0.58,
           "align": "left",
           "font": "Playfair Display",
           "weight": "700",
@@ -1014,15 +1044,17 @@
         },
         {
           "role": "lead",
-          "text": "Dietro le quinte delle sartorie dove ogni cucitura richiede quaranta ore di lavoro manuale.",
+          "text": "Dietro le quinte delle sartorie: quaranta ore per ogni cucitura.",
           "x": 0.06,
           "y": 0.78,
-          "w": 0.76,
+          "w": 0.44,
           "align": "left",
           "font": "Lato",
           "weight": "400",
           "size": 0.026,
-          "lineHeight": 1.32
+          "lineHeight": 1.32,
+          "box": "bar",
+          "maxLines": 3
         },
         {
           "role": "cta",
@@ -1101,7 +1133,9 @@
           "font": "Lato",
           "weight": "700",
           "size": 0.023,
-          "lineHeight": 1.24
+          "lineHeight": 1.24,
+          "box": "bar",
+          "maxLines": 3
         },
         {
           "role": "kicker",
@@ -1127,7 +1161,9 @@
           "font": "Lato",
           "weight": "700",
           "size": 0.023,
-          "lineHeight": 1.24
+          "lineHeight": 1.24,
+          "box": "bar",
+          "maxLines": 3
         },
         {
           "role": "kicker",
@@ -1148,7 +1184,7 @@
           "text": "IL PUNTO DI SVOLTA",
           "x": 0.08,
           "y": 0.69,
-          "w": 0.84,
+          "w": 0.58,
           "align": "left",
           "font": "Oswald",
           "weight": "700",
@@ -1158,15 +1194,17 @@
         },
         {
           "role": "lead",
-          "text": "Come le nuove tecnologie energetiche e i mercati globali stanno ridisegnando gli equilibri del decennio.",
+          "text": "Tecnologie energetiche e mercati globali ridisegnano il decennio.",
           "x": 0.08,
           "y": 0.77,
-          "w": 0.82,
+          "w": 0.44,
           "align": "left",
           "font": "Lato",
           "weight": "500",
           "size": 0.027,
-          "lineHeight": 1.3
+          "lineHeight": 1.3,
+          "box": "bar",
+          "maxLines": 3
         },
         {
           "role": "cta",
@@ -1233,7 +1271,9 @@
           "font": "Inter",
           "weight": "600",
           "size": 0.023,
-          "lineHeight": 1.25
+          "lineHeight": 1.25,
+          "box": "bar",
+          "maxLines": 3
         },
         {
           "role": "kicker",
@@ -1254,7 +1294,7 @@
           "text": "LA NUOVA FRONTIERA",
           "x": 0.5,
           "y": 0.7,
-          "w": 0.86,
+          "w": 0.78,
           "align": "center",
           "font": "Oswald",
           "weight": "700",
@@ -1264,15 +1304,17 @@
         },
         {
           "role": "lead",
-          "text": "Un viaggio di sei mesi nei laboratori dove si progetta la sopravvivenza delle grandi metropoli.",
+          "text": "Sei mesi nei laboratori dove si progetta il futuro delle metropoli.",
           "x": 0.5,
           "y": 0.78,
-          "w": 0.8,
+          "w": 0.56,
           "align": "center",
           "font": "Lato",
           "weight": "400",
           "size": 0.027,
-          "lineHeight": 1.3
+          "lineHeight": 1.3,
+          "box": "bracket",
+          "maxLines": 3
         },
         {
           "role": "cta",
@@ -1347,7 +1389,9 @@
           "font": "Lato",
           "weight": "700",
           "size": 0.023,
-          "lineHeight": 1.25
+          "lineHeight": 1.25,
+          "box": "bar",
+          "maxLines": 3
         },
         {
           "role": "kicker",
@@ -1373,7 +1417,9 @@
           "font": "Lato",
           "weight": "700",
           "size": 0.023,
-          "lineHeight": 1.25
+          "lineHeight": 1.25,
+          "box": "bar",
+          "maxLines": 3
         },
         {
           "role": "kicker",
@@ -1394,7 +1440,7 @@
           "text": "CHI CONTROLLA L'ALGORITMO?",
           "x": 0.06,
           "y": 0.65,
-          "w": 0.86,
+          "w": 0.58,
           "align": "left",
           "font": "Oswald",
           "weight": "700",
@@ -1403,15 +1449,17 @@
         },
         {
           "role": "lead",
-          "text": "Dentro le sale server e i consigli di amministrazione che decidono cosa leggiamo e compriamo ogni giorno.",
+          "text": "Dentro i consigli che decidono cosa leggiamo e compriamo ogni giorno.",
           "x": 0.06,
           "y": 0.78,
-          "w": 0.84,
+          "w": 0.44,
           "align": "left",
           "font": "Lato",
           "weight": "400",
           "size": 0.026,
-          "lineHeight": 1.32
+          "lineHeight": 1.32,
+          "box": "bar",
+          "maxLines": 3
         },
         {
           "role": "cta",
@@ -1486,7 +1534,7 @@
           "text": "GLI ARCHITETTI DEL DOMANI",
           "x": 0.5,
           "y": 0.73,
-          "w": 0.84,
+          "w": 0.78,
           "align": "center",
           "font": "Newsreader",
           "weight": "800",
@@ -1495,15 +1543,17 @@
         },
         {
           "role": "lead",
-          "text": "Storie di chi ha trasformato una crisi globale in una rinascita collettiva.",
+          "text": "Storie di chi ha trasformato una crisi globale in rinascita.",
           "x": 0.5,
           "y": 0.84,
-          "w": 0.78,
+          "w": 0.56,
           "align": "center",
           "font": "Lato",
           "weight": "400",
           "size": 0.026,
-          "lineHeight": 1.3
+          "lineHeight": 1.3,
+          "box": "bracket",
+          "maxLines": 3
         },
         {
           "role": "cta",
@@ -1578,7 +1628,9 @@
           "font": "Lato",
           "weight": "700",
           "size": 0.023,
-          "lineHeight": 1.25
+          "lineHeight": 1.25,
+          "box": "bar",
+          "maxLines": 3
         },
         {
           "role": "kicker",
@@ -1599,7 +1651,7 @@
           "text": "La Grande Riconversione",
           "x": 0.06,
           "y": 0.68,
-          "w": 0.82,
+          "w": 0.58,
           "align": "left",
           "font": "Newsreader",
           "weight": "800",
@@ -1608,15 +1660,17 @@
         },
         {
           "role": "lead",
-          "text": "Catene del valore corte, manifattura robotica e il ritorno della produzione strategica in Europa.",
+          "text": "Filiera corta, robotica e ritorno della manifattura in Europa.",
           "x": 0.06,
           "y": 0.81,
-          "w": 0.8,
+          "w": 0.44,
           "align": "left",
           "font": "Lato",
           "weight": "400",
           "size": 0.026,
-          "lineHeight": 1.32
+          "lineHeight": 1.32,
+          "box": "bar",
+          "maxLines": 3
         },
         {
           "role": "cta",
@@ -1673,7 +1727,7 @@
           "text": "DENTRO LA TEMPESTA",
           "x": 0.5,
           "y": 0.69,
-          "w": 0.9,
+          "w": 0.78,
           "align": "center",
           "font": "Anton",
           "weight": "400",
@@ -1683,15 +1737,17 @@
         },
         {
           "role": "lead",
-          "text": "Settantadue ore in prima linea: la cronaca minuto per minuto degli eventi che hanno cambiato la settimana.",
+          "text": "Settantadue ore in prima linea: cronaca degli eventi decisivi.",
           "x": 0.5,
           "y": 0.775,
-          "w": 0.82,
+          "w": 0.56,
           "align": "center",
           "font": "Lato",
           "weight": "500",
           "size": 0.027,
-          "lineHeight": 1.32
+          "lineHeight": 1.32,
+          "box": "bracket",
+          "maxLines": 3
         },
         {
           "role": "cta",
@@ -1766,7 +1822,9 @@
           "font": "Lato",
           "weight": "700",
           "size": 0.023,
-          "lineHeight": 1.25
+          "lineHeight": 1.25,
+          "box": "bar",
+          "maxLines": 3
         },
         {
           "role": "kicker",
@@ -1787,7 +1845,7 @@
           "text": "CITTÀ VERTICALI",
           "x": 0.94,
           "y": 0.675,
-          "w": 0.78,
+          "w": 0.58,
           "align": "right",
           "font": "Oswald",
           "weight": "700",
@@ -1796,15 +1854,17 @@
         },
         {
           "role": "lead",
-          "text": "Boschi sospesi, mobilità autonoma e quartieri a impatto zero: come abiteremo nel 2040.",
+          "text": "Boschi sospesi, mobilità autonoma e quartieri a impatto zero.",
           "x": 0.94,
           "y": 0.755,
-          "w": 0.76,
+          "w": 0.44,
           "align": "right",
           "font": "Lato",
           "weight": "400",
           "size": 0.026,
-          "lineHeight": 1.32
+          "lineHeight": 1.32,
+          "box": "bar",
+          "maxLines": 3
         },
         {
           "role": "cta",
@@ -1874,7 +1934,7 @@
           "text": "L'Elogio della Lentezza nell'Era Iperconnessa",
           "x": 0.07,
           "y": 0.67,
-          "w": 0.84,
+          "w": 0.58,
           "align": "left",
           "font": "Newsreader",
           "weight": "800",
@@ -1884,15 +1944,17 @@
         },
         {
           "role": "lead",
-          "text": "Cinque intellettuali europei discutono del diritto alla disconnessione e del valore del tempo profondo.",
+          "text": "Cinque intellettuali discutono di disconnessione e tempo profondo.",
           "x": 0.07,
           "y": 0.8,
-          "w": 0.8,
+          "w": 0.44,
           "align": "left",
           "font": "Lato",
           "weight": "400",
           "size": 0.026,
-          "lineHeight": 1.32
+          "lineHeight": 1.32,
+          "box": "bar",
+          "maxLines": 3
         },
         {
           "role": "cta",
@@ -1963,19 +2025,21 @@
           "text": "Crittografia quantistica: la difesa delle reti bancarie.",
           "x": 0.06,
           "y": 0.345,
-          "w": 0.38,
+          "w": 0.36,
           "align": "left",
           "font": "Lato",
           "weight": "700",
           "size": 0.023,
-          "lineHeight": 1.25
+          "lineHeight": 1.25,
+          "box": "bar",
+          "maxLines": 3
         },
         {
           "role": "headline",
           "text": "LA GUERRA INVISIBILE",
           "x": 0.06,
           "y": 0.69,
-          "w": 0.88,
+          "w": 0.58,
           "align": "left",
           "font": "Oswald",
           "weight": "700",
@@ -1984,15 +2048,17 @@
         },
         {
           "role": "lead",
-          "text": "Cavi sottomarini, satelliti commerciali e reti elettriche: dove si gioca davvero la sicurezza globale.",
+          "text": "Cavi sottomarini, satelliti e reti: la vera sicurezza globale.",
           "x": 0.06,
           "y": 0.775,
-          "w": 0.82,
+          "w": 0.44,
           "align": "left",
           "font": "Lato",
           "weight": "400",
           "size": 0.026,
-          "lineHeight": 1.32
+          "lineHeight": 1.32,
+          "box": "bar",
+          "maxLines": 3
         },
         {
           "role": "cta",
@@ -2054,7 +2120,9 @@
           "font": "Lato",
           "weight": "700",
           "size": 0.024,
-          "lineHeight": 1.25
+          "lineHeight": 1.25,
+          "box": "bar",
+          "maxLines": 3
         },
         {
           "role": "kicker",
@@ -2080,14 +2148,16 @@
           "font": "Lato",
           "weight": "700",
           "size": 0.024,
-          "lineHeight": 1.25
+          "lineHeight": 1.25,
+          "box": "bar",
+          "maxLines": 3
         },
         {
           "role": "headline",
           "text": "GENERAZIONE ZERO",
           "x": 0.06,
           "y": 0.71,
-          "w": 0.88,
+          "w": 0.58,
           "align": "left",
           "font": "Oswald",
           "weight": "700",
@@ -2096,15 +2166,17 @@
         },
         {
           "role": "lead",
-          "text": "Chi sono i ventenni che stanno fondando nuove comunità produttive lontano dalle metropoli.",
+          "text": "I ventenni che fondano nuove comunità produttive fuori città.",
           "x": 0.06,
           "y": 0.795,
-          "w": 0.84,
+          "w": 0.44,
           "align": "left",
           "font": "Lato",
           "weight": "400",
           "size": 0.026,
-          "lineHeight": 1.32
+          "lineHeight": 1.32,
+          "box": "bar",
+          "maxLines": 3
         },
         {
           "role": "cta",
@@ -2161,7 +2233,7 @@
           "text": "\"Non Torniamo Indietro\"",
           "x": 0.5,
           "y": 0.7,
-          "w": 0.88,
+          "w": 0.78,
           "align": "center",
           "font": "Newsreader",
           "weight": "800",
@@ -2171,15 +2243,17 @@
         },
         {
           "role": "lead",
-          "text": "La testimonianza esclusiva che ha riaperto il caso più discusso degli ultimi dieci anni.",
+          "text": "La testimonianza esclusiva che riapre il caso del decennio.",
           "x": 0.5,
           "y": 0.785,
-          "w": 0.8,
+          "w": 0.56,
           "align": "center",
           "font": "Lato",
           "weight": "400",
           "size": 0.027,
-          "lineHeight": 1.32
+          "lineHeight": 1.32,
+          "box": "bracket",
+          "maxLines": 3
         },
         {
           "role": "cta",
@@ -2236,7 +2310,7 @@
           "text": "L'ENERGIA DEL FUTURO",
           "x": 0.06,
           "y": 0.67,
-          "w": 0.86,
+          "w": 0.58,
           "align": "left",
           "font": "Oswald",
           "weight": "700",
@@ -2245,27 +2319,31 @@
         },
         {
           "role": "lead",
-          "text": "Fusione nucleare, idrogeno verde e batterie allo stato solido: a che punto siamo davvero.",
+          "text": "Fusione nucleare, idrogeno verde e batterie allo stato solido.",
           "x": 0.06,
           "y": 0.755,
-          "w": 0.82,
+          "w": 0.44,
           "align": "left",
           "font": "Lato",
           "weight": "400",
           "size": 0.026,
-          "lineHeight": 1.32
+          "lineHeight": 1.32,
+          "box": "bar",
+          "maxLines": 3
         },
         {
           "role": "body",
           "text": "01. Scenari 2030   02. Costi reali   03. Geografia delle risorse",
           "x": 0.06,
           "y": 0.865,
-          "w": 0.88,
+          "w": 0.36,
           "align": "left",
           "font": "Inter",
           "weight": "700",
           "size": 0.02,
-          "tracking": 0.04
+          "tracking": 0.04,
+          "box": "bar",
+          "maxLines": 3
         },
         {
           "role": "cta",
@@ -2321,7 +2399,7 @@
           "text": "Pura Essenza.",
           "x": 0.5,
           "y": 0.72,
-          "w": 0.88,
+          "w": 0.78,
           "align": "center",
           "font": "Plus Jakarta Sans",
           "weight": "800",
@@ -2331,15 +2409,17 @@
         },
         {
           "role": "lead",
-          "text": "Alluminio riciclato aerospaziale. Zero giunture visibili. Prestazioni silenziose.",
+          "text": "Alluminio aerospaziale riciclato. Zero giunture, massima resa.",
           "x": 0.5,
           "y": 0.8,
-          "w": 0.78,
+          "w": 0.56,
           "align": "center",
           "font": "Lato",
           "weight": "400",
           "size": 0.026,
-          "lineHeight": 1.32
+          "lineHeight": 1.32,
+          "box": "bracket",
+          "maxLines": 3
         },
         {
           "role": "cta",
@@ -2396,7 +2476,7 @@
           "text": "INGEGNERIA TATTILE",
           "x": 0.06,
           "y": 0.67,
-          "w": 0.84,
+          "w": 0.58,
           "align": "left",
           "font": "Futura",
           "weight": "900",
@@ -2406,28 +2486,32 @@
         },
         {
           "role": "lead",
-          "text": "Ogni componente è calibrato al centesimo di millimetro per offrire una risposta immediata.",
+          "text": "Componenti calibrati al centesimo di millimetro per risposta istantanea.",
           "x": 0.06,
           "y": 0.755,
-          "w": 0.8,
+          "w": 0.44,
           "align": "left",
           "font": "Lato",
           "weight": "400",
           "size": 0.026,
-          "lineHeight": 1.32
+          "lineHeight": 1.32,
+          "box": "bar",
+          "maxLines": 3
         },
         {
           "role": "body",
           "text": "PESO: 142g  |  AUTONOMIA: 72h  |  GRADO: IP68",
           "x": 0.06,
           "y": 0.875,
-          "w": 0.88,
+          "w": 0.36,
           "align": "left",
           "font": "Space Grotesk",
           "weight": "700",
           "size": 0.02,
           "tracking": 0.08,
-          "ruleTop": true
+          "ruleTop": true,
+          "box": "bar",
+          "maxLines": 3
         },
         {
           "role": "cta",
@@ -2483,7 +2567,7 @@
           "text": "OLTRE OGNI LIMITE FISICO.",
           "x": 0.06,
           "y": 0.66,
-          "w": 0.88,
+          "w": 0.58,
           "align": "left",
           "font": "Barlow Condensed",
           "weight": "800",
@@ -2493,15 +2577,17 @@
         },
         {
           "role": "lead",
-          "text": "Fibra di carbonio intrecciata e ritorno di energia del 94%. Creato per chi non accetta il secondo posto.",
+          "text": "Fibra di carbonio intrecciata e ritorno di energia del 94%.",
           "x": 0.06,
           "y": 0.8,
-          "w": 0.82,
+          "w": 0.44,
           "align": "left",
           "font": "Lato",
           "weight": "500",
           "size": 0.026,
-          "lineHeight": 1.32
+          "lineHeight": 1.32,
+          "box": "bar",
+          "maxLines": 3
         },
         {
           "role": "cta",
@@ -2561,7 +2647,7 @@
           "text": "Il Respiro della Pelle",
           "x": 0.5,
           "y": 0.71,
-          "w": 0.8,
+          "w": 0.78,
           "align": "center",
           "font": "Cormorant Garamond",
           "weight": "700",
@@ -2571,15 +2657,17 @@
         },
         {
           "role": "lead",
-          "text": "Estratti spremuti a freddo e attivi bio-fermentati per rigenerare la barriera cutanea durante la notte.",
+          "text": "Estratti a freddo e attivi bio-fermentati per la notte.",
           "x": 0.5,
           "y": 0.79,
-          "w": 0.76,
+          "w": 0.56,
           "align": "center",
           "font": "Lato",
           "weight": "400",
           "size": 0.025,
-          "lineHeight": 1.34
+          "lineHeight": 1.34,
+          "box": "bracket",
+          "maxLines": 3
         },
         {
           "role": "cta",
@@ -2650,7 +2738,7 @@
           "text": "Equilibrio Formale",
           "x": 0.06,
           "y": 0.705,
-          "w": 0.82,
+          "w": 0.58,
           "align": "left",
           "font": "Plus Jakarta Sans",
           "weight": "800",
@@ -2659,15 +2747,17 @@
         },
         {
           "role": "lead",
-          "text": "Quando la funzione elimina il superfluo, rimane solo la bellezza silenziosa della materia.",
+          "text": "Quando la funzione elimina il superfluo resta la materia.",
           "x": 0.06,
           "y": 0.79,
-          "w": 0.78,
+          "w": 0.44,
           "align": "left",
           "font": "Lato",
           "weight": "400",
           "size": 0.026,
-          "lineHeight": 1.32
+          "lineHeight": 1.32,
+          "box": "bar",
+          "maxLines": 3
         },
         {
           "role": "cta",
@@ -2722,7 +2812,7 @@
           "text": "Ascolta ogni respiro.",
           "x": 0.5,
           "y": 0.72,
-          "w": 0.86,
+          "w": 0.78,
           "align": "center",
           "font": "DM Sans",
           "weight": "700",
@@ -2732,15 +2822,17 @@
         },
         {
           "role": "lead",
-          "text": "Driver planari su misura e cancellazione adattiva del rumore ambientale in tempo reale.",
+          "text": "Driver planari su misura e cancellazione adattiva in tempo reale.",
           "x": 0.5,
           "y": 0.795,
-          "w": 0.78,
+          "w": 0.56,
           "align": "center",
           "font": "Lato",
           "weight": "400",
           "size": 0.026,
-          "lineHeight": 1.32
+          "lineHeight": 1.32,
+          "box": "bracket",
+          "maxLines": 3
         },
         {
           "role": "cta",
@@ -2810,7 +2902,7 @@
           "text": "Il Rituale Lento",
           "x": 0.06,
           "y": 0.7,
-          "w": 0.78,
+          "w": 0.58,
           "align": "left",
           "font": "Playfair Display",
           "weight": "700",
@@ -2820,15 +2912,17 @@
         },
         {
           "role": "lead",
-          "text": "Note di cacao amaro, bergamotto e nocciola tostata. Tostato a legna in piccoli lotti settimanali.",
+          "text": "Note di cacao amaro e bergamotto. Tostatura a legna in piccoli lotti.",
           "x": 0.06,
           "y": 0.785,
-          "w": 0.78,
+          "w": 0.44,
           "align": "left",
           "font": "Lato",
           "weight": "400",
           "size": 0.026,
-          "lineHeight": 1.32
+          "lineHeight": 1.32,
+          "box": "bar",
+          "maxLines": 3
         },
         {
           "role": "cta",
@@ -2884,7 +2978,7 @@
           "text": "SILENZIO IN MOVIMENTO.",
           "x": 0.06,
           "y": 0.67,
-          "w": 0.86,
+          "w": 0.58,
           "align": "left",
           "font": "Futura",
           "weight": "800",
@@ -2894,15 +2988,17 @@
         },
         {
           "role": "lead",
-          "text": "Telaio monoscocca in magnesio, batteria estraibile integrata e navigazione predittiva.",
+          "text": "Telaio monoscocca in magnesio, batteria estraibile e guida predittiva.",
           "x": 0.06,
           "y": 0.795,
-          "w": 0.8,
+          "w": 0.44,
           "align": "left",
           "font": "Lato",
           "weight": "400",
           "size": 0.026,
-          "lineHeight": 1.32
+          "lineHeight": 1.32,
+          "box": "bar",
+          "maxLines": 3
         },
         {
           "role": "cta",
@@ -2973,7 +3069,7 @@
           "text": "Cattura l'Invisibile.",
           "x": 0.06,
           "y": 0.71,
-          "w": 0.82,
+          "w": 0.58,
           "align": "left",
           "font": "Plus Jakarta Sans",
           "weight": "800",
@@ -2983,15 +3079,17 @@
         },
         {
           "role": "lead",
-          "text": "15 stop di gamma dinamica per restituire ogni sfumatura tra l'ombra più profonda e la luce diretta.",
+          "text": "Quindici stop di gamma dinamica tra ombra profonda e luce.",
           "x": 0.06,
           "y": 0.79,
-          "w": 0.8,
+          "w": 0.44,
           "align": "left",
           "font": "Lato",
           "weight": "400",
           "size": 0.026,
-          "lineHeight": 1.32
+          "lineHeight": 1.32,
+          "box": "bar",
+          "maxLines": 3
         },
         {
           "role": "cta",
@@ -3046,7 +3144,7 @@
           "text": "Legno, Ambra, Fumo.",
           "x": 0.5,
           "y": 0.72,
-          "w": 0.86,
+          "w": 0.78,
           "align": "center",
           "font": "Playfair Display",
           "weight": "400",
@@ -3056,15 +3154,17 @@
         },
         {
           "role": "lead",
-          "text": "Una traccia olfattiva persistente e magnetica, macerata per sei mesi in botti di rovere.",
+          "text": "Traccia olfattiva magnetica, macerata sei mesi in rovere.",
           "x": 0.5,
           "y": 0.8,
-          "w": 0.76,
+          "w": 0.56,
           "align": "center",
           "font": "Lato",
           "weight": "400",
           "size": 0.025,
-          "lineHeight": 1.34
+          "lineHeight": 1.34,
+          "box": "bracket",
+          "maxLines": 3
         },
         {
           "role": "cta",
@@ -3120,7 +3220,7 @@
           "text": "Scolpire lo Spazio con la Luce",
           "x": 0.94,
           "y": 0.66,
-          "w": 0.78,
+          "w": 0.58,
           "align": "right",
           "font": "Futura",
           "weight": "800",
@@ -3129,15 +3229,17 @@
         },
         {
           "role": "lead",
-          "text": "Vetro soffiato a bocca e sorgente LED a spettro solare continuo. Regolazione a sfioramento.",
+          "text": "Vetro soffiato a bocca e LED a spettro solare continuo.",
           "x": 0.94,
           "y": 0.79,
-          "w": 0.76,
+          "w": 0.44,
           "align": "right",
           "font": "Lato",
           "weight": "400",
           "size": 0.026,
-          "lineHeight": 1.32
+          "lineHeight": 1.32,
+          "box": "bar",
+          "maxLines": 3
         },
         {
           "role": "cta",
@@ -3207,7 +3309,7 @@
           "text": "PRONTO A PARTIRE.",
           "x": 0.06,
           "y": 0.71,
-          "w": 0.84,
+          "w": 0.58,
           "align": "left",
           "font": "Futura",
           "weight": "900",
@@ -3217,15 +3319,17 @@
         },
         {
           "role": "lead",
-          "text": "Ruote silenziose su cuscinetti giapponesi, chiusure anodizzate e scomparto rapido per il lavoro in movimento.",
+          "text": "Cuscinetti giapponesi silenziosi, guscio anodizzato e accesso rapido.",
           "x": 0.06,
           "y": 0.79,
-          "w": 0.82,
+          "w": 0.44,
           "align": "left",
           "font": "Lato",
           "weight": "400",
           "size": 0.026,
-          "lineHeight": 1.32
+          "lineHeight": 1.32,
+          "box": "bar",
+          "maxLines": 3
         },
         {
           "role": "cta",
@@ -3300,7 +3404,7 @@
           "text": "L'Arte del Tempo Perpetuo",
           "x": 0.5,
           "y": 0.715,
-          "w": 0.82,
+          "w": 0.78,
           "align": "center",
           "font": "Cormorant Garamond",
           "weight": "700",
@@ -3310,15 +3414,17 @@
         },
         {
           "role": "lead",
-          "text": "312 componenti rifiniti a mano, ponti anglé e spirale libera in oro 18 carati. Un secolo di maestria al polso.",
+          "text": "312 componenti rifiniti a mano e spirale libera in oro 18 carati.",
           "x": 0.5,
           "y": 0.79,
-          "w": 0.78,
+          "w": 0.56,
           "align": "center",
           "font": "Lato",
           "weight": "400",
           "size": 0.025,
-          "lineHeight": 1.32
+          "lineHeight": 1.32,
+          "box": "bracket",
+          "maxLines": 3
         },
         {
           "role": "cta",
@@ -3374,7 +3480,7 @@
           "text": "Complicazione Assoluta",
           "x": 0.06,
           "y": 0.69,
-          "w": 0.8,
+          "w": 0.58,
           "align": "left",
           "font": "Bodoni Moda",
           "weight": "700",
@@ -3383,15 +3489,17 @@
         },
         {
           "role": "lead",
-          "text": "Tourbillon volante su doppio asse con ripetizione minuti e quadrante in smalto Grand Feu.",
+          "text": "Tourbillon volante su doppio asse e quadrante in smalto Grand Feu.",
           "x": 0.06,
           "y": 0.77,
-          "w": 0.76,
+          "w": 0.44,
           "align": "left",
           "font": "Lato",
           "weight": "400",
           "size": 0.026,
-          "lineHeight": 1.32
+          "lineHeight": 1.32,
+          "box": "bar",
+          "maxLines": 3
         },
         {
           "role": "cta",
@@ -3461,7 +3569,7 @@
           "text": "Signori degli Oceani",
           "x": 0.5,
           "y": 0.725,
-          "w": 0.86,
+          "w": 0.78,
           "align": "center",
           "font": "Playfair Display",
           "weight": "700",
@@ -3470,15 +3578,17 @@
         },
         {
           "role": "lead",
-          "text": "Settanta metri di teak birmano, propulsione ibrida silenziosa e interni firmati dai maestri del design.",
+          "text": "Settanta metri di teak birmano e propulsione ibrida silenziosa.",
           "x": 0.5,
           "y": 0.8,
-          "w": 0.78,
+          "w": 0.56,
           "align": "center",
           "font": "Lato",
           "weight": "400",
           "size": 0.026,
-          "lineHeight": 1.32
+          "lineHeight": 1.32,
+          "box": "bracket",
+          "maxLines": 3
         },
         {
           "role": "cta",
@@ -3534,7 +3644,7 @@
           "text": "Scolpire la Luce Pura",
           "x": 0.5,
           "y": 0.72,
-          "w": 0.86,
+          "w": 0.78,
           "align": "center",
           "font": "Cormorant Garamond",
           "weight": "600",
@@ -3544,15 +3654,17 @@
         },
         {
           "role": "lead",
-          "text": "Diamanti taglio smeraldo e platino battuto a mano: la collezione che celebra l'eternità del gesto.",
+          "text": "Diamanti taglio smeraldo e platino battuto a mano dai maestri.",
           "x": 0.5,
           "y": 0.795,
-          "w": 0.76,
+          "w": 0.56,
           "align": "center",
           "font": "Lato",
           "weight": "400",
           "size": 0.025,
-          "lineHeight": 1.34
+          "lineHeight": 1.34,
+          "box": "bracket",
+          "maxLines": 3
         },
         {
           "role": "cta",
@@ -3622,7 +3734,7 @@
           "text": "Sinfonia Meccanica",
           "x": 0.06,
           "y": 0.7,
-          "w": 0.82,
+          "w": 0.58,
           "align": "left",
           "font": "Playfair Display",
           "weight": "700",
@@ -3632,15 +3744,17 @@
         },
         {
           "role": "lead",
-          "text": "Dodici cilindri aspirati, carrozzeria battuta a mano su dima di legno e selleria in cuoio pieno fiore.",
+          "text": "Dodici cilindri aspirati, carrozzeria battuta a mano e cuoio pieno fiore.",
           "x": 0.06,
           "y": 0.785,
-          "w": 0.78,
+          "w": 0.44,
           "align": "left",
           "font": "Lato",
           "weight": "400",
           "size": 0.026,
-          "lineHeight": 1.32
+          "lineHeight": 1.32,
+          "box": "bar",
+          "maxLines": 3
         },
         {
           "role": "cta",
@@ -3697,7 +3811,7 @@
           "text": "Architettura del Microcosmo",
           "x": 0.94,
           "y": 0.65,
-          "w": 0.78,
+          "w": 0.58,
           "align": "right",
           "font": "Cormorant Garamond",
           "weight": "700",
@@ -3706,28 +3820,32 @@
         },
         {
           "role": "lead",
-          "text": "Quando il metallo scompare per lasciare visibile solo il battito del bilanciere a 28.800 alternanze l'ora.",
+          "text": "Il metallo scompare per svelare il bilanciere a 28.800 alternanze.",
           "x": 0.94,
           "y": 0.77,
-          "w": 0.74,
+          "w": 0.44,
           "align": "right",
           "font": "Lato",
           "weight": "400",
           "size": 0.025,
-          "lineHeight": 1.32
+          "lineHeight": 1.32,
+          "box": "bar",
+          "maxLines": 3
         },
         {
           "role": "body",
           "text": "REF. 5040P · CASSA 39 MM · PLATINO 950",
           "x": 0.94,
           "y": 0.88,
-          "w": 0.75,
+          "w": 0.36,
           "align": "right",
           "font": "Futura",
           "weight": "700",
           "size": 0.018,
           "tracking": 0.18,
-          "uppercase": true
+          "uppercase": true,
+          "box": "bar",
+          "maxLines": 3
         },
         {
           "role": "cta",
@@ -3787,7 +3905,7 @@
           "text": "L'Ospitalità Silenziosa",
           "x": 0.5,
           "y": 0.71,
-          "w": 0.82,
+          "w": 0.78,
           "align": "center",
           "font": "Playfair Display",
           "weight": "700",
@@ -3797,15 +3915,17 @@
         },
         {
           "role": "lead",
-          "text": "Dentro le ville storiche sul lago dove il tempo sembra essersi fermato al Grand Tour dell'Ottocento.",
+          "text": "Nelle ville storiche sul lago dove rivive lo spirito del Grand Tour.",
           "x": 0.5,
           "y": 0.79,
-          "w": 0.76,
+          "w": 0.56,
           "align": "center",
           "font": "Lato",
           "weight": "400",
           "size": 0.025,
-          "lineHeight": 1.32
+          "lineHeight": 1.32,
+          "box": "bracket",
+          "maxLines": 3
         },
         {
           "role": "cta",
@@ -3874,7 +3994,7 @@
           "text": "Il Tempo in Cantina",
           "x": 0.06,
           "y": 0.705,
-          "w": 0.8,
+          "w": 0.58,
           "align": "left",
           "font": "Cormorant Garamond",
           "weight": "700",
@@ -3884,15 +4004,17 @@
         },
         {
           "role": "lead",
-          "text": "Quarant'anni di attesa nel buio della pietra calcarea: l'arte paziente dei grandi vini da meditazione.",
+          "text": "Quarant'anni nel buio della pietra calcarea: i grandi vini d'autore.",
           "x": 0.06,
           "y": 0.79,
-          "w": 0.78,
+          "w": 0.44,
           "align": "left",
           "font": "Lato",
           "weight": "400",
           "size": 0.025,
-          "lineHeight": 1.32
+          "lineHeight": 1.32,
+          "box": "bar",
+          "maxLines": 3
         },
         {
           "role": "cta",
@@ -3949,7 +4071,7 @@
           "text": "L'Eleganza Non Urla",
           "x": 0.5,
           "y": 0.71,
-          "w": 0.86,
+          "w": 0.78,
           "align": "center",
           "font": "Playfair Display",
           "weight": "700",
@@ -3958,15 +4080,17 @@
         },
         {
           "role": "lead",
-          "text": "Cashmere quattro fili, asole cucite a mano in seta e il segreto di una spalla morbida che segue il corpo.",
+          "text": "Cashmere quattro fili, asole in seta e spalla morbida sartoriale.",
           "x": 0.5,
           "y": 0.79,
-          "w": 0.78,
+          "w": 0.56,
           "align": "center",
           "font": "Lato",
           "weight": "400",
           "size": 0.026,
-          "lineHeight": 1.32
+          "lineHeight": 1.32,
+          "box": "bracket",
+          "maxLines": 3
         },
         {
           "role": "cta",
@@ -4036,7 +4160,7 @@
           "text": "Ritorno alla Luce",
           "x": 0.06,
           "y": 0.705,
-          "w": 0.82,
+          "w": 0.58,
           "align": "left",
           "font": "Cormorant Garamond",
           "weight": "700",
@@ -4046,15 +4170,17 @@
         },
         {
           "role": "lead",
-          "text": "Un capolavoro rimasto celato per un secolo in una dimora privata torna finalmente visibile al pubblico.",
+          "text": "Un capolavoro celato per un secolo torna visibile al pubblico.",
           "x": 0.06,
           "y": 0.785,
-          "w": 0.78,
+          "w": 0.44,
           "align": "left",
           "font": "Lato",
           "weight": "400",
           "size": 0.025,
-          "lineHeight": 1.32
+          "lineHeight": 1.32,
+          "box": "bar",
+          "maxLines": 3
         },
         {
           "role": "cta",
@@ -4124,7 +4250,7 @@
           "text": "Misurare l'Istante",
           "x": 0.06,
           "y": 0.705,
-          "w": 0.84,
+          "w": 0.58,
           "align": "left",
           "font": "Bodoni Moda",
           "weight": "700",
@@ -4134,15 +4260,17 @@
         },
         {
           "role": "lead",
-          "text": "Quadrante tropicalizzato, scala tachimetrica incisa e pulsanti a pompa: il fascino intatto degli anni Sessanta.",
+          "text": "Quadrante tropicalizzato, scala incisa e pulsanti a pompa anni ’60.",
           "x": 0.06,
           "y": 0.79,
-          "w": 0.8,
+          "w": 0.44,
           "align": "left",
           "font": "Lato",
           "weight": "400",
           "size": 0.025,
-          "lineHeight": 1.32
+          "lineHeight": 1.32,
+          "box": "bar",
+          "maxLines": 3
         },
         {
           "role": "cta",
@@ -4198,7 +4326,7 @@
           "text": "Oltre le Nuvole",
           "x": 0.5,
           "y": 0.71,
-          "w": 0.84,
+          "w": 0.78,
           "align": "center",
           "font": "Cormorant Garamond",
           "weight": "700",
@@ -4208,15 +4336,17 @@
         },
         {
           "role": "lead",
-          "text": "Autonomia intercontinentale senza scalo e cabine progettate come salotti sospesi a 15.000 metri.",
+          "text": "Volo intercontinentale senza scalo e cabine progettate come salotti.",
           "x": 0.5,
           "y": 0.79,
-          "w": 0.76,
+          "w": 0.56,
           "align": "center",
           "font": "Lato",
           "weight": "400",
           "size": 0.026,
-          "lineHeight": 1.32
+          "lineHeight": 1.32,
+          "box": "bracket",
+          "maxLines": 3
         },
         {
           "role": "cta",
@@ -4287,7 +4417,7 @@
           "text": "Abitare il Vuoto",
           "x": 0.06,
           "y": 0.7,
-          "w": 0.82,
+          "w": 0.58,
           "align": "left",
           "font": "Futura",
           "weight": "800",
@@ -4296,15 +4426,17 @@
         },
         {
           "role": "lead",
-          "text": "Cemento faccia a vista, luce zenitale e corti interne: le nuove residenze minimaliste nel Mediterraneo.",
+          "text": "Cemento faccia a vista, luce zenitale e corti nel Mediterraneo.",
           "x": 0.06,
           "y": 0.78,
-          "w": 0.8,
+          "w": 0.44,
           "align": "left",
           "font": "Lato",
           "weight": "400",
           "size": 0.026,
-          "lineHeight": 1.32
+          "lineHeight": 1.32,
+          "box": "bar",
+          "maxLines": 3
         },
         {
           "role": "cta",
@@ -4361,19 +4493,21 @@
           "text": "L'eredità di Ulm e dei maestri del razionalismo.",
           "x": 0.06,
           "y": 0.325,
-          "w": 0.38,
+          "w": 0.36,
           "align": "left",
           "font": "Inter",
           "weight": "600",
           "size": 0.023,
-          "lineHeight": 1.25
+          "lineHeight": 1.25,
+          "box": "bar",
+          "maxLines": 3
         },
         {
           "role": "headline",
           "text": "La Forma Segue l'Emozione",
           "x": 0.06,
           "y": 0.7,
-          "w": 0.86,
+          "w": 0.58,
           "align": "left",
           "font": "Plus Jakarta Sans",
           "weight": "800",
@@ -4382,15 +4516,17 @@
         },
         {
           "role": "lead",
-          "text": "Biomateriali, stampa 3D in argilla e arredi modulari che crescono insieme a chi li abita.",
+          "text": "Biomateriali, stampa 3D in argilla e arredi modulari evolutivi.",
           "x": 0.06,
           "y": 0.82,
-          "w": 0.82,
+          "w": 0.44,
           "align": "left",
           "font": "Lato",
           "weight": "400",
           "size": 0.026,
-          "lineHeight": 1.32
+          "lineHeight": 1.32,
+          "box": "bar",
+          "maxLines": 3
         },
         {
           "role": "cta",
@@ -4449,7 +4585,7 @@
           "text": "Case come Atelier",
           "x": 0.5,
           "y": 0.71,
-          "w": 0.82,
+          "w": 0.78,
           "align": "center",
           "font": "Playfair Display",
           "weight": "700",
@@ -4459,15 +4595,17 @@
         },
         {
           "role": "lead",
-          "text": "Visita privata nelle abitazioni-studio di cinque architetti e designer tra Milano, Parigi e Tokyo.",
+          "text": "Visita privata nelle case-studio di cinque architetti internazionali.",
           "x": 0.5,
           "y": 0.79,
-          "w": 0.76,
+          "w": 0.56,
           "align": "center",
           "font": "Lato",
           "weight": "400",
           "size": 0.025,
-          "lineHeight": 1.32
+          "lineHeight": 1.32,
+          "box": "bracket",
+          "maxLines": 3
         },
         {
           "role": "cta",
@@ -4537,7 +4675,7 @@
           "text": "IL FUTURO È ANALOGICO",
           "x": 0.06,
           "y": 0.69,
-          "w": 0.86,
+          "w": 0.58,
           "align": "left",
           "font": "Futura",
           "weight": "900",
@@ -4546,15 +4684,17 @@
         },
         {
           "role": "lead",
-          "text": "Sintetizzatori modulari, nastri magnetici e il ritorno dei club intimi nelle capitali europee.",
+          "text": "Sintetizzatori modulari, nastri analogici e il ritorno dei club.",
           "x": 0.06,
           "y": 0.77,
-          "w": 0.8,
+          "w": 0.44,
           "align": "left",
           "font": "Lato",
           "weight": "400",
           "size": 0.026,
-          "lineHeight": 1.32
+          "lineHeight": 1.32,
+          "box": "bar",
+          "maxLines": 3
         },
         {
           "role": "cta",
@@ -4611,19 +4751,21 @@
           "text": "Dentro gli studi dove nasce il nuovo suono elettronico.",
           "x": 0.94,
           "y": 0.325,
-          "w": 0.38,
+          "w": 0.36,
           "align": "right",
           "font": "Inter",
           "weight": "600",
           "size": 0.023,
-          "lineHeight": 1.25
+          "lineHeight": 1.25,
+          "box": "bar",
+          "maxLines": 3
         },
         {
           "role": "headline",
           "text": "NOTTI SENZA SONNO",
           "x": 0.06,
           "y": 0.7,
-          "w": 0.86,
+          "w": 0.58,
           "align": "left",
           "font": "Archivo Black",
           "weight": "400",
@@ -4632,15 +4774,17 @@
         },
         {
           "role": "lead",
-          "text": "Dal warehouse londinese ai festival nel deserto: mappa sonora di una scena in continua mutazione.",
+          "text": "Dai warehouse londinesi al deserto: mappa del nuovo suono.",
           "x": 0.06,
           "y": 0.78,
-          "w": 0.82,
+          "w": 0.44,
           "align": "left",
           "font": "Lato",
           "weight": "400",
           "size": 0.026,
-          "lineHeight": 1.32
+          "lineHeight": 1.32,
+          "box": "bar",
+          "maxLines": 3
         },
         {
           "role": "cta",
@@ -4696,7 +4840,7 @@
           "text": "LA MENTE DEL CAMPIONE",
           "x": 0.06,
           "y": 0.69,
-          "w": 0.88,
+          "w": 0.58,
           "align": "left",
           "font": "Barlow Condensed",
           "weight": "800",
@@ -4706,15 +4850,17 @@
         },
         {
           "role": "lead",
-          "text": "Cosa succede negli ultimi tre secondi prima del via: neuroscienza, preparazione estrema e istinto puro.",
+          "text": "Gli ultimi tre secondi prima del via: neuroscienza e istinto puro.",
           "x": 0.06,
           "y": 0.775,
-          "w": 0.82,
+          "w": 0.44,
           "align": "left",
           "font": "Lato",
           "weight": "500",
           "size": 0.026,
-          "lineHeight": 1.32
+          "lineHeight": 1.32,
+          "box": "bar",
+          "maxLines": 3
         },
         {
           "role": "cta",
@@ -4770,7 +4916,7 @@
           "text": "SOLI SULLA PARETE NORD",
           "x": 0.5,
           "y": 0.7,
-          "w": 0.88,
+          "w": 0.78,
           "align": "center",
           "font": "Oswald",
           "weight": "700",
@@ -4779,15 +4925,17 @@
         },
         {
           "role": "lead",
-          "text": "Inverno in Patagonia: cronaca di una salita in stile alpino puro senza ossigeno né corde fisse.",
+          "text": "Inverno in Patagonia: salita in stile alpino senza ossigeno.",
           "x": 0.5,
           "y": 0.78,
-          "w": 0.8,
+          "w": 0.56,
           "align": "center",
           "font": "Lato",
           "weight": "400",
           "size": 0.026,
-          "lineHeight": 1.32
+          "lineHeight": 1.32,
+          "box": "bracket",
+          "maxLines": 3
         },
         {
           "role": "cta",

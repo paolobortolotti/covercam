@@ -2,7 +2,7 @@ import { logger } from './logger.js';
 import { CameraController } from './camera.js';
 import { PALETTE, SceneColorSampler, hexToRgb, wcagContrastRatio } from './color.js';
 import { HorizonLevel } from './horizon.js';
-import { FORMATS, IMAGE_FILTERS, GRADING_TRIADS, COMPOSITION_GUIDES, resolveFilterCss, computeCropRect, renderCoverOverlay } from './renderer.js';
+import { FORMATS, IMAGE_FILTERS, GRADING_TRIADS, COMPOSITION_GUIDES, LIGHT_BLEND_MODES, resolveFilterCss, computeCropRect, renderCoverOverlay } from './renderer.js';
 import { SubjectMaskController } from './subject-mask.js';
 import {
   captureDualResolution,
@@ -38,7 +38,8 @@ const state = {
     c60: '#1C0D18',
     c30: '#F3D1DC',
     c10: '#FF2A6D',
-    strength: 0.55
+    strength: 0.55,
+    blendMode: 'multiply'
   },
   toneAdjust: {
     contrast: 100,
@@ -46,6 +47,7 @@ const state = {
   },
   lightSpotMode: false,
   lightSpots: [],
+  lightBlendMode: 'multiply',
   faceCutoutEnabled: false,
   compositionGuide: 'none',
   showSafeZones: false,
@@ -75,6 +77,9 @@ const dom = {
   bar10: document.getElementById('bar10'),
   gradingStrengthSlider: document.getElementById('gradingStrengthSlider'),
   gradingPresetsRow: document.getElementById('gradingPresetsRow'),
+  blendModeBar: document.getElementById('blendModeBar'),
+  blendModeStatusText: document.getElementById('blendModeStatusText'),
+  lightBlendDrawerBar: document.getElementById('lightBlendDrawerBar'),
   color60Input: document.getElementById('color60Input'),
   color30Input: document.getElementById('color30Input'),
   color10Input: document.getElementById('color10Input'),
@@ -215,6 +220,7 @@ function drawPreviewOverlay() {
     showSafeZones: state.showSafeZones,
     horizon: state.horizon,
     lightSpots: state.lightSpots,
+    lightBlendMode: state.lightBlendMode,
     faceCutout: {
       enabled: state.faceCutoutEnabled,
       zone: subjectMask.maskZone
@@ -304,6 +310,42 @@ function renderGradingPresets() {
       scheduleOverlayRedraw();
     });
     dom.gradingPresetsRow.appendChild(btn);
+  }
+}
+
+function setBlendMode(modeId) {
+  state.grading.blendMode = modeId;
+  state.lightBlendMode = modeId;
+  for (const s of state.lightSpots) {
+    s.blendMode = modeId;
+  }
+  const found = LIGHT_BLEND_MODES.find(m => m.id === modeId) || LIGHT_BLEND_MODES[0];
+  if (dom.blendModeStatusText) {
+    dom.blendModeStatusText.textContent = found.label;
+  }
+  for (const container of [dom.blendModeBar, dom.lightBlendDrawerBar]) {
+    if (!container) continue;
+    for (const btn of container.querySelectorAll('.chip-btn')) {
+      btn.classList.toggle('active', btn.dataset.blend === modeId);
+    }
+  }
+  logger.info('Metodo di fusione selezionato', { blendMode: modeId });
+  scheduleOverlayRedraw();
+}
+
+function renderBlendModeBars() {
+  for (const container of [dom.blendModeBar, dom.lightBlendDrawerBar]) {
+    if (!container) continue;
+    container.innerHTML = '';
+    for (const m of LIGHT_BLEND_MODES) {
+      const btn = document.createElement('button');
+      btn.type = 'button';
+      btn.className = `chip-btn${m.id === state.lightBlendMode ? ' active' : ''}`;
+      btn.dataset.blend = m.id;
+      btn.textContent = m.label;
+      btn.addEventListener('click', () => setBlendMode(m.id));
+      container.appendChild(btn);
+    }
   }
 }
 
@@ -609,10 +651,11 @@ function setupStageInteractions() {
         if (state.lightSpots.length >= 6) {
           state.lightSpots.shift();
         }
-        state.lightSpots.push({ x: normX, y: normY, radius: 0.32, intensity: 0.38 });
-        logger.info('Alone Multiply aggiunto con tocco', {
+        state.lightSpots.push({ x: normX, y: normY, radius: 0.34, intensity: 0.48, blendMode: state.lightBlendMode });
+        logger.info('Alone aggiunto con tocco', {
           x: Number(normX.toFixed(2)),
           y: Number(normY.toFixed(2)),
+          blendMode: state.lightBlendMode,
           total: state.lightSpots.length
         });
         updateLightSpotsUI();
@@ -722,6 +765,7 @@ async function handleShutter() {
         autoColors: state.autoColors,
         filterId: state.filterId,
         lightSpots: state.lightSpots,
+        lightBlendMode: state.lightBlendMode,
         faceCutout: {
           enabled: state.faceCutoutEnabled,
           zone: subjectMask.maskZone
@@ -818,6 +862,7 @@ async function bootstrap() {
   renderGuideBar();
   renderFilterBar();
   renderGradingPresets();
+  renderBlendModeBars();
   updateGradingUI();
 
   try {

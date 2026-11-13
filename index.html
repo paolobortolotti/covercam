@@ -91,16 +91,24 @@
 
         <div class="grading-presets" id="gradingPresetsRow" role="radiogroup" aria-label="Triadi cromatiche 60-30-10"></div>
 
+        <div class="setting-group">
+          <div class="setting-header">
+            <span>Metodo di fusione (Grading & Luci)</span>
+            <span id="blendModeStatusText" class="contrast-badge">Multiply</span>
+          </div>
+          <div class="color-row" id="blendModeBar" role="radiogroup" aria-label="Metodo di fusione per luci e grading"></div>
+        </div>
+
         <div class="grading-pickers">
           <label class="color-slot">
-            <span class="slot-pct">60% Multiply Base</span>
+            <span class="slot-pct">60% Base</span>
             <div class="slot-input-wrap">
               <input type="color" id="color60Input" value="#1A242D">
               <code id="color60Hex">#1A242D</code>
             </div>
           </label>
           <label class="color-slot">
-            <span class="slot-pct">30% Multiply Caldo</span>
+            <span class="slot-pct">30% Toni Medi</span>
             <div class="slot-input-wrap">
               <input type="color" id="color30Input" value="#D8C3A5">
               <code id="color30Hex">#D8C3A5</code>
@@ -206,12 +214,13 @@
 
         <div class="setting-group">
           <div class="setting-header">
-            <span>Aloni caldi Multiply (tocca sulla foto)</span>
+            <span>Aloni di luce (tocca sulla foto)</span>
             <span id="lightSpotCountText" class="contrast-badge">0 punti</span>
           </div>
+          <div class="color-row" id="lightBlendDrawerBar" role="radiogroup" aria-label="Metodo fusione aloni"></div>
           <div class="setting-toggles">
             <button type="button" id="btnLightModeToggle" class="toggle-pill" aria-pressed="false">
-              <span>Tocca foto per alone Multiply</span>
+              <span>Tocca foto per alone</span>
               <strong id="lightModeStatusText">OFF</strong>
             </button>
             <button type="button" id="btnClearLights" class="toggle-pill">

@@ -138,11 +138,21 @@ export const GRADING_TRIADS = [
   { id: 'spt-volt', genre: 'sport', label: 'Nitro Arena', c60: '#0B1320', c30: '#70E000', c10: '#FF0055' }
 ];
 
+export const LIGHT_BLEND_MODES = [
+  { id: 'multiply', label: 'Multiply' },
+  { id: 'difference', label: 'Difference' },
+  { id: 'overlay', label: 'Overlay' },
+  { id: 'soft-light', label: 'Soft Light' },
+  { id: 'color-burn', label: 'Color Burn' },
+  { id: 'exclusion', label: 'Exclusion' }
+];
+
 export function renderColorGrading603010(ctx, width, height, grading) {
   if (!grading || !grading.enabled) return;
   const strength = typeof grading.strength === 'number' ? grading.strength : 0.55;
   if (strength <= 0.01) return;
 
+  const blendMode = grading.blendMode || 'multiply';
   const rgb60 = hexToRgb(grading.c60 || '#1C0D18');
   const rgb30 = hexToRgb(grading.c30 || '#F3D1DC');
   const rgb10 = hexToRgb(grading.c10 || '#FF2A6D');
@@ -150,7 +160,7 @@ export function renderColorGrading603010(ctx, width, height, grading) {
   ctx.save();
 
   ctx.save();
-  ctx.globalCompositeOperation = 'multiply';
+  ctx.globalCompositeOperation = blendMode;
   const baseGrad = ctx.createLinearGradient(0, height, 0, 0);
   baseGrad.addColorStop(0, `rgba(${rgb60.r}, ${rgb60.g}, ${rgb60.b}, ${(0.76 * strength).toFixed(3)})`);
   baseGrad.addColorStop(0.55, `rgba(${rgb60.r}, ${rgb60.g}, ${rgb60.b}, ${(0.35 * strength).toFixed(3)})`);
@@ -160,7 +170,7 @@ export function renderColorGrading603010(ctx, width, height, grading) {
   ctx.restore();
 
   ctx.save();
-  ctx.globalCompositeOperation = 'multiply';
+  ctx.globalCompositeOperation = blendMode;
   const warmHalo = ctx.createRadialGradient(
     width * 0.5,
     height * 0.38,
@@ -177,7 +187,7 @@ export function renderColorGrading603010(ctx, width, height, grading) {
   ctx.restore();
 
   ctx.save();
-  ctx.globalCompositeOperation = 'multiply';
+  ctx.globalCompositeOperation = blendMode;
   const accentWash = ctx.createLinearGradient(0, 0, width, height * 0.7);
   accentWash.addColorStop(0, `rgba(${rgb10.r}, ${rgb10.g}, ${rgb10.b}, ${(0.28 * strength).toFixed(3)})`);
   accentWash.addColorStop(0.55, 'rgba(255, 255, 255, 0)');
@@ -188,43 +198,58 @@ export function renderColorGrading603010(ctx, width, height, grading) {
   ctx.restore();
 }
 
-export function renderLightSpots(ctx, width, height, spots = [], isExport = false) {
+export function renderLightSpots(ctx, width, height, spots = [], isExport = false, blendMode = 'multiply', grading = null) {
   if (!spots || !spots.length) return;
+  const rgb30 = hexToRgb((grading && grading.c30) || '#F2C18D');
+  const rgb60 = hexToRgb((grading && grading.c60) || '#1F130B');
+  const rgb10 = hexToRgb((grading && grading.c10) || '#FF5E00');
+
   ctx.save();
   for (const spot of spots) {
     const cx = spot.x * width;
     const cy = spot.y * height;
-    const radius = (spot.radius || 0.32) * Math.min(width, height);
-    const intensity = spot.intensity || 0.38;
+    const radius = (spot.radius || 0.34) * Math.min(width, height);
+    const intensity = spot.intensity || 0.48;
+    const mode = spot.blendMode || blendMode || 'multiply';
 
     ctx.save();
-    ctx.globalCompositeOperation = 'multiply';
-    const mulGrad = ctx.createRadialGradient(cx, cy, radius * 0.08, cx, cy, radius * 1.35);
-    mulGrad.addColorStop(0, 'rgba(255, 248, 235, 0)');
-    mulGrad.addColorStop(0.45, `rgba(235, 195, 145, ${(intensity * 0.55).toFixed(3)})`);
-    mulGrad.addColorStop(1, `rgba(42, 26, 16, ${(intensity * 0.85).toFixed(3)})`);
-    ctx.fillStyle = mulGrad;
-    ctx.fillRect(0, 0, width, height);
-    ctx.restore();
+    ctx.globalCompositeOperation = mode;
 
-    ctx.save();
-    ctx.globalCompositeOperation = 'soft-light';
-    const warmCore = ctx.createRadialGradient(cx, cy, 0, cx, cy, radius * 0.7);
-    warmCore.addColorStop(0, `rgba(255, 236, 205, ${(intensity * 0.75).toFixed(3)})`);
-    warmCore.addColorStop(1, 'rgba(255, 236, 205, 0)');
-    ctx.fillStyle = warmCore;
-    ctx.beginPath();
-    ctx.arc(cx, cy, radius * 0.7, 0, Math.PI * 2);
-    ctx.fill();
+    if (mode === 'difference' || mode === 'exclusion') {
+      const diffGrad = ctx.createRadialGradient(cx, cy, 0, cx, cy, radius * 1.15);
+      diffGrad.addColorStop(0, `rgba(${rgb30.r}, ${rgb30.g}, ${rgb30.b}, ${(intensity * 0.85).toFixed(3)})`);
+      diffGrad.addColorStop(0.5, `rgba(${rgb10.r}, ${rgb10.g}, ${rgb10.b}, ${(intensity * 0.52).toFixed(3)})`);
+      diffGrad.addColorStop(1, 'rgba(0, 0, 0, 0)');
+      ctx.fillStyle = diffGrad;
+      ctx.beginPath();
+      ctx.arc(cx, cy, radius * 1.15, 0, Math.PI * 2);
+      ctx.fill();
+    } else if (mode === 'multiply' || mode === 'color-burn') {
+      const mulGrad = ctx.createRadialGradient(cx, cy, radius * 0.06, cx, cy, radius * 1.35);
+      mulGrad.addColorStop(0, 'rgba(255, 255, 255, 0)');
+      mulGrad.addColorStop(0.45, `rgba(${rgb30.r}, ${rgb30.g}, ${rgb30.b}, ${(intensity * 0.62).toFixed(3)})`);
+      mulGrad.addColorStop(1, `rgba(${rgb60.r}, ${rgb60.g}, ${rgb60.b}, ${(intensity * 0.88).toFixed(3)})`);
+      ctx.fillStyle = mulGrad;
+      ctx.fillRect(0, 0, width, height);
+    } else {
+      const softGrad = ctx.createRadialGradient(cx, cy, 0, cx, cy, radius * 1.15);
+      softGrad.addColorStop(0, `rgba(${rgb30.r}, ${rgb30.g}, ${rgb30.b}, ${(intensity * 0.82).toFixed(3)})`);
+      softGrad.addColorStop(0.6, `rgba(${rgb10.r}, ${rgb10.g}, ${rgb10.b}, ${(intensity * 0.42).toFixed(3)})`);
+      softGrad.addColorStop(1, `rgba(${rgb60.r}, ${rgb60.g}, ${rgb60.b}, 0)`);
+      ctx.fillStyle = softGrad;
+      ctx.beginPath();
+      ctx.arc(cx, cy, radius * 1.15, 0, Math.PI * 2);
+      ctx.fill();
+    }
     ctx.restore();
 
     if (!isExport) {
       ctx.save();
-      ctx.strokeStyle = 'rgba(255, 215, 160, 0.45)';
-      ctx.lineWidth = 1;
+      ctx.strokeStyle = 'rgba(255, 255, 255, 0.55)';
+      ctx.lineWidth = 1.2;
       ctx.setLineDash([3, 3]);
       ctx.beginPath();
-      ctx.arc(cx, cy, 8, 0, Math.PI * 2);
+      ctx.arc(cx, cy, 9, 0, Math.PI * 2);
       ctx.stroke();
       ctx.restore();
     }
@@ -244,6 +269,7 @@ export function renderCoverOverlay(ctx, width, height, preset, options) {
     showSafeZones = false,
     horizon = { enabled: false, angle: 0, isLevel: true },
     lightSpots = [],
+    lightBlendMode = 'multiply',
     faceCutout = { enabled: false, zone: null },
     grading = null,
     compositionGuide = 'none',
@@ -251,7 +277,7 @@ export function renderCoverOverlay(ctx, width, height, preset, options) {
   } = options;
 
   renderColorGrading603010(ctx, width, height, grading);
-  renderLightSpots(ctx, width, height, lightSpots, isExport);
+  renderLightSpots(ctx, width, height, lightSpots, isExport, lightBlendMode, grading);
 
   ctx.save();
   ctx.globalAlpha = opacity;
@@ -303,8 +329,12 @@ export function renderCoverOverlay(ctx, width, height, preset, options) {
     }
 
     const rawText = el.uppercase ? el.text.toUpperCase() : el.text;
-    const maxW = (el.w || 0.88) * width;
-    const xPos = el.x * width;
+    const isEditorialBoxRole = el.role === 'lead' || el.role === 'body';
+    const defaultColW = isEditorialBoxRole
+      ? (el.align === 'center' ? 0.56 : 0.42)
+      : 0.88;
+    const maxW = Math.min(el.w || defaultColW, isEditorialBoxRole ? 0.64 : 0.94) * width;
+    let xPos = el.x * width;
     let yPos = adaptedY * height;
 
     const isFlowRole = el.role === 'kicker' || el.role === 'headline' || el.role === 'lead' || el.role === 'body';
@@ -315,7 +345,7 @@ export function renderCoverOverlay(ctx, width, height, preset, options) {
       prevAlign === (el.align || 'left') &&
       Math.abs(yPos - prevFlowBottom) < height * 0.14
     ) {
-      yPos = prevFlowBottom + fontPx * (el.role === 'headline' ? 0.22 : 0.35);
+      yPos = prevFlowBottom + fontPx * (el.role === 'headline' ? 0.24 : 0.42);
     }
 
     let fillColor = secondaryColor;
@@ -326,8 +356,11 @@ export function renderCoverOverlay(ctx, width, height, preset, options) {
       fillColor = accentColor;
     }
 
-    const lines = el.role === 'masthead' ? [rawText] : wrapLines(ctx, rawText, maxW);
-    const lineH = fontPx * (el.lineHeight || 1.18);
+    let lines = el.role === 'masthead' ? [rawText] : wrapLines(ctx, rawText, maxW);
+    if (isEditorialBoxRole && lines.length > (el.maxLines || 3)) {
+      lines = lines.slice(0, el.maxLines || 3);
+    }
+    const lineH = fontPx * (el.lineHeight || (isEditorialBoxRole ? 1.24 : 1.18));
 
     if (el.role === 'masthead' && lines[0]) {
       const measured = ctx.measureText(lines[0]).width;
@@ -387,6 +420,48 @@ export function renderCoverOverlay(ctx, width, height, preset, options) {
         ctx.restore();
         continue;
       }
+    }
+
+    if (isEditorialBoxRole && el.box && lines.length > 0) {
+      let maxLineW = 0;
+      for (const l of lines) {
+        maxLineW = Math.max(maxLineW, ctx.measureText(l).width);
+      }
+      const boxW = Math.min(maxW, Math.max(maxLineW, maxW * 0.65));
+      const boxH = lines.length * lineH;
+      const padX = fontPx * 0.52;
+      const padY = fontPx * 0.28;
+
+      ctx.save();
+      if (el.box === 'bar') {
+        ctx.fillStyle = accentColor;
+        const barW = Math.max(2, width * 0.0055);
+        if ((el.align || 'left') === 'left') {
+          ctx.fillRect(xPos, yPos - fontPx * 0.08, barW, boxH);
+          xPos += barW + padX;
+        } else if (el.align === 'right') {
+          ctx.fillRect(xPos - barW, yPos - fontPx * 0.08, barW, boxH);
+          xPos -= (barW + padX);
+        }
+      } else if (el.box === 'bracket' || el.box === 'frame') {
+        let bx = xPos;
+        if (el.align === 'center') bx = xPos - boxW / 2;
+        else if (el.align === 'right') bx = xPos - boxW;
+        ctx.strokeStyle = fillColor;
+        ctx.globalAlpha = opacity * 0.38;
+        ctx.lineWidth = Math.max(1, width * 0.0022);
+        if (el.box === 'frame') {
+          ctx.strokeRect(bx - padX, yPos - padY, boxW + padX * 2, boxH + padY * 1.6);
+        } else {
+          ctx.beginPath();
+          ctx.moveTo(bx, yPos - padY);
+          ctx.lineTo(bx + boxW, yPos - padY);
+          ctx.moveTo(bx, yPos + boxH + padY * 0.4);
+          ctx.lineTo(bx + boxW, yPos + boxH + padY * 0.4);
+          ctx.stroke();
+        }
+      }
+      ctx.restore();
     }
 
     ctx.fillStyle = fillColor;
