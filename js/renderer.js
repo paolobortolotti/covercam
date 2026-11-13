@@ -246,12 +246,19 @@ export function renderLightSpots(ctx, width, height, spots = [], isExport = fals
 
     if (!isExport) {
       ctx.save();
-      ctx.strokeStyle = 'rgba(255, 255, 255, 0.55)';
-      ctx.lineWidth = 1.2;
-      ctx.setLineDash([3, 3]);
+      ctx.shadowColor = 'rgba(0, 0, 0, 0.8)';
+      ctx.shadowBlur = 6;
+      ctx.strokeStyle = 'rgba(255, 255, 255, 0.9)';
+      ctx.lineWidth = 1.6;
+      ctx.setLineDash([4, 3]);
       ctx.beginPath();
-      ctx.arc(cx, cy, 9, 0, Math.PI * 2);
+      ctx.arc(cx, cy, 14, 0, Math.PI * 2);
       ctx.stroke();
+
+      ctx.fillStyle = 'rgba(255, 42, 109, 0.9)';
+      ctx.beginPath();
+      ctx.arc(cx, cy, 3.5, 0, Math.PI * 2);
+      ctx.fill();
       ctx.restore();
     }
   }

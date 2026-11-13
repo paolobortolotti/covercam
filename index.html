@@ -13,7 +13,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Anton&family=Archivo+Black&family=Barlow+Condensed:ital,wght@0,600;0,700;0,800;1,700&family=Bebas+Neue&family=Bodoni+Moda:ital,opsz,wght@0,6..96,700;0,6..96,900;1,6..96,700&family=Cinzel:wght@700;800&family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400;1,600;1,700&family=DM+Sans:ital,wght@0,400;0,500;0,700;1,400&family=Inter:wght@400;500;600;700;800&family=Jost:ital,wght@0,400;0,500;0,600;0,700;0,800;0,900;1,500;1,700&family=Lato:ital,wght@0,400;0,700;0,900;1,400;1,700&family=League+Spartan:wght@600;700;800;900&family=Montserrat:wght@400;500;600;700;800;900&family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,600;0,6..72,800;1,6..72,400;1,6..72,800&family=Oswald:wght@500;600;700&family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400;1,700;1,900&family=Plus+Jakarta+Sans:wght@500;600;700;800&family=Space+Grotesk:wght@500;600;700&family=Syne:wght@700;800&family=Work+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="./styles.css?v=16">
+  <link rel="stylesheet" href="./styles.css?v=17">
 </head>
 <body>
   <div class="app-shell">
@@ -30,9 +30,12 @@
 
         <div class="preset-pill" id="presetBadge" aria-live="polite">
           <button type="button" id="btnPrevVariant" class="pill-step-btn" aria-label="Variante precedente">‹</button>
-          <span id="presetIndexLabel">1/12</span>
-          <span class="dot-sep">·</span>
-          <span id="presetNameLabel">Classico Centrale</span>
+          <button type="button" id="btnToggleVariantList" class="preset-center-btn" aria-expanded="false" aria-controls="variantPickerRow" title="Tocca per scegliere direttamente una delle varianti">
+            <span id="presetIndexLabel">1/12</span>
+            <span class="dot-sep">·</span>
+            <span id="presetNameLabel">Classico Centrale</span>
+            <span class="chevron-icon" id="variantChevron">▾</span>
+          </button>
           <button type="button" id="btnNextVariant" class="pill-step-btn" aria-label="Variante successiva">›</button>
         </div>
 
@@ -56,6 +59,7 @@
       </div>
 
       <nav class="genre-tabs hidden" id="genreTabs" aria-label="Generi copertina"></nav>
+      <div class="variant-picker-row hidden" id="variantPickerRow" role="listbox" aria-label="Seleziona variante del genere corrente"></div>
     </header>
 
     <main class="viewport-area" id="viewportArea">
@@ -65,6 +69,24 @@
         <canvas id="overlayCanvas"></canvas>
 
         <div class="swipe-hint" id="swipeHint">Scorri a sinistra/destra per cambiare variante</div>
+        <div class="light-floating-hud hidden" id="lightFloatingHud" role="region" aria-label="Controlli aloni di luce">
+          <div class="hud-top-row">
+            <span class="hud-title">Aloni (tocca o trascina sulla foto)</span>
+            <button type="button" id="btnAddCenterHalo" class="chip-btn">+ Alone</button>
+            <button type="button" id="btnClearLightsHud" class="chip-btn">Reset</button>
+            <button type="button" id="btnCloseLightHud" class="icon-btn" aria-label="Chiudi HUD aloni">✕</button>
+          </div>
+          <div class="hud-sliders-row">
+            <label class="hud-slider-label">
+              <span>Intensità <b id="haloIntensityValue">48%</b></span>
+              <input type="range" id="haloIntensitySlider" min="10" max="100" value="48" step="2">
+            </label>
+            <label class="hud-slider-label">
+              <span>Raggio <b id="haloRadiusValue">34%</b></span>
+              <input type="range" id="haloRadiusSlider" min="15" max="65" value="34" step="1">
+            </label>
+          </div>
+        </div>
         <div class="camera-error hidden" id="cameraErrorBox">
           <p id="cameraErrorText">Accesso alla fotocamera non disponibile. Puoi comunque importare una foto dalla galleria.</p>
           <button type="button" id="btnRetryCamera" class="action-btn">Riprova fotocamera</button>
@@ -75,7 +97,7 @@
     <footer class="bottom-bar">
       <div class="dock-collapse-row">
         <button type="button" id="btnToggleQuickDock" class="dock-toggle-handle" aria-expanded="false" aria-controls="quickDockContainer">
-          <span>Strumenti (Look · Guida · Impostazioni)</span>
+          <span>Strumenti (Look · Aloni · Guida · Impostazioni)</span>
           <span class="chevron-icon" id="dockChevron">▴</span>
         </button>
       </div>
@@ -93,6 +115,22 @@
             <span>Look</span>
           </span>
           <small id="dockLookBadge">Mult.</small>
+        </button>
+
+        <button type="button" id="btnQuickLightHud" class="dock-pill" aria-pressed="false" title="Apri overlay Aloni di Luce sulla foto">
+          <span class="dock-pill-label">
+            <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2">
+              <circle cx="12" cy="12" r="5"/>
+              <line x1="12" y1="1" x2="12" y2="3"/>
+              <line x1="12" y1="21" x2="12" y2="23"/>
+              <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/>
+              <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/>
+              <line x1="1" y1="12" x2="3" y2="12"/>
+              <line x1="21" y1="12" x2="23" y2="12"/>
+            </svg>
+            <span>Aloni</span>
+          </span>
+          <small id="dockHaloBadge">OFF</small>
         </button>
 
         <button type="button" id="btnGuideCycle" class="dock-pill" aria-pressed="false" title="Cambia griglia di composizione">
@@ -322,9 +360,25 @@
         </summary>
         <div class="acc-body">
           <div class="color-row" id="lightBlendDrawerBar" role="radiogroup" aria-label="Metodo fusione aloni"></div>
+          <div class="tone-sliders">
+            <label class="tone-control">
+              <div class="setting-header">
+                <span>Intensità alone</span>
+                <span id="drawerHaloIntensityValue">48%</span>
+              </div>
+              <input type="range" id="drawerHaloIntensitySlider" min="10" max="100" value="48" step="2">
+            </label>
+            <label class="tone-control">
+              <div class="setting-header">
+                <span>Raggio alone</span>
+                <span id="drawerHaloRadiusValue">34%</span>
+              </div>
+              <input type="range" id="drawerHaloRadiusSlider" min="15" max="65" value="34" step="1">
+            </label>
+          </div>
           <div class="setting-toggles">
             <button type="button" id="btnLightModeToggle" class="toggle-pill" aria-pressed="false">
-              <span>Tocca foto per alone</span>
+              <span>Overlay Aloni sulla foto</span>
               <strong id="lightModeStatusText">OFF</strong>
             </button>
             <button type="button" id="btnClearLights" class="toggle-pill">
@@ -411,6 +465,6 @@
     </div>
   </dialog>
 
-  <script type="module" src="./js/app.js?v=16"></script>
+  <script type="module" src="./js/app.js?v=17"></script>
 </body>
 </html>

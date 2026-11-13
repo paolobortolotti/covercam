@@ -48,6 +48,9 @@ const state = {
   lightSpotMode: false,
   lightSpots: [],
   lightBlendMode: 'multiply',
+  activeSpotIndex: -1,
+  defaultHaloIntensity: 0.48,
+  defaultHaloRadius: 0.34,
   faceCutoutEnabled: false,
   compositionGuide: 'none',
   showSafeZones: false,
@@ -64,6 +67,9 @@ const dom = {
   genreChevron: document.getElementById('genreChevron'),
   btnPrevVariant: document.getElementById('btnPrevVariant'),
   btnNextVariant: document.getElementById('btnNextVariant'),
+  btnToggleVariantList: document.getElementById('btnToggleVariantList'),
+  variantChevron: document.getElementById('variantChevron'),
+  variantPickerRow: document.getElementById('variantPickerRow'),
   presetIndexLabel: document.getElementById('presetIndexLabel'),
   presetNameLabel: document.getElementById('presetNameLabel'),
   btnInstallPwa: document.getElementById('btnInstallPwa'),
@@ -73,6 +79,8 @@ const dom = {
   dockChevron: document.getElementById('dockChevron'),
   btnGenreLookToggle: document.getElementById('btnGenreLookToggle'),
   dockLookBadge: document.getElementById('dockLookBadge'),
+  btnQuickLightHud: document.getElementById('btnQuickLightHud'),
+  dockHaloBadge: document.getElementById('dockHaloBadge'),
   btnGuideCycle: document.getElementById('btnGuideCycle'),
   guideShortText: document.getElementById('guideShortText'),
   btnFlipCamera: document.getElementById('btnFlipCamera'),
@@ -116,6 +124,18 @@ const dom = {
   btnLightModeToggle: document.getElementById('btnLightModeToggle'),
   lightModeStatusText: document.getElementById('lightModeStatusText'),
   btnClearLights: document.getElementById('btnClearLights'),
+  lightFloatingHud: document.getElementById('lightFloatingHud'),
+  btnAddCenterHalo: document.getElementById('btnAddCenterHalo'),
+  btnClearLightsHud: document.getElementById('btnClearLightsHud'),
+  btnCloseLightHud: document.getElementById('btnCloseLightHud'),
+  haloIntensitySlider: document.getElementById('haloIntensitySlider'),
+  haloIntensityValue: document.getElementById('haloIntensityValue'),
+  haloRadiusSlider: document.getElementById('haloRadiusSlider'),
+  haloRadiusValue: document.getElementById('haloRadiusValue'),
+  drawerHaloIntensitySlider: document.getElementById('drawerHaloIntensitySlider'),
+  drawerHaloIntensityValue: document.getElementById('drawerHaloIntensityValue'),
+  drawerHaloRadiusSlider: document.getElementById('drawerHaloRadiusSlider'),
+  drawerHaloRadiusValue: document.getElementById('drawerHaloRadiusValue'),
   btnFaceCutoutToggle: document.getElementById('btnFaceCutoutToggle'),
   faceCutoutStatusText: document.getElementById('faceCutoutStatusText'),
   faceSizeSlider: document.getElementById('faceSizeSlider'),
@@ -433,6 +453,32 @@ function renderFilterBar() {
   }
 }
 
+function renderVariantPickerRow() {
+  if (!dom.variantPickerRow) return;
+  const list = getGenrePresets();
+  const activeIdx = list.length ? ((state.variantIndex % list.length) + list.length) % list.length : 0;
+  dom.variantPickerRow.innerHTML = '';
+
+  list.forEach((p, idx) => {
+    const btn = document.createElement('button');
+    btn.type = 'button';
+    btn.className = `variant-chip${idx === activeIdx ? ' active' : ''}`;
+    btn.dataset.index = String(idx);
+    btn.innerHTML = `<b>${idx + 1}/${list.length}</b><span>${p.name}</span>`;
+    btn.addEventListener('click', () => {
+      state.variantIndex = idx;
+      logger.info('Variante selezionata direttamente dalla barra', {
+        presetId: p.id,
+        name: p.name,
+        index: idx + 1
+      });
+      dom.swipeHint.classList.add('fade-out');
+      updatePresetUI();
+    });
+    dom.variantPickerRow.appendChild(btn);
+  });
+}
+
 function updatePresetUI() {
   const list = getGenrePresets();
   const preset = getCurrentPreset();
@@ -449,6 +495,8 @@ function updatePresetUI() {
   if (dom.currentGenrePillText && activeGenreObj) {
     dom.currentGenrePillText.textContent = activeGenreObj.label;
   }
+
+  renderVariantPickerRow();
 
   applyVideoFilter();
   runSceneColorSample();
@@ -473,8 +521,13 @@ function renderGenreTabs() {
         dom.genreTabs.classList.add('hidden');
         if (dom.btnToggleGenresBar) dom.btnToggleGenresBar.setAttribute('aria-expanded', 'false');
         if (dom.genreChevron) dom.genreChevron.textContent = '▾';
-        updateStageDimensions();
       }
+      if (dom.variantPickerRow) {
+        dom.variantPickerRow.classList.remove('hidden');
+        if (dom.btnToggleVariantList) dom.btnToggleVariantList.setAttribute('aria-expanded', 'true');
+        if (dom.variantChevron) dom.variantChevron.textContent = '▴';
+      }
+      updateStageDimensions();
       updatePresetUI();
     });
     dom.genreTabs.appendChild(btn);
@@ -577,7 +630,84 @@ function switchVariant(delta) {
 }
 
 function updateLightSpotsUI() {
-  dom.lightSpotCountText.textContent = `${state.lightSpots.length} punti`;
+  const count = state.lightSpots.length;
+  if (dom.lightSpotCountText) dom.lightSpotCountText.textContent = `${count} punti`;
+  if (dom.dockHaloBadge) {
+    dom.dockHaloBadge.textContent = count > 0 ? `${count}` : (state.lightSpotMode ? 'ON' : 'OFF');
+  }
+  if (dom.btnQuickLightHud) {
+    const isHudOpen = dom.lightFloatingHud && !dom.lightFloatingHud.classList.contains('hidden');
+    dom.btnQuickLightHud.setAttribute('aria-pressed', String(isHudOpen || state.lightSpotMode || count > 0));
+  }
+}
+
+function syncHaloSliders(intensity, radius) {
+  const intPct = Math.round((intensity !== undefined ? intensity : state.defaultHaloIntensity) * 100);
+  const radPct = Math.round((radius !== undefined ? radius : state.defaultHaloRadius) * 100);
+  if (dom.haloIntensitySlider) dom.haloIntensitySlider.value = String(intPct);
+  if (dom.haloIntensityValue) dom.haloIntensityValue.textContent = `${intPct}%`;
+  if (dom.drawerHaloIntensitySlider) dom.drawerHaloIntensitySlider.value = String(intPct);
+  if (dom.drawerHaloIntensityValue) dom.drawerHaloIntensityValue.textContent = `${intPct}%`;
+
+  if (dom.haloRadiusSlider) dom.haloRadiusSlider.value = String(radPct);
+  if (dom.haloRadiusValue) dom.haloRadiusValue.textContent = `${radPct}%`;
+  if (dom.drawerHaloRadiusSlider) dom.drawerHaloRadiusSlider.value = String(radPct);
+  if (dom.drawerHaloRadiusValue) dom.drawerHaloRadiusValue.textContent = `${radPct}%`;
+}
+
+function setHaloIntensity(pct) {
+  const val = Math.max(10, Math.min(100, pct));
+  state.defaultHaloIntensity = val / 100;
+  if (state.activeSpotIndex >= 0 && state.lightSpots[state.activeSpotIndex]) {
+    state.lightSpots[state.activeSpotIndex].intensity = state.defaultHaloIntensity;
+  } else {
+    for (const s of state.lightSpots) {
+      s.intensity = state.defaultHaloIntensity;
+    }
+  }
+  syncHaloSliders(state.defaultHaloIntensity, state.defaultHaloRadius);
+  scheduleOverlayRedraw();
+}
+
+function setHaloRadius(pct) {
+  const val = Math.max(15, Math.min(65, pct));
+  state.defaultHaloRadius = val / 100;
+  if (state.activeSpotIndex >= 0 && state.lightSpots[state.activeSpotIndex]) {
+    state.lightSpots[state.activeSpotIndex].radius = state.defaultHaloRadius;
+  } else {
+    for (const s of state.lightSpots) {
+      s.radius = state.defaultHaloRadius;
+    }
+  }
+  syncHaloSliders(state.defaultHaloIntensity, state.defaultHaloRadius);
+  scheduleOverlayRedraw();
+}
+
+function toggleLightHud(forceState) {
+  if (!dom.lightFloatingHud) return;
+  const isHidden = dom.lightFloatingHud.classList.contains('hidden');
+  const shouldShow = typeof forceState === 'boolean' ? forceState : isHidden;
+  dom.lightFloatingHud.classList.toggle('hidden', !shouldShow);
+  if (shouldShow) {
+    state.lightSpotMode = true;
+    if (state.lightSpots.length === 0) {
+      state.lightSpots.push({
+        x: 0.5,
+        y: 0.42,
+        radius: state.defaultHaloRadius,
+        intensity: state.defaultHaloIntensity,
+        blendMode: state.lightBlendMode
+      });
+      state.activeSpotIndex = 0;
+    }
+    syncHaloSliders(state.defaultHaloIntensity, state.defaultHaloRadius);
+  }
+  if (dom.btnLightModeToggle) {
+    dom.btnLightModeToggle.setAttribute('aria-pressed', String(state.lightSpotMode));
+    if (dom.lightModeStatusText) dom.lightModeStatusText.textContent = state.lightSpotMode ? 'ON' : 'OFF';
+  }
+  updateLightSpotsUI();
+  scheduleOverlayRedraw();
 }
 
 function setupStageInteractions() {
@@ -585,12 +715,13 @@ function setupStageInteractions() {
   let startY = 0;
   let tracking = false;
   let draggingMask = false;
+  let draggingSpotIdx = -1;
   const activePointers = new Map();
   let initialPinchDist = null;
   let initialMaskRx = 0.24;
 
   dom.stageFrame.addEventListener('pointerdown', (e) => {
-    if (e.target.closest('button')) return;
+    if (e.target.closest('button') || e.target.closest('.light-floating-hud')) return;
     if (dom.lookGradingPanel && !dom.lookGradingPanel.classList.contains('hidden')) {
       dom.lookGradingPanel.classList.add('hidden');
     }
@@ -607,12 +738,27 @@ function setupStageInteractions() {
       initialMaskRx = subjectMask.maskZone.rx;
       tracking = false;
       draggingMask = false;
+      draggingSpotIdx = -1;
       return;
     }
 
     const rect = dom.stageFrame.getBoundingClientRect();
     const normX = Math.max(0, Math.min(1, (e.clientX - rect.left) / rect.width));
     const normY = Math.max(0, Math.min(1, (e.clientY - rect.top) / rect.height));
+
+    if (state.lightSpots.length > 0) {
+      for (let i = state.lightSpots.length - 1; i >= 0; i--) {
+        const spot = state.lightSpots[i];
+        const hitDist = Math.hypot(normX - spot.x, normY - spot.y);
+        if (hitDist <= Math.max(0.08, (spot.radius || 0.34) * 0.42)) {
+          draggingSpotIdx = i;
+          state.activeSpotIndex = i;
+          syncHaloSliders(spot.intensity, spot.radius);
+          tracking = false;
+          return;
+        }
+      }
+    }
 
     if (
       state.faceCutoutEnabled &&
@@ -631,6 +777,16 @@ function setupStageInteractions() {
   dom.stageFrame.addEventListener('pointermove', (e) => {
     if (activePointers.has(e.pointerId)) {
       activePointers.set(e.pointerId, { x: e.clientX, y: e.clientY });
+    }
+
+    if (draggingSpotIdx >= 0 && state.lightSpots[draggingSpotIdx]) {
+      const rect = dom.stageFrame.getBoundingClientRect();
+      const normX = Math.max(0.02, Math.min(0.98, (e.clientX - rect.left) / rect.width));
+      const normY = Math.max(0.02, Math.min(0.98, (e.clientY - rect.top) / rect.height));
+      state.lightSpots[draggingSpotIdx].x = normX;
+      state.lightSpots[draggingSpotIdx].y = normY;
+      scheduleOverlayRedraw();
+      return;
     }
 
     if (activePointers.size === 2 && state.faceCutoutEnabled && initialPinchDist > 10) {
@@ -662,6 +818,10 @@ function setupStageInteractions() {
     if (activePointers.size < 2) {
       initialPinchDist = null;
     }
+    if (draggingSpotIdx >= 0) {
+      draggingSpotIdx = -1;
+      return;
+    }
     if (draggingMask) {
       draggingMask = false;
       return;
@@ -686,7 +846,14 @@ function setupStageInteractions() {
         if (state.lightSpots.length >= 6) {
           state.lightSpots.shift();
         }
-        state.lightSpots.push({ x: normX, y: normY, radius: 0.34, intensity: 0.48, blendMode: state.lightBlendMode });
+        state.lightSpots.push({
+          x: normX,
+          y: normY,
+          radius: state.defaultHaloRadius,
+          intensity: state.defaultHaloIntensity,
+          blendMode: state.lightBlendMode
+        });
+        state.activeSpotIndex = state.lightSpots.length - 1;
         logger.info('Alone aggiunto con tocco', {
           x: Number(normX.toFixed(2)),
           y: Number(normY.toFixed(2)),
@@ -985,9 +1152,28 @@ async function bootstrap() {
 
   if (dom.btnToggleGenresBar && dom.genreTabs) {
     dom.btnToggleGenresBar.addEventListener('click', () => {
+      if (dom.variantPickerRow && !dom.variantPickerRow.classList.contains('hidden')) {
+        dom.variantPickerRow.classList.add('hidden');
+        if (dom.btnToggleVariantList) dom.btnToggleVariantList.setAttribute('aria-expanded', 'false');
+        if (dom.variantChevron) dom.variantChevron.textContent = '▾';
+      }
       const isHidden = dom.genreTabs.classList.toggle('hidden');
       dom.btnToggleGenresBar.setAttribute('aria-expanded', String(!isHidden));
       if (dom.genreChevron) dom.genreChevron.textContent = isHidden ? '▾' : '▴';
+      updateStageDimensions();
+    });
+  }
+
+  if (dom.btnToggleVariantList && dom.variantPickerRow) {
+    dom.btnToggleVariantList.addEventListener('click', () => {
+      if (dom.genreTabs && !dom.genreTabs.classList.contains('hidden')) {
+        dom.genreTabs.classList.add('hidden');
+        if (dom.btnToggleGenresBar) dom.btnToggleGenresBar.setAttribute('aria-expanded', 'false');
+        if (dom.genreChevron) dom.genreChevron.textContent = '▾';
+      }
+      const isHidden = dom.variantPickerRow.classList.toggle('hidden');
+      dom.btnToggleVariantList.setAttribute('aria-expanded', String(!isHidden));
+      if (dom.variantChevron) dom.variantChevron.textContent = isHidden ? '▾' : '▴';
       updateStageDimensions();
     });
   }
@@ -1136,15 +1322,89 @@ async function bootstrap() {
     state.lightSpotMode = !state.lightSpotMode;
     dom.btnLightModeToggle.setAttribute('aria-pressed', String(state.lightSpotMode));
     dom.lightModeStatusText.textContent = state.lightSpotMode ? 'ON' : 'OFF';
+    if (state.lightSpotMode && state.lightSpots.length === 0) {
+      state.lightSpots.push({
+        x: 0.5,
+        y: 0.42,
+        radius: state.defaultHaloRadius,
+        intensity: state.defaultHaloIntensity,
+        blendMode: state.lightBlendMode
+      });
+      state.activeSpotIndex = 0;
+    }
+    updateLightSpotsUI();
+    scheduleOverlayRedraw();
     logger.info('Modalità aggiunta punti luce col tocco', { enabled: state.lightSpotMode });
   });
 
   dom.btnClearLights.addEventListener('click', () => {
     state.lightSpots = [];
+    state.activeSpotIndex = -1;
     updateLightSpotsUI();
     scheduleOverlayRedraw();
     logger.info('Punti luce rimossi');
   });
+
+  if (dom.btnQuickLightHud) {
+    dom.btnQuickLightHud.addEventListener('click', () => {
+      toggleLightHud();
+    });
+  }
+
+  if (dom.btnCloseLightHud) {
+    dom.btnCloseLightHud.addEventListener('click', () => {
+      toggleLightHud(false);
+    });
+  }
+
+  if (dom.btnAddCenterHalo) {
+    dom.btnAddCenterHalo.addEventListener('click', () => {
+      const offset = (state.lightSpots.length % 5) * 0.05 - 0.1;
+      state.lightSpots.push({
+        x: Math.max(0.15, Math.min(0.85, 0.5 + offset)),
+        y: Math.max(0.15, Math.min(0.85, 0.42 + offset * 0.6)),
+        radius: state.defaultHaloRadius,
+        intensity: state.defaultHaloIntensity,
+        blendMode: state.lightBlendMode
+      });
+      state.activeSpotIndex = state.lightSpots.length - 1;
+      updateLightSpotsUI();
+      scheduleOverlayRedraw();
+    });
+  }
+
+  if (dom.btnClearLightsHud) {
+    dom.btnClearLightsHud.addEventListener('click', () => {
+      state.lightSpots = [];
+      state.activeSpotIndex = -1;
+      updateLightSpotsUI();
+      scheduleOverlayRedraw();
+    });
+  }
+
+  if (dom.haloIntensitySlider) {
+    dom.haloIntensitySlider.addEventListener('input', (e) => {
+      setHaloIntensity(Number(e.target.value));
+    });
+  }
+
+  if (dom.drawerHaloIntensitySlider) {
+    dom.drawerHaloIntensitySlider.addEventListener('input', (e) => {
+      setHaloIntensity(Number(e.target.value));
+    });
+  }
+
+  if (dom.haloRadiusSlider) {
+    dom.haloRadiusSlider.addEventListener('input', (e) => {
+      setHaloRadius(Number(e.target.value));
+    });
+  }
+
+  if (dom.drawerHaloRadiusSlider) {
+    dom.drawerHaloRadiusSlider.addEventListener('input', (e) => {
+      setHaloRadius(Number(e.target.value));
+    });
+  }
 
   dom.btnFaceCutoutToggle.addEventListener('click', () => {
     state.faceCutoutEnabled = !state.faceCutoutEnabled;
