@@ -28,6 +28,10 @@
     {
       "id": "sport",
       "label": "Sport & Outdoor"
+    },
+    {
+      "id": "nature",
+      "label": "Natura & Scienza"
     }
   ],
   "presets": [
@@ -4956,6 +4960,338 @@
           "ruleTop": true
         }
       ]
+    },
+    {
+      "id": "nat-01",
+      "name": "Ricerca · Copertina Scientifica",
+      "defaultColor": "#FFFFFF",
+      "accentColor": "#DDE9E6",
+      "elements": [
+        {
+          "role": "issue",
+          "text": "VOL. 12 · N. 08 · SCIENZA E AMBIENTE",
+          "x": 0.5,
+          "y": 0.032,
+          "w": 0.84,
+          "align": "center",
+          "font": "Inter",
+          "size": 0.017,
+          "weight": "700",
+          "tracking": 0.12,
+          "uppercase": true
+        },
+        {
+          "role": "masthead",
+          "text": "TERRA",
+          "x": 0.5,
+          "y": 0.085,
+          "w": 0.88,
+          "align": "center",
+          "font": "Bodoni Moda",
+          "size": 0.155,
+          "weight": "900",
+          "tracking": 0.02
+        },
+        {
+          "role": "kicker",
+          "text": "RICERCA SUL CAMPO",
+          "x": 0.07,
+          "y": 0.52,
+          "w": 0.45,
+          "align": "left",
+          "font": "Inter",
+          "size": 0.021,
+          "weight": "700",
+          "tracking": 0.12,
+          "uppercase": true
+        },
+        {
+          "role": "headline",
+          "text": "LA VITA INVISIBILE",
+          "x": 0.07,
+          "y": 0.57,
+          "w": 0.67,
+          "align": "left",
+          "font": "Bodoni Moda",
+          "size": 0.074,
+          "weight": "700",
+          "lineHeight": 1.2
+        },
+        {
+          "role": "lead",
+          "text": "Nuove scoperte negli ecosistemi che custodiscono il futuro del pianeta.",
+          "x": 0.07,
+          "y": 0.755,
+          "w": 0.58,
+          "align": "left",
+          "font": "Inter",
+          "size": 0.026,
+          "weight": "500",
+          "lineHeight": 1.35,
+          "maxLines": 3
+        },
+        {
+          "role": "cta",
+          "text": "BIODIVERSITÀ · CLIMA · CONSERVAZIONE",
+          "x": 0.07,
+          "y": 0.93,
+          "w": 0.66,
+          "align": "left",
+          "font": "Inter",
+          "size": 0.016,
+          "weight": "700",
+          "tracking": 0.08,
+          "ruleTop": true
+        }
+      ],
+      "genre": "nature"
+    },
+    {
+      "id": "nat-02",
+      "name": "Oceani · Grande Fotografia",
+      "defaultColor": "#FFFFFF",
+      "accentColor": "#6ED2E8",
+      "elements": [
+        {
+          "role": "issue",
+          "text": "OCEANI · EDIZIONE SPECIALE",
+          "x": 0.5,
+          "y": 0.03,
+          "w": 0.85,
+          "align": "center",
+          "font": "Inter",
+          "size": 0.018,
+          "weight": "700",
+          "tracking": 0.16
+        },
+        {
+          "role": "masthead",
+          "text": "ABISSI",
+          "x": 0.5,
+          "y": 0.085,
+          "w": 0.88,
+          "align": "center",
+          "font": "League Spartan",
+          "size": 0.165,
+          "weight": "900",
+          "tracking": 0.03
+        },
+        {
+          "role": "kicker",
+          "text": "OLTRE LA SUPERFICIE",
+          "x": 0.07,
+          "y": 0.54,
+          "w": 0.5,
+          "align": "left",
+          "font": "Inter",
+          "size": 0.021,
+          "weight": "700",
+          "tracking": 0.14
+        },
+        {
+          "role": "headline",
+          "text": "IL MONDO BLU",
+          "x": 0.07,
+          "y": 0.595,
+          "w": 0.72,
+          "align": "left",
+          "font": "Barlow Condensed",
+          "size": 0.088,
+          "weight": "800",
+          "lineHeight": 1.2
+        },
+        {
+          "role": "lead",
+          "text": "Viaggio fotografico tra le specie e i paesaggi degli oceani profondi.",
+          "x": 0.07,
+          "y": 0.765,
+          "w": 0.57,
+          "align": "left",
+          "font": "Inter",
+          "size": 0.025,
+          "weight": "500",
+          "lineHeight": 1.38,
+          "maxLines": 3
+        },
+        {
+          "role": "cta",
+          "text": "ESPLORAZIONE · FOTOGRAFIA · MARE",
+          "x": 0.07,
+          "y": 0.935,
+          "w": 0.66,
+          "align": "left",
+          "font": "Inter",
+          "size": 0.016,
+          "weight": "700",
+          "tracking": 0.1,
+          "ruleTop": true
+        }
+      ],
+      "genre": "nature"
+    },
+    {
+      "id": "nat-03",
+      "name": "Wildlife · Ritratto Naturale",
+      "defaultColor": "#FFFFFF",
+      "accentColor": "#B9D8A6",
+      "elements": [
+        {
+          "role": "issue",
+          "text": "WILDLIFE · N. 06",
+          "x": 0.07,
+          "y": 0.035,
+          "w": 0.5,
+          "align": "left",
+          "font": "Inter",
+          "size": 0.018,
+          "weight": "700",
+          "tracking": 0.12
+        },
+        {
+          "role": "masthead",
+          "text": "SELVATICA",
+          "x": 0.5,
+          "y": 0.1,
+          "w": 0.88,
+          "align": "center",
+          "font": "Cinzel",
+          "size": 0.105,
+          "weight": "800",
+          "tracking": 0.02
+        },
+        {
+          "role": "kicker",
+          "text": "STORIE DAL PIANETA",
+          "x": 0.93,
+          "y": 0.49,
+          "w": 0.54,
+          "align": "right",
+          "font": "Inter",
+          "size": 0.021,
+          "weight": "700",
+          "tracking": 0.12
+        },
+        {
+          "role": "headline",
+          "text": "L'ULTIMO RIFUGIO",
+          "x": 0.93,
+          "y": 0.555,
+          "w": 0.67,
+          "align": "right",
+          "font": "Playfair Display",
+          "size": 0.068,
+          "weight": "700",
+          "lineHeight": 1.23
+        },
+        {
+          "role": "lead",
+          "text": "Dove la natura resiste: incontri ravvicinati con gli habitat più fragili.",
+          "x": 0.93,
+          "y": 0.755,
+          "w": 0.54,
+          "align": "right",
+          "font": "Lato",
+          "size": 0.027,
+          "weight": "700",
+          "lineHeight": 1.38,
+          "maxLines": 3
+        },
+        {
+          "role": "cta",
+          "text": "SPECIALE CONSERVAZIONE",
+          "x": 0.07,
+          "y": 0.93,
+          "w": 0.5,
+          "align": "left",
+          "font": "Inter",
+          "size": 0.017,
+          "weight": "700",
+          "ruleTop": true
+        }
+      ],
+      "genre": "nature"
+    },
+    {
+      "id": "nat-04",
+      "name": "Earth · Atlante Climatico",
+      "defaultColor": "#FFFFFF",
+      "accentColor": "#C9E4D2",
+      "elements": [
+        {
+          "role": "issue",
+          "text": "ANNO 04 · NUMERO 11",
+          "x": 0.5,
+          "y": 0.033,
+          "w": 0.84,
+          "align": "center",
+          "font": "Inter",
+          "size": 0.017,
+          "weight": "700",
+          "tracking": 0.13
+        },
+        {
+          "role": "masthead",
+          "text": "BIOSFERA",
+          "x": 0.5,
+          "y": 0.09,
+          "w": 0.88,
+          "align": "center",
+          "font": "League Spartan",
+          "size": 0.127,
+          "weight": "900",
+          "tracking": 0.02
+        },
+        {
+          "role": "kicker",
+          "text": "IL REPORT",
+          "x": 0.07,
+          "y": 0.505,
+          "w": 0.4,
+          "align": "left",
+          "font": "Inter",
+          "size": 0.02,
+          "weight": "700",
+          "tracking": 0.16
+        },
+        {
+          "role": "headline",
+          "text": "UN PIANETA CHE CAMBIA",
+          "x": 0.07,
+          "y": 0.56,
+          "w": 0.67,
+          "align": "left",
+          "font": "Oswald",
+          "size": 0.071,
+          "weight": "700",
+          "lineHeight": 1.22
+        },
+        {
+          "role": "lead",
+          "text": "Dati, immagini e testimonianze dalle frontiere della ricerca climatica.",
+          "x": 0.07,
+          "y": 0.77,
+          "w": 0.57,
+          "align": "left",
+          "font": "Inter",
+          "size": 0.025,
+          "weight": "500",
+          "lineHeight": 1.4,
+          "maxLines": 3
+        },
+        {
+          "role": "cta",
+          "text": "SCIENZA · TERRA · FUTURO",
+          "x": 0.07,
+          "y": 0.935,
+          "w": 0.57,
+          "align": "left",
+          "font": "Inter",
+          "size": 0.016,
+          "weight": "700",
+          "ruleTop": true
+        }
+      ],
+      "genre": "nature"
     }
   ]
 }
