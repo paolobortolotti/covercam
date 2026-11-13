@@ -2,7 +2,7 @@ import { logger } from './logger.js';
 import { CameraController } from './camera.js';
 import { PALETTE, SceneColorSampler, hexToRgb, wcagContrastRatio } from './color.js';
 import { HorizonLevel } from './horizon.js';
-import { FORMATS, IMAGE_FILTERS, GRADING_TRIADS, COMPOSITION_GUIDES, LIGHT_BLEND_MODES, resolveFilterCss, computeCropRect, renderCoverOverlay } from './renderer.js';
+import { FORMATS, IMAGE_FILTERS, GRADING_TRIADS, COMPOSITION_GUIDES, LIGHT_BLEND_MODES, resolveFilterCss, computeCropRect, renderCoverOverlay } from './renderer.js?v=29';
 import { SubjectMaskController } from './subject-mask.js';
 import {
   captureDualResolution,
