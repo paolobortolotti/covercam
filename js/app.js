@@ -1583,6 +1583,68 @@ async function bootstrap() {
     }
   });
 
+  const auditButton = document.getElementById('btnAuditLayouts');
+  const auditOutput = document.getElementById('auditLayoutOutput');
+  if (auditButton && auditOutput) auditButton.addEventListener('click', async () => {
+    auditButton.disabled = true;
+    auditOutput.textContent = 'Analisi dei 189 layout in corso…';
+    try {
+      await document.fonts.ready;
+      const canvas = document.createElement('canvas');
+      const ctx = canvas.getContext('2d');
+      if (!ctx) throw new Error('Canvas 2D non disponibile');
+      const findings = [];
+      let passed = 0;
+      const widths = 1000;
+      for (const preset of state.presets) {
+        for (const format of Object.values(FORMATS)) {
+          canvas.width = widths;
+          canvas.height = Math.round(widths / format.ratio);
+          const boxes = [];
+          renderCoverOverlay(ctx, canvas.width, canvas.height, preset, {
+            formatId: format.id, auditBoxes: boxes, colorMode: 'preset',
+            showSafeZones: false, editorialLineGap: 1
+          });
+          const issues = [];
+          const space = widths * 0.02;
+          const minFonts = { masthead: 70, headline: 36, lead: 23, body: 20, kicker: 19, issue: 18, cta: 18 };
+          for (const b of boxes) {
+            if (b.left < -1 || b.right > canvas.width + 1 || b.top < space - 1 || b.bottom > canvas.height - space + 1)
+              issues.push({ type: 'bounds', role: b.role, box: b });
+            if (b.fontPx < (minFonts[b.role] || 18))
+              issues.push({ type: 'small-text', role: b.role, actualPx: b.fontPx, minimumPx: minFonts[b.role] || 18 });
+            if (b.truncated) issues.push({ type: 'truncated', role: b.role });
+          }
+          for (let i = 0; i < boxes.length; i++) {
+            for (let j = i + 1; j < boxes.length; j++) {
+              const a = boxes[i], b = boxes[j];
+              const horizontal = Math.min(a.right, b.right) - Math.max(a.left, b.left);
+              const vertical = Math.min(a.bottom, b.bottom) - Math.max(a.top, b.top);
+              if (horizontal > 0 && vertical > 0) issues.push({ type: 'overlap', roles: [a.role, b.role], overlapPx: Math.round(vertical) });
+              else if (horizontal > 0 && Math.abs(vertical) < space * 2)
+                issues.push({ type: 'tight-gap', roles: [a.role, b.role], gapPx: Math.round(-vertical), minimumPx: space * 2 });
+            }
+          }
+          if (!issues.length) passed++;
+          findings.push({ presetId: preset.id, presetName: preset.name, format: format.id, status: issues.length ? 'FAIL' : 'PASS', issues });
+        }
+      }
+      const report = { version: 1, date: new Date().toISOString(), total: findings.length, passed, failed: findings.length - passed, findings };
+      auditOutput.textContent = `${passed}/${findings.length} PASS · ${findings.length - passed} FAIL. Il report JSON elenca le violazioni per preset e formato.`;
+      const blob = new Blob([JSON.stringify(report, null, 2)], { type: 'application/json' });
+      const url = URL.createObjectURL(blob);
+      const link = document.createElement('a');
+      link.href = url;
+      link.download = 'covercam-layout-audit.json';
+      link.click();
+      setTimeout(() => URL.revokeObjectURL(url), 1000);
+    } catch (err) {
+      auditOutput.textContent = `Errore validazione: ${err.message}`;
+    } finally {
+      auditButton.disabled = false;
+    }
+  });
+
   dom.btnCopyLogs.addEventListener('click', async () => {
     try {
       await navigator.clipboard.writeText(logger.formatText());
