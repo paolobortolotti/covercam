@@ -47,7 +47,7 @@ const state = {
   lightSpotMode: false,
   lightSpots: [],
   faceCutoutEnabled: false,
-  compositionGuide: 'golden-spiral',
+  compositionGuide: 'none',
   showSafeZones: false,
   horizon: { enabled: false, angle: 0, isLevel: true },
   mode: 'camera',
