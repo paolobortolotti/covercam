@@ -13,6 +13,13 @@ import {
 } from './exporter.js';
 
 const FORMAT_KEYS = ['magazine', 'post', 'story'];
+const EDITORIAL_ROLES = {
+  kicker: ['Occhiello', 'Es. SPECIALE DESIGN'],
+  headline: ['Titolo principale', 'Es. Nuove prospettive'],
+  lead: ['Sommario / lead', 'Es. Il racconto che introduce il tema'],
+  body: ['Approfondimento', 'Es. Un dettaglio, un dato o una descrizione']
+};
+const originalEditorialTexts = new Map();
 
 const state = {
   genres: [],
@@ -109,6 +116,8 @@ const dom = {
   brightnessToneSlider: document.getElementById('brightnessToneSlider'),
   brightnessToneValue: document.getElementById('brightnessToneValue'),
   settingsDrawer: document.getElementById('settingsDrawer'),
+  editorialFocusFields: document.getElementById('editorialFocusFields'),
+  btnResetEditorialFocus: document.getElementById('btnResetEditorialFocus'),
   btnCloseSettingsSheet: document.getElementById('btnCloseSettingsSheet'),
   opacitySlider: document.getElementById('opacitySlider'),
   opacityValue: document.getElementById('opacityValue'),
@@ -479,6 +488,33 @@ function renderVariantPickerRow() {
   });
 }
 
+function renderEditorialFocusFields() {
+  if (!dom.editorialFocusFields) return;
+  dom.editorialFocusFields.replaceChildren();
+  const preset = getCurrentPreset();
+  if (!preset) return;
+  preset.elements.forEach((el, index) => {
+    const config = EDITORIAL_ROLES[el.role];
+    if (!config) return;
+    const label = document.createElement('label');
+    label.className = 'editorial-field';
+    const caption = document.createElement('span');
+    caption.textContent = config[0];
+    const field = document.createElement(el.role === 'headline' || el.role === 'kicker' ? 'input' : 'textarea');
+    field.className = 'editorial-input';
+    field.setAttribute('aria-label', config[0]);
+    field.placeholder = config[1];
+    field.value = el.text || '';
+    if (field.tagName === 'TEXTAREA') field.rows = 2;
+    field.addEventListener('input', () => {
+      preset.elements[index].text = field.value;
+      scheduleOverlayRedraw();
+    });
+    label.append(caption, field);
+    dom.editorialFocusFields.appendChild(label);
+  });
+}
+
 function updatePresetUI() {
   const list = getGenrePresets();
   const preset = getCurrentPreset();
@@ -497,6 +533,7 @@ function updatePresetUI() {
   }
 
   renderVariantPickerRow();
+  renderEditorialFocusFields();
 
   applyVideoFilter();
   runSceneColorSample();
@@ -1103,11 +1140,21 @@ async function bootstrap() {
     const data = await res.json();
     state.genres = data.genres || [];
     state.presets = data.presets || [];
+    for (const preset of state.presets) originalEditorialTexts.set(preset.id, preset.elements.map(el => el.text));
     logger.info('Preset caricati da presets.json', { count: state.presets.length });
   } catch (err) {
     logger.error('Errore caricamento presets.json', err);
   }
 
+  dom.btnResetEditorialFocus?.addEventListener('click', () => {
+    const preset = getCurrentPreset();
+    if (!preset) return;
+    const original = originalEditorialTexts.get(preset.id);
+    if (!original) return;
+    preset.elements.forEach((el, index) => { el.text = original[index]; });
+    renderEditorialFocusFields();
+    scheduleOverlayRedraw();
+  });
   renderGenreTabs();
   updateStageDimensions();
   updatePresetUI();
