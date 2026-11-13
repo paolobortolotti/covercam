@@ -352,11 +352,11 @@ export function renderCoverOverlay(ctx, width, height, preset, options) {
 
     const rawText = el.uppercase ? el.text.toUpperCase() : el.text;
     const isEditorialBoxRole = el.role === 'lead' || el.role === 'body';
-    const isSingleLineBarRole = el.role === 'masthead' || el.role === 'issue' || el.role === 'cta' || el.role === 'kicker';
+    const isSingleLineBarRole = el.role === 'masthead' || el.role === 'issue';
     const defaultColW = isEditorialBoxRole
       ? (el.align === 'center' ? 0.66 : 0.52)
       : 0.88;
-    const maxW = Math.min(el.w || defaultColW, isEditorialBoxRole ? 0.74 : 0.88) * width;
+    const maxW = Math.min(Math.max(el.w || defaultColW, isEditorialBoxRole ? 0.62 : 0.7), 0.88) * width;
     let xPos = el.x * width;
     let yPos = adaptedY * height;
 
@@ -364,7 +364,7 @@ export function renderCoverOverlay(ctx, width, height, preset, options) {
       const measured = ctx.measureText(rawText).width;
       const targetMax = el.bg === 'accent' ? Math.max(20, maxW - fontPx * 1.3) : maxW;
       if (measured > targetMax && measured > 0) {
-        const minPx = el.role === 'masthead' ? 16 : 9;
+        const minPx = Math.max(12, Math.round(width * (el.role === 'masthead' ? 0.085 : 0.022)));
         fontPx = Math.max(minPx, Math.floor(fontPx * (targetMax / measured)));
         ctx.font = `${fontStyle} ${fontWeight} ${fontPx}px ${fontFamily}`;
         if ('letterSpacing' in ctx) {
@@ -375,13 +375,15 @@ export function renderCoverOverlay(ctx, width, height, preset, options) {
     }
 
     let lines = isSingleLineBarRole ? [rawText] : wrapLines(ctx, rawText, maxW);
-    if (isEditorialBoxRole && lines.length > (el.maxLines || 3)) {
-      lines = lines.slice(0, el.maxLines || 3);
+    if (isEditorialBoxRole && lines.length > (el.maxLines || 4)) {
+      lines = lines.slice(0, el.maxLines || 4);
     }
     // True baseline-to-baseline spacing, including the extra leading between wrapped lines.
-    const defaultLeading = el.role === 'headline' ? 1.2 : (isEditorialBoxRole ? 1.36 : 1.1);
+    const defaultLeading = el.role === 'headline' ? 1.16 : (isEditorialBoxRole ? 1.3 : 1.2);
     const lineH = fontPx * Math.max(1.14, Math.max(defaultLeading, el.lineHeight || 0) * Math.max(0.9, Math.min(1.65, editorialLineGap)));
     const blockH = el.bg === 'accent' ? fontPx * 1.45 : (lines.length - 1) * lineH + fontPx;
+    // Modular rhythm: separate text from other text by two units; rules use one.
+    const blockGap = editorialSpace * 2;
     const ruleClearance = el.ruleTop ? editorialSpace : 0;
 
     let boxLeft = xPos;
@@ -402,12 +404,12 @@ export function renderCoverOverlay(ctx, width, height, preset, options) {
 
     // Reserve the same clearance around all text blocks, including top rules.
     // Compare actual block bounds rather than using role-specific font multipliers.
-    const minGap = editorialSpace;
+    const minGap = blockGap;
     const topInset = ruleClearance;
     const bottomLimit = height - editorialSpace;
     const topLimit = editorialSpace;
     const conflictsAt = (top) => placedBoxes.filter(b => {
-      const horizOverlap = Math.min(boxRight, b.right) - Math.max(boxLeft, b.left) > 0;
+      const horizOverlap = Math.min(boxRight, b.right) - Math.max(boxLeft, b.left) > width * 0.025;
       return horizOverlap && top - topInset < b.bottom + minGap && top + blockH > b.top - minGap;
     });
     // Prefer the authored position, then move down past obstacles.
@@ -429,6 +431,8 @@ export function renderCoverOverlay(ctx, width, height, preset, options) {
         yPos = valid[0];
       } else {
         // Preserve the footer clearance rather than letting the bottom clamp undo it.
+        // No collision-free slot: preserve typography and keep the authored zone
+        // instead of shrinking the copy to illegibility.
         yPos = Math.max(topLimit + topInset, bottomLimit - blockH);
       }
     }
@@ -515,7 +519,7 @@ export function renderCoverOverlay(ctx, width, height, preset, options) {
         maxLineW = Math.max(maxLineW, ctx.measureText(l).width);
       }
       const boxW = Math.min(maxW, Math.max(maxLineW, maxW * 0.65));
-      const boxH = lines.length * lineH;
+      const boxH = blockH;
       const padX = editorialSpace;
       const padY = editorialSpace;
 
@@ -527,7 +531,7 @@ export function renderCoverOverlay(ctx, width, height, preset, options) {
           ctx.fillRect(xPos, yPos - editorialSpace, barW, boxH + editorialSpace * 2);
           xPos += barW + padX;
         } else if (el.align === 'right') {
-          ctx.fillRect(xPos - barW, yPos - fontPx * 0.08, barW, boxH);
+          ctx.fillRect(xPos - barW, yPos - editorialSpace, barW, boxH + editorialSpace * 2);
           xPos -= (barW + padX);
         }
       } else if (el.box === 'bracket' || el.box === 'frame') {
