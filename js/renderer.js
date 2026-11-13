@@ -291,7 +291,8 @@ export function renderCoverOverlay(ctx, width, height, preset, options) {
     faceCutout = { enabled: false, zone: null },
     grading = null,
     compositionGuide = 'none',
-    isExport = false
+    isExport = false,
+    auditBoxes = null
   } = options;
 
   renderColorGrading603010(ctx, width, height, grading);
@@ -476,13 +477,15 @@ export function renderCoverOverlay(ctx, width, height, preset, options) {
 
       const lum = relativeLuminance(hexToRgb(accentColor));
       fillColor = lum > 0.42 ? '#0D0D0D' : '#FFFFFF';
-      placedBoxes.push({
+      const pillBox = {
         role: el.role,
         left: bx,
         right: bx + pillW,
         top: yPos - fontPx * 0.2,
         bottom: yPos - fontPx * 0.2 + pillH
-      });
+      };
+      placedBoxes.push(pillBox);
+      if (auditBoxes) auditBoxes.push({ ...pillBox, fontPx, text: rawText, ruleTop: Boolean(el.ruleTop), truncated: false });
       if (el.align === 'left') {
         ctx.fillStyle = fillColor;
         ctx.fillText(lines[0], bx + fontPx * 0.6, yPos);
@@ -585,7 +588,7 @@ export function renderCoverOverlay(ctx, width, height, preset, options) {
       ctx.restore();
     }
 
-    placedBoxes.push({
+    const renderedBox = {
       role: el.role,
       left: boxLeft,
       right: boxRight,
