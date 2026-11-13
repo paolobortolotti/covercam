@@ -1002,6 +1002,7 @@ async function handleShutter() {
       formatId: state.formatId,
       preset,
       renderOptions: {
+        editorialLineGap: state.editorialLineGap,
         opacity: state.opacity,
         colorMode: state.colorMode,
         manualColor: state.manualColor,
