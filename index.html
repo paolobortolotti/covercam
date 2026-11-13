@@ -23,14 +23,14 @@
           COVERCAM
         </button>
 
-        <button type="button" id="btnToggleGenresBar" class="genre-collapse-pill" aria-expanded="false" aria-controls="genreTabs" title="Espandi/chiudi categorie rivista">
+        <button type="button" id="btnToggleGenresBar" class="genre-collapse-pill" aria-expanded="true" aria-controls="genreTabs" title="Espandi/chiudi categorie rivista">
           <span id="currentGenrePillText">Moda</span>
           <span class="chevron-icon" id="genreChevron">▾</span>
         </button>
 
         <div class="preset-pill" id="presetBadge" aria-live="polite">
           <button type="button" id="btnPrevVariant" class="pill-step-btn" aria-label="Variante precedente">‹</button>
-          <button type="button" id="btnToggleVariantList" class="preset-center-btn" aria-expanded="false" aria-controls="variantPickerRow" title="Tocca per scegliere direttamente una delle varianti">
+          <button type="button" id="btnToggleVariantList" class="preset-center-btn" aria-expanded="true" aria-controls="variantPickerRow" title="Tocca per scegliere direttamente una delle varianti">
             <span id="presetIndexLabel">1/12</span>
             <span class="dot-sep">·</span>
             <span id="presetNameLabel">Classico Centrale</span>
@@ -58,8 +58,8 @@
         </div>
       </div>
 
-      <nav class="genre-tabs hidden" id="genreTabs" aria-label="Generi copertina"></nav>
-      <div class="variant-picker-row hidden" id="variantPickerRow" role="listbox" aria-label="Seleziona variante del genere corrente"></div>
+      <nav class="genre-tabs" id="genreTabs" aria-label="Generi copertina"></nav>
+      <div class="variant-picker-row" id="variantPickerRow" role="listbox" aria-label="Seleziona variante del genere corrente"></div>
     </header>
 
     <main class="viewport-area" id="viewportArea">
@@ -483,6 +483,6 @@
     </div>
   </dialog>
 
-  <script type="module" src="./js/app.js?v=25"></script>
+  <script type="module" src="./js/app.js?v=26"></script>
 </body>
 </html>
