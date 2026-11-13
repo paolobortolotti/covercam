@@ -376,10 +376,15 @@ export function renderCoverOverlay(ctx, width, height, preset, options) {
     if (isEditorialBoxRole && lines.length > (el.maxLines || 3)) {
       lines = lines.slice(0, el.maxLines || 3);
     }
-    // True baseline-to-baseline spacing, including the extra leading between wrapped lines.
-    const defaultLeading = el.role === 'headline' ? 1.2 : (isEditorialBoxRole ? 1.36 : 1.1);
-    const lineH = fontPx * Math.max(1.14, Math.max(defaultLeading, el.lineHeight || 0) * Math.max(0.9, Math.min(1.65, editorialLineGap)));
-    const blockH = el.bg === 'accent' ? fontPx * 1.45 : lines.length * lineH;
+    // A consistent editorial baseline grid, with distinct leading for every content role.
+    const leadingByRole = { masthead: 1.0, issue: 1.18, kicker: 1.26, headline: 1.34, lead: 1.5, body: 1.52, cta: 1.18 };
+    const defaultLeading = leadingByRole[el.role] || 1.3;
+    const lineH = fontPx * Math.max(1.12, Math.max(defaultLeading, el.lineHeight || 0) * Math.max(0.9, Math.min(1.65, editorialLineGap)));
+    const inkHeight = (lines.length - 1) * lineH + fontPx;
+    const boxPadY = el.box === 'frame' || el.box === 'bracket' ? width * 0.014 : (el.box === 'bar' ? width * 0.007 : 0);
+    const blockH = el.bg === 'accent' ? fontPx * 1.45 : inkHeight + boxPadY * 2;
+    // Rule clearance is reserved before placement, not added after collision checks.
+    const lineClearance = el.ruleTop ? width * (el.role === 'issue' ? 0.015 : 0.026) : 0;
 
     let boxLeft = xPos;
     if (el.align === 'center') boxLeft = xPos - maxW / 2;
@@ -397,18 +402,35 @@ export function renderCoverOverlay(ctx, width, height, preset, options) {
       yPos = Math.max(yPos, prevFlowBottom + fontPx * (el.role === 'headline' ? 0.4 : 0.65));
     }
 
-    // Editorial rhythm: larger gaps between title, deck and supporting copy.
-    const gapScale = el.role === 'lead' ? 0.7 : el.role === 'body' ? 0.58 : el.role === 'headline' ? 0.4 : 0.28;
-    const minGap = Math.max(height * 0.012, fontPx * gapScale);
-    for (const b of placedBoxes) {
-      const horizOverlap = Math.min(boxRight, b.right) - Math.max(boxLeft, b.left) > width * 0.04;
-      if (horizOverlap && yPos < b.bottom + minGap && yPos + blockH > b.top - minGap) {
-        yPos = b.bottom + minGap;
-      }
+    // Shared editorial rhythm: spacing is defined in cover units rather than accidental font sizes.
+    const gapScale = el.role === 'lead' ? 0.72 : el.role === 'body' ? 0.65 : el.role === 'headline' ? 0.52 : 0.4;
+    const minGap = Math.max(width * 0.022, fontPx * gapScale);
+    const topInset = lineClearance + boxPadY;
+    const targetY = yPos;
+    const bottomLimit = height * 0.956;
+    const topLimit = width * 0.018;
+    const conflictsAt = (top) => placedBoxes.filter(b => {
+      const horizOverlap = Math.min(boxRight, b.right) - Math.max(boxLeft, b.left) > width * 0.025;
+      return horizOverlap && top - topInset < b.bottom + minGap && top + blockH > b.top - minGap;
+    });
+    for (let pass = 0; pass < placedBoxes.length + 1; pass++) {
+      const conflicts = conflictsAt(yPos);
+      if (!conflicts.length) break;
+      yPos = Math.max(yPos, ...conflicts.map(b => b.bottom + minGap + topInset));
     }
-
-    if (el.role !== 'masthead' && yPos + blockH > height * 0.955) {
-      yPos = Math.max(height * 0.18, height * 0.95 - blockH);
+    if (el.role !== 'masthead' && yPos + blockH > bottomLimit) {
+      // Find genuinely available space before placing a box near the footer.
+      const candidates = [Math.max(topLimit + topInset, bottomLimit - blockH)];
+      for (const b of placedBoxes) candidates.push(b.top - minGap - blockH);
+      const valid = candidates.filter(top =>
+        top - topInset >= topLimit && top + blockH <= bottomLimit && conflictsAt(top).length === 0
+      );
+      if (valid.length) {
+        valid.sort((a, b) => Math.abs(a - targetY) - Math.abs(b - targetY));
+        yPos = valid[0];
+      } else {
+        yPos = Math.max(topLimit + topInset, bottomLimit - blockH);
+      }
     }
 
     let fillColor = secondaryColor;
@@ -424,7 +446,7 @@ export function renderCoverOverlay(ctx, width, height, preset, options) {
       ctx.strokeStyle = fillColor;
       ctx.globalAlpha = opacity * 0.55;
       ctx.lineWidth = Math.max(1, width * 0.0022);
-      const ruleY = yPos - fontPx * 0.45;
+      const ruleY = yPos - lineClearance;
       let rx0 = xPos;
       if (el.align === 'center') rx0 = xPos - maxW / 2;
       else if (el.align === 'right') rx0 = xPos - maxW;
@@ -493,9 +515,9 @@ export function renderCoverOverlay(ctx, width, height, preset, options) {
         maxLineW = Math.max(maxLineW, ctx.measureText(l).width);
       }
       const boxW = Math.min(maxW, Math.max(maxLineW, maxW * 0.65));
-      const boxH = lines.length * lineH;
-      const padX = fontPx * 0.52;
-      const padY = fontPx * 0.28;
+      const boxH = inkHeight;
+      const padX = Math.max(fontPx * 0.58, width * 0.012);
+      const padY = boxPadY;
 
       ctx.save();
       if (el.box === 'bar') {
@@ -563,12 +585,12 @@ export function renderCoverOverlay(ctx, width, height, preset, options) {
       role: el.role,
       left: boxLeft,
       right: boxRight,
-      top: yPos,
-      bottom: yPos + lines.length * lineH
+      top: yPos - topInset,
+      bottom: yPos + blockH
     });
 
     if (isFlowRole) {
-      prevFlowBottom = yPos + lines.length * lineH;
+      prevFlowBottom = yPos + blockH;
       prevAlign = el.align || 'left';
     } else {
       prevFlowBottom = null;
