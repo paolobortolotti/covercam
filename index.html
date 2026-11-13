@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
-  <meta name="theme-color" content="#0a0a0a">
+  <meta name="theme-color" content="#070709">
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
   <title>CoverCam — Fotocamera Editoriale</title>
@@ -24,9 +24,11 @@
         </button>
 
         <div class="preset-pill" id="presetBadge" aria-live="polite">
+          <button type="button" id="btnPrevVariant" class="pill-step-btn" aria-label="Variante precedente">‹</button>
           <span id="presetIndexLabel">1/12</span>
           <span class="dot-sep">·</span>
           <span id="presetNameLabel">Classico Centrale</span>
+          <button type="button" id="btnNextVariant" class="pill-step-btn" aria-label="Variante successiva">›</button>
         </div>
 
         <div class="top-actions">
@@ -34,16 +36,10 @@
             <span>Installa</span>
           </button>
           <button type="button" id="btnExitPhoto" class="icon-btn hidden" aria-label="Torna alla fotocamera live" title="Torna alla fotocamera">
-            <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2">
+            <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2">
               <path d="M15 18l-6-6 6-6"/>
             </svg>
             <span>Live</span>
-          </button>
-          <button type="button" id="btnGenreLookToggle" class="icon-btn" aria-pressed="false" title="Apri/chiudi pannello Color Grading 60-30-10">
-            <span>Look</span>
-          </button>
-          <button type="button" id="btnGuideCycle" class="icon-btn" aria-pressed="false" title="Cambia griglia di composizione (Sezione Aurea, Terzi, Diagonali)">
-            <span id="guideShortText">Guida</span>
           </button>
           <button type="button" id="btnFlipCamera" class="icon-btn" aria-label="Cambia fotocamera" title="Cambia fotocamera">
             <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2">
@@ -51,196 +47,10 @@
               <path d="M15 13a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z"/>
             </svg>
           </button>
-          <button type="button" id="btnSettingsToggle" class="icon-btn" aria-expanded="false" aria-controls="settingsDrawer" aria-label="Impostazioni layout">
-            <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2">
-              <line x1="4" y1="6" x2="20" y2="6"/>
-              <line x1="4" y1="12" x2="20" y2="12"/>
-              <line x1="4" y1="18" x2="20" y2="18"/>
-              <circle cx="9" cy="6" r="2" fill="#0a0a0a"/>
-              <circle cx="15" cy="12" r="2" fill="#0a0a0a"/>
-              <circle cx="10" cy="18" r="2" fill="#0a0a0a"/>
-            </svg>
-          </button>
         </div>
       </div>
 
       <nav class="genre-tabs" id="genreTabs" aria-label="Generi copertina"></nav>
-
-      <section id="lookGradingPanel" class="grading-panel hidden" aria-label="Color Grading 60-30-10">
-        <div class="sheet-handle-bar">
-          <span class="sheet-pill-indicator"></span>
-        </div>
-        <div class="sheet-header-row">
-          <strong>Look & Color Grading (60 · 30 · 10)</strong>
-          <button type="button" id="btnCloseLookSheet" class="icon-btn" aria-label="Chiudi pannello Look">✕</button>
-        </div>
-        <div class="grading-top">
-          <button type="button" id="btnToggleGradingEnable" class="chip-btn active" aria-pressed="true">
-            <span>60·30·10 ON</span>
-          </button>
-          <div class="grading-bar-preview" aria-hidden="true">
-            <span id="bar60" class="bar-seg seg-60">60%</span>
-            <span id="bar30" class="bar-seg seg-30">30%</span>
-            <span id="bar10" class="bar-seg seg-10">10%</span>
-          </div>
-          <label class="grading-intensity">
-            <span>Mix</span>
-            <input type="range" id="gradingStrengthSlider" min="0" max="100" value="55" step="1">
-          </label>
-        </div>
-
-        <div class="grading-presets" id="gradingPresetsRow" role="radiogroup" aria-label="Triadi cromatiche 60-30-10"></div>
-
-        <div class="setting-group">
-          <div class="setting-header">
-            <span>Metodo di fusione (Grading & Luci)</span>
-            <span id="blendModeStatusText" class="contrast-badge">Multiply</span>
-          </div>
-          <div class="color-row" id="blendModeBar" role="radiogroup" aria-label="Metodo di fusione per luci e grading"></div>
-        </div>
-
-        <div class="grading-pickers">
-          <label class="color-slot">
-            <span class="slot-pct">60% Base</span>
-            <div class="slot-input-wrap">
-              <input type="color" id="color60Input" value="#1A242D">
-              <code id="color60Hex">#1A242D</code>
-            </div>
-          </label>
-          <label class="color-slot">
-            <span class="slot-pct">30% Toni Medi</span>
-            <div class="slot-input-wrap">
-              <input type="color" id="color30Input" value="#D8C3A5">
-              <code id="color30Hex">#D8C3A5</code>
-            </div>
-          </label>
-          <label class="color-slot">
-            <span class="slot-pct">10% Accento</span>
-            <div class="slot-input-wrap">
-              <input type="color" id="color10Input" value="#E63946">
-              <code id="color10Hex">#E63946</code>
-            </div>
-          </label>
-        </div>
-
-        <div class="tone-sliders">
-          <label class="tone-control">
-            <div class="setting-header">
-              <span>Contrasto B/N</span>
-              <span id="contrastToneValue">100%</span>
-            </div>
-            <input type="range" id="contrastToneSlider" min="70" max="180" value="100" step="2">
-          </label>
-          <label class="tone-control">
-            <div class="setting-header">
-              <span>Punto Bianco / Nero</span>
-              <span id="brightnessToneValue">100%</span>
-            </div>
-            <input type="range" id="brightnessToneSlider" min="70" max="140" value="100" step="2">
-          </label>
-        </div>
-      </section>
-
-      <section id="settingsDrawer" class="settings-drawer hidden" aria-label="Pannello impostazioni">
-        <div class="sheet-handle-bar">
-          <span class="sheet-pill-indicator"></span>
-        </div>
-        <div class="sheet-header-row">
-          <strong>Strumenti Copertina & Scontorno</strong>
-          <button type="button" id="btnCloseSettingsSheet" class="icon-btn" aria-label="Chiudi impostazioni">✕</button>
-        </div>
-        <div class="setting-group">
-          <div class="setting-header">
-            <label for="opacitySlider">Opacità layout</label>
-            <span id="opacityValue">100%</span>
-          </div>
-          <input type="range" id="opacitySlider" min="15" max="100" value="100" step="1">
-        </div>
-
-        <div class="setting-group">
-          <div class="setting-header">
-            <span>Colore testo e contrasto WCAG</span>
-            <span id="contrastStatus" class="contrast-badge">AUTO · --:1</span>
-          </div>
-          <div class="color-row">
-            <button type="button" id="btnAutoColor" class="chip-btn active">
-              <span class="swatch-dot" id="autoSwatchDot"></span>
-              <span>Auto Scena</span>
-            </button>
-            <div class="palette-swatches" id="paletteContainer" role="radiogroup" aria-label="Palette colori manuale"></div>
-          </div>
-        </div>
-
-        <div class="setting-group">
-          <div class="setting-header">
-            <span>Guida composizione (solo mirino)</span>
-            <span id="guideStatusText" class="contrast-badge">Nessuna</span>
-          </div>
-          <div class="color-row" id="guideBar" role="radiogroup" aria-label="Guide di composizione fotografica"></div>
-        </div>
-
-        <div class="setting-group">
-          <div class="setting-header">
-            <span>Effetto immagine</span>
-            <span id="filterStatusText" class="contrast-badge">Naturale</span>
-          </div>
-          <div class="color-row" id="filterBar" role="radiogroup" aria-label="Filtri fotografici"></div>
-        </div>
-
-        <div class="setting-group">
-          <div class="setting-header">
-            <span>Scontorno volto su testata (trascina o pizzica sul volto)</span>
-            <button type="button" id="btnFaceCutoutToggle" class="chip-btn" aria-pressed="false">
-              <strong id="faceCutoutStatusText">OFF</strong>
-            </button>
-          </div>
-          <div class="tone-sliders">
-            <label class="tone-control">
-              <div class="setting-header">
-                <span>Grandezza zona</span>
-                <span id="faceSizeValue">24%</span>
-              </div>
-              <input type="range" id="faceSizeSlider" min="10" max="50" value="24" step="1">
-            </label>
-            <label class="tone-control">
-              <div class="setting-header">
-                <span>Sfumatura bordo</span>
-                <span id="faceFeatherValue">72%</span>
-              </div>
-              <input type="range" id="faceFeatherSlider" min="20" max="95" value="72" step="1">
-            </label>
-          </div>
-        </div>
-
-        <div class="setting-group">
-          <div class="setting-header">
-            <span>Aloni di luce (tocca sulla foto)</span>
-            <span id="lightSpotCountText" class="contrast-badge">0 punti</span>
-          </div>
-          <div class="color-row" id="lightBlendDrawerBar" role="radiogroup" aria-label="Metodo fusione aloni"></div>
-          <div class="setting-toggles">
-            <button type="button" id="btnLightModeToggle" class="toggle-pill" aria-pressed="false">
-              <span>Tocca foto per alone</span>
-              <strong id="lightModeStatusText">OFF</strong>
-            </button>
-            <button type="button" id="btnClearLights" class="toggle-pill">
-              <span>Rimuovi aloni</span>
-              <strong>RESET</strong>
-            </button>
-          </div>
-        </div>
-
-        <div class="setting-toggles">
-          <button type="button" id="btnHorizonToggle" class="toggle-pill" aria-pressed="false">
-            <span>Livella orizzonte</span>
-            <strong id="horizonStatusText">OFF</strong>
-          </button>
-          <button type="button" id="btnSafeZoneToggle" class="toggle-pill" aria-pressed="false">
-            <span>Zone sicure Story</span>
-            <strong id="safeZoneStatusText">OFF</strong>
-          </button>
-        </div>
-      </section>
     </header>
 
     <main class="viewport-area" id="viewportArea">
@@ -258,31 +68,248 @@
     </main>
 
     <footer class="bottom-bar">
-      <div class="bottom-left">
-        <input type="file" id="galleryInput" accept="image/*" class="sr-only">
-        <button type="button" id="btnImportGallery" class="thumb-btn" aria-label="Importa foto da galleria">
-          <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.8">
-            <rect x="3" y="3" width="18" height="18" rx="2"/>
-            <circle cx="8.5" cy="8.5" r="1.5"/>
-            <path d="M21 15l-5-5L5 21"/>
+      <div class="quick-dock" role="toolbar" aria-label="Strumenti rapidi copertina">
+        <button type="button" id="btnGenreLookToggle" class="dock-pill" aria-pressed="false" title="Pannello Look & Color Grading 60-30-10">
+          <svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2">
+            <circle cx="13.5" cy="6.5" r="2.5"/>
+            <circle cx="17.5" cy="10.5" r="2.5"/>
+            <circle cx="8.5" cy="7.5" r="2.5"/>
+            <circle cx="6.5" cy="12.5" r="2.5"/>
+            <path d="M12 2C6.5 2 2 6.5 2 12s4.5 10 10 10c.93 0 1.5-.67 1.5-1.5 0-.39-.15-.74-.39-1.01-.23-.26-.38-.61-.38-1 0-.83.67-1.5 1.5-1.5H16c3.31 0 6-2.69 6-6 0-4.96-4.49-9-10-9Z"/>
           </svg>
-          <span>Galleria</span>
+          <span>Look</span>
+          <small id="dockLookBadge">Multiply</small>
+        </button>
+
+        <button type="button" id="btnGuideCycle" class="dock-pill" aria-pressed="false" title="Cambia griglia di composizione">
+          <svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2">
+            <rect x="3" y="3" width="18" height="18" rx="2"/>
+            <line x1="9" y1="3" x2="9" y2="21"/>
+            <line x1="15" y1="3" x2="15" y2="21"/>
+            <line x1="3" y1="9" x2="21" y2="9"/>
+            <line x1="3" y1="15" x2="21" y2="15"/>
+          </svg>
+          <span>Guida</span>
+          <small id="guideShortText">OFF</small>
+        </button>
+
+        <button type="button" id="btnSettingsToggle" class="dock-pill" aria-expanded="false" aria-controls="settingsDrawer" title="Apri tutte le impostazioni e scontorno">
+          <svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2">
+            <line x1="4" y1="6" x2="20" y2="6"/>
+            <line x1="4" y1="12" x2="20" y2="12"/>
+            <line x1="4" y1="18" x2="20" y2="18"/>
+            <circle cx="9" cy="6" r="2" fill="currentColor"/>
+            <circle cx="15" cy="12" r="2" fill="currentColor"/>
+            <circle cx="10" cy="18" r="2" fill="currentColor"/>
+          </svg>
+          <span>Impostazioni</span>
+          <small id="dockSettingsBadge">Auto</small>
         </button>
       </div>
 
-      <div class="bottom-center">
-        <button type="button" id="btnShutter" class="shutter-btn" aria-label="Scatta foto">
-          <span class="shutter-inner"></span>
-        </button>
-      </div>
+      <div class="shutter-row">
+        <div class="bottom-left">
+          <input type="file" id="galleryInput" accept="image/*" class="sr-only">
+          <button type="button" id="btnImportGallery" class="thumb-btn" aria-label="Importa foto da galleria">
+            <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.8">
+              <rect x="3" y="3" width="18" height="18" rx="2"/>
+              <circle cx="8.5" cy="8.5" r="1.5"/>
+              <path d="M21 15l-5-5L5 21"/>
+            </svg>
+            <span>Galleria</span>
+          </button>
+        </div>
 
-      <div class="bottom-right">
-        <button type="button" id="btnFormatCycle" class="thumb-btn" aria-label="Cambia formato">
-          <span class="format-tag" id="formatRatioText">4:5.3</span>
-          <span id="formatNameText">Magazine</span>
-        </button>
+        <div class="bottom-center">
+          <button type="button" id="btnShutter" class="shutter-btn" aria-label="Scatta foto">
+            <span class="shutter-inner"></span>
+          </button>
+        </div>
+
+        <div class="bottom-right">
+          <button type="button" id="btnFormatCycle" class="thumb-btn" aria-label="Cambia formato">
+            <span class="format-tag" id="formatRatioText">4:5.3</span>
+            <span id="formatNameText">Magazine</span>
+          </button>
+        </div>
       </div>
     </footer>
+
+    <section id="lookGradingPanel" class="grading-panel hidden" aria-label="Color Grading 60-30-10">
+      <div class="sheet-handle-bar">
+        <span class="sheet-pill-indicator"></span>
+      </div>
+      <div class="sheet-header-row">
+        <strong>Look & Color Grading (60 · 30 · 10)</strong>
+        <button type="button" id="btnCloseLookSheet" class="icon-btn" aria-label="Chiudi pannello Look">✕</button>
+      </div>
+      <div class="grading-top">
+        <button type="button" id="btnToggleGradingEnable" class="chip-btn active" aria-pressed="true">
+          <span>60·30·10 ON</span>
+        </button>
+        <div class="grading-bar-preview" aria-hidden="true">
+          <span id="bar60" class="bar-seg seg-60">60%</span>
+          <span id="bar30" class="bar-seg seg-30">30%</span>
+          <span id="bar10" class="bar-seg seg-10">10%</span>
+        </div>
+        <label class="grading-intensity">
+          <span>Mix</span>
+          <input type="range" id="gradingStrengthSlider" min="0" max="100" value="55" step="1">
+        </label>
+      </div>
+
+      <div class="grading-presets" id="gradingPresetsRow" role="radiogroup" aria-label="Triadi cromatiche 60-30-10"></div>
+
+      <div class="setting-group">
+        <div class="setting-header">
+          <span>Metodo di fusione (Grading & Luci)</span>
+          <span id="blendModeStatusText" class="contrast-badge">Multiply</span>
+        </div>
+        <div class="color-row" id="blendModeBar" role="radiogroup" aria-label="Metodo di fusione per luci e grading"></div>
+      </div>
+
+      <div class="grading-pickers">
+        <label class="color-slot">
+          <span class="slot-pct">60% Base</span>
+          <div class="slot-input-wrap">
+            <input type="color" id="color60Input" value="#1A242D">
+            <code id="color60Hex">#1A242D</code>
+          </div>
+        </label>
+        <label class="color-slot">
+          <span class="slot-pct">30% Toni Medi</span>
+          <div class="slot-input-wrap">
+            <input type="color" id="color30Input" value="#D8C3A5">
+            <code id="color30Hex">#D8C3A5</code>
+          </div>
+        </label>
+        <label class="color-slot">
+          <span class="slot-pct">10% Accento</span>
+          <div class="slot-input-wrap">
+            <input type="color" id="color10Input" value="#E63946">
+            <code id="color10Hex">#E63946</code>
+          </div>
+        </label>
+      </div>
+
+      <div class="tone-sliders">
+        <label class="tone-control">
+          <div class="setting-header">
+            <span>Contrasto B/N</span>
+            <span id="contrastToneValue">100%</span>
+          </div>
+          <input type="range" id="contrastToneSlider" min="70" max="180" value="100" step="2">
+        </label>
+        <label class="tone-control">
+          <div class="setting-header">
+            <span>Punto Bianco / Nero</span>
+            <span id="brightnessToneValue">100%</span>
+          </div>
+          <input type="range" id="brightnessToneSlider" min="70" max="140" value="100" step="2">
+        </label>
+      </div>
+    </section>
+
+    <section id="settingsDrawer" class="settings-drawer hidden" aria-label="Pannello impostazioni">
+      <div class="sheet-handle-bar">
+        <span class="sheet-pill-indicator"></span>
+      </div>
+      <div class="sheet-header-row">
+        <strong>Impostazioni Copertina & Scontorno</strong>
+        <button type="button" id="btnCloseSettingsSheet" class="icon-btn" aria-label="Chiudi impostazioni">✕</button>
+      </div>
+      <div class="setting-group">
+        <div class="setting-header">
+          <label for="opacitySlider">Opacità layout</label>
+          <span id="opacityValue">100%</span>
+        </div>
+        <input type="range" id="opacitySlider" min="15" max="100" value="100" step="1">
+      </div>
+
+      <div class="setting-group">
+        <div class="setting-header">
+          <span>Colore testo e contrasto WCAG</span>
+          <span id="contrastStatus" class="contrast-badge">AUTO · --:1</span>
+        </div>
+        <div class="color-row">
+          <button type="button" id="btnAutoColor" class="chip-btn active">
+            <span class="swatch-dot" id="autoSwatchDot"></span>
+            <span>Auto Scena</span>
+          </button>
+          <div class="palette-swatches" id="paletteContainer" role="radiogroup" aria-label="Palette colori manuale"></div>
+        </div>
+      </div>
+
+      <div class="setting-group">
+        <div class="setting-header">
+          <span>Guida composizione (solo mirino)</span>
+          <span id="guideStatusText" class="contrast-badge">Nessuna</span>
+        </div>
+        <div class="color-row" id="guideBar" role="radiogroup" aria-label="Guide di composizione fotografica"></div>
+      </div>
+
+      <div class="setting-group">
+        <div class="setting-header">
+          <span>Effetto immagine</span>
+          <span id="filterStatusText" class="contrast-badge">Naturale</span>
+        </div>
+        <div class="color-row" id="filterBar" role="radiogroup" aria-label="Filtri fotografici"></div>
+      </div>
+
+      <div class="setting-group">
+        <div class="setting-header">
+          <span>Scontorno volto su testata (trascina o pizzica)</span>
+          <button type="button" id="btnFaceCutoutToggle" class="chip-btn" aria-pressed="false">
+            <strong id="faceCutoutStatusText">OFF</strong>
+          </button>
+        </div>
+        <div class="tone-sliders">
+          <label class="tone-control">
+            <div class="setting-header">
+              <span>Grandezza zona</span>
+              <span id="faceSizeValue">24%</span>
+            </div>
+            <input type="range" id="faceSizeSlider" min="10" max="50" value="24" step="1">
+          </label>
+          <label class="tone-control">
+            <div class="setting-header">
+              <span>Sfumatura bordo</span>
+              <span id="faceFeatherValue">72%</span>
+            </div>
+            <input type="range" id="faceFeatherSlider" min="20" max="95" value="72" step="1">
+          </label>
+        </div>
+      </div>
+
+      <div class="setting-group">
+        <div class="setting-header">
+          <span>Aloni di luce (tocca sulla foto)</span>
+          <span id="lightSpotCountText" class="contrast-badge">0 punti</span>
+        </div>
+        <div class="color-row" id="lightBlendDrawerBar" role="radiogroup" aria-label="Metodo fusione aloni"></div>
+        <div class="setting-toggles">
+          <button type="button" id="btnLightModeToggle" class="toggle-pill" aria-pressed="false">
+            <span>Tocca foto per alone</span>
+            <strong id="lightModeStatusText">OFF</strong>
+          </button>
+          <button type="button" id="btnClearLights" class="toggle-pill">
+            <span>Rimuovi aloni</span>
+            <strong>RESET</strong>
+          </button>
+        </div>
+      </div>
+
+      <div class="setting-toggles">
+        <button type="button" id="btnHorizonToggle" class="toggle-pill" aria-pressed="false">
+          <span>Livella orizzonte</span>
+          <strong id="horizonStatusText">OFF</strong>
+        </button>
+        <button type="button" id="btnSafeZoneToggle" class="toggle-pill" aria-pressed="false">
+          <span>Zone sicure Story</span>
+          <strong id="safeZoneStatusText">OFF</strong>
+        </button>
+      </div>
+    </section>
   </div>
 
   <dialog id="exportDialog" closedby="any" aria-labelledby="exportDialogTitle">

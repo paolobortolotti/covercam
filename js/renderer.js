@@ -331,9 +331,9 @@ export function renderCoverOverlay(ctx, width, height, preset, options) {
     const rawText = el.uppercase ? el.text.toUpperCase() : el.text;
     const isEditorialBoxRole = el.role === 'lead' || el.role === 'body';
     const defaultColW = isEditorialBoxRole
-      ? (el.align === 'center' ? 0.56 : 0.42)
+      ? (el.align === 'center' ? 0.66 : 0.52)
       : 0.88;
-    const maxW = Math.min(el.w || defaultColW, isEditorialBoxRole ? 0.64 : 0.94) * width;
+    const maxW = Math.min(el.w || defaultColW, isEditorialBoxRole ? 0.74 : 0.94) * width;
     let xPos = el.x * width;
     let yPos = adaptedY * height;
 
@@ -343,9 +343,9 @@ export function renderCoverOverlay(ctx, width, height, preset, options) {
       (el.role === 'lead' || el.role === 'body' || el.role === 'headline') &&
       prevFlowBottom !== null &&
       prevAlign === (el.align || 'left') &&
-      Math.abs(yPos - prevFlowBottom) < height * 0.14
+      Math.abs(yPos - prevFlowBottom) < height * 0.16
     ) {
-      yPos = prevFlowBottom + fontPx * (el.role === 'headline' ? 0.24 : 0.42);
+      yPos = prevFlowBottom + fontPx * (el.role === 'headline' ? 0.18 : 0.34);
     }
 
     let fillColor = secondaryColor;
@@ -360,7 +360,10 @@ export function renderCoverOverlay(ctx, width, height, preset, options) {
     if (isEditorialBoxRole && lines.length > (el.maxLines || 3)) {
       lines = lines.slice(0, el.maxLines || 3);
     }
-    const lineH = fontPx * (el.lineHeight || (isEditorialBoxRole ? 1.24 : 1.18));
+    const lineH = fontPx * (el.lineHeight || (isEditorialBoxRole ? 1.2 : 1.06));
+    if (el.role !== 'masthead' && yPos + lines.length * lineH > height * 0.96) {
+      yPos = Math.max(height * 0.18, height * 0.955 - lines.length * lineH);
+    }
 
     if (el.role === 'masthead' && lines[0]) {
       const measured = ctx.measureText(lines[0]).width;

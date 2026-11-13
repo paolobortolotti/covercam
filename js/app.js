@@ -59,15 +59,19 @@ const state = {
 
 const dom = {
   appTitleBtn: document.getElementById('appTitleBtn'),
+  btnPrevVariant: document.getElementById('btnPrevVariant'),
+  btnNextVariant: document.getElementById('btnNextVariant'),
   presetIndexLabel: document.getElementById('presetIndexLabel'),
   presetNameLabel: document.getElementById('presetNameLabel'),
   btnInstallPwa: document.getElementById('btnInstallPwa'),
   btnExitPhoto: document.getElementById('btnExitPhoto'),
   btnGenreLookToggle: document.getElementById('btnGenreLookToggle'),
+  dockLookBadge: document.getElementById('dockLookBadge'),
   btnGuideCycle: document.getElementById('btnGuideCycle'),
   guideShortText: document.getElementById('guideShortText'),
   btnFlipCamera: document.getElementById('btnFlipCamera'),
   btnSettingsToggle: document.getElementById('btnSettingsToggle'),
+  dockSettingsBadge: document.getElementById('dockSettingsBadge'),
   genreTabs: document.getElementById('genreTabs'),
   lookGradingPanel: document.getElementById('lookGradingPanel'),
   btnCloseLookSheet: document.getElementById('btnCloseLookSheet'),
@@ -323,6 +327,9 @@ function setBlendMode(modeId) {
   if (dom.blendModeStatusText) {
     dom.blendModeStatusText.textContent = found.label;
   }
+  if (dom.dockLookBadge) {
+    dom.dockLookBadge.textContent = state.grading.enabled ? found.label : 'OFF';
+  }
   for (const container of [dom.blendModeBar, dom.lightBlendDrawerBar]) {
     if (!container) continue;
     for (const btn of container.querySelectorAll('.chip-btn')) {
@@ -358,13 +365,13 @@ function updateGuideUI() {
     const active = state.compositionGuide !== 'none';
     dom.btnGuideCycle.setAttribute('aria-pressed', String(active));
     const shortMap = {
-      'none': 'Guida',
+      'none': 'OFF',
       'golden-spiral': 'Aurea',
       'phi-grid': 'Phi',
       'thirds': 'Terzi',
       'diagonals': 'Diag.'
     };
-    dom.guideShortText.textContent = shortMap[state.compositionGuide] || 'Guida';
+    dom.guideShortText.textContent = shortMap[state.compositionGuide] || 'OFF';
   }
   if (dom.guideBar) {
     for (const btn of dom.guideBar.querySelectorAll('.chip-btn')) {
@@ -482,11 +489,13 @@ function updateColorUI() {
 
   if (state.colorMode === 'auto') {
     dom.contrastStatus.textContent = `AUTO · ${state.autoColors.mastheadRatio}:1 WCAG`;
+    if (dom.dockSettingsBadge) dom.dockSettingsBadge.textContent = 'Auto';
   } else {
     const bgRgb = hexToRgb(state.autoColors.dominantHex || '#222222');
     const fgRgb = hexToRgb(state.manualColor);
     const ratio = wcagContrastRatio(bgRgb, fgRgb).toFixed(1);
     dom.contrastStatus.textContent = `MAN · ${ratio}:1 WCAG`;
+    if (dom.dockSettingsBadge) dom.dockSettingsBadge.textContent = 'Man.';
   }
 }
 
@@ -910,6 +919,13 @@ async function bootstrap() {
 
   window.addEventListener('resize', updateStageDimensions);
 
+  if (dom.btnPrevVariant) {
+    dom.btnPrevVariant.addEventListener('click', () => switchVariant(-1));
+  }
+  if (dom.btnNextVariant) {
+    dom.btnNextVariant.addEventListener('click', () => switchVariant(1));
+  }
+
   dom.btnSettingsToggle.addEventListener('click', () => {
     if (dom.lookGradingPanel) dom.lookGradingPanel.classList.add('hidden');
     const isHidden = dom.settingsDrawer.classList.toggle('hidden');
@@ -949,6 +965,10 @@ async function bootstrap() {
       dom.btnToggleGradingEnable.classList.toggle('active', state.grading.enabled);
       dom.btnToggleGradingEnable.setAttribute('aria-pressed', String(state.grading.enabled));
       dom.btnToggleGradingEnable.querySelector('span').textContent = state.grading.enabled ? '60·30·10 ON' : '60·30·10 OFF';
+      if (dom.dockLookBadge) {
+        const found = LIGHT_BLEND_MODES.find(m => m.id === state.lightBlendMode) || LIGHT_BLEND_MODES[0];
+        dom.dockLookBadge.textContent = state.grading.enabled ? found.label : 'OFF';
+      }
       applyVideoFilter();
       scheduleOverlayRedraw();
     });
