@@ -13,7 +13,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Anton&family=Archivo+Black&family=Barlow+Condensed:ital,wght@0,600;0,700;0,800;1,700&family=Bebas+Neue&family=Bodoni+Moda:ital,opsz,wght@0,6..96,700;0,6..96,900;1,6..96,700&family=Cinzel:wght@700;800&family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400;1,600;1,700&family=DM+Sans:ital,wght@0,400;0,500;0,700;1,400&family=Inter:wght@400;500;600;700;800&family=Jost:ital,wght@0,400;0,500;0,600;0,700;0,800;0,900;1,500;1,700&family=Lato:ital,wght@0,400;0,700;0,900;1,400;1,700&family=League+Spartan:wght@600;700;800;900&family=Montserrat:wght@400;500;600;700;800;900&family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,600;0,6..72,800;1,6..72,400;1,6..72,800&family=Oswald:wght@500;600;700&family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400;1,700;1,900&family=Plus+Jakarta+Sans:wght@500;600;700;800&family=Space+Grotesk:wght@500;600;700&family=Syne:wght@700;800&family=Work+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="./styles.css">
+  <link rel="stylesheet" href="./styles.css?v=14">
 </head>
 <body>
   <div class="app-shell">
@@ -70,39 +70,45 @@
     <footer class="bottom-bar">
       <div class="quick-dock" role="toolbar" aria-label="Strumenti rapidi copertina">
         <button type="button" id="btnGenreLookToggle" class="dock-pill" aria-pressed="false" title="Pannello Look & Color Grading 60-30-10">
-          <svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2">
-            <circle cx="13.5" cy="6.5" r="2.5"/>
-            <circle cx="17.5" cy="10.5" r="2.5"/>
-            <circle cx="8.5" cy="7.5" r="2.5"/>
-            <circle cx="6.5" cy="12.5" r="2.5"/>
-            <path d="M12 2C6.5 2 2 6.5 2 12s4.5 10 10 10c.93 0 1.5-.67 1.5-1.5 0-.39-.15-.74-.39-1.01-.23-.26-.38-.61-.38-1 0-.83.67-1.5 1.5-1.5H16c3.31 0 6-2.69 6-6 0-4.96-4.49-9-10-9Z"/>
-          </svg>
-          <span>Look</span>
-          <small id="dockLookBadge">Multiply</small>
+          <span class="dock-pill-label">
+            <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2">
+              <circle cx="13.5" cy="6.5" r="2.5"/>
+              <circle cx="17.5" cy="10.5" r="2.5"/>
+              <circle cx="8.5" cy="7.5" r="2.5"/>
+              <circle cx="6.5" cy="12.5" r="2.5"/>
+              <path d="M12 2C6.5 2 2 6.5 2 12s4.5 10 10 10c.93 0 1.5-.67 1.5-1.5 0-.39-.15-.74-.39-1.01-.23-.26-.38-.61-.38-1 0-.83.67-1.5 1.5-1.5H16c3.31 0 6-2.69 6-6 0-4.96-4.49-9-10-9Z"/>
+            </svg>
+            <span>Look</span>
+          </span>
+          <small id="dockLookBadge">Mult.</small>
         </button>
 
         <button type="button" id="btnGuideCycle" class="dock-pill" aria-pressed="false" title="Cambia griglia di composizione">
-          <svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2">
-            <rect x="3" y="3" width="18" height="18" rx="2"/>
-            <line x1="9" y1="3" x2="9" y2="21"/>
-            <line x1="15" y1="3" x2="15" y2="21"/>
-            <line x1="3" y1="9" x2="21" y2="9"/>
-            <line x1="3" y1="15" x2="21" y2="15"/>
-          </svg>
-          <span>Guida</span>
+          <span class="dock-pill-label">
+            <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2">
+              <rect x="3" y="3" width="18" height="18" rx="2"/>
+              <line x1="9" y1="3" x2="9" y2="21"/>
+              <line x1="15" y1="3" x2="15" y2="21"/>
+              <line x1="3" y1="9" x2="21" y2="9"/>
+              <line x1="3" y1="15" x2="21" y2="15"/>
+            </svg>
+            <span>Guida</span>
+          </span>
           <small id="guideShortText">OFF</small>
         </button>
 
         <button type="button" id="btnSettingsToggle" class="dock-pill" aria-expanded="false" aria-controls="settingsDrawer" title="Apri tutte le impostazioni e scontorno">
-          <svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2">
-            <line x1="4" y1="6" x2="20" y2="6"/>
-            <line x1="4" y1="12" x2="20" y2="12"/>
-            <line x1="4" y1="18" x2="20" y2="18"/>
-            <circle cx="9" cy="6" r="2" fill="currentColor"/>
-            <circle cx="15" cy="12" r="2" fill="currentColor"/>
-            <circle cx="10" cy="18" r="2" fill="currentColor"/>
-          </svg>
-          <span>Impostazioni</span>
+          <span class="dock-pill-label">
+            <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2">
+              <line x1="4" y1="6" x2="20" y2="6"/>
+              <line x1="4" y1="12" x2="20" y2="12"/>
+              <line x1="4" y1="18" x2="20" y2="18"/>
+              <circle cx="9" cy="6" r="2" fill="currentColor"/>
+              <circle cx="15" cy="12" r="2" fill="currentColor"/>
+              <circle cx="10" cy="18" r="2" fill="currentColor"/>
+            </svg>
+            <span>Impostazioni</span>
+          </span>
           <small id="dockSettingsBadge">Auto</small>
         </button>
       </div>
@@ -359,12 +365,13 @@
       <pre id="debugLogOutput" class="debug-log-view" tabindex="0"></pre>
 
       <div class="dialog-footer">
+        <button type="button" id="btnHardResetCache" class="primary-btn">Aggiorna App & Svuota Cache</button>
         <button type="button" id="btnCopyLogs" class="action-btn">Copia log</button>
-        <button type="button" id="btnClearLogs" class="secondary-btn">Svuota</button>
+        <button type="button" id="btnClearLogs" class="secondary-btn">Svuota log</button>
       </div>
     </div>
   </dialog>
 
-  <script type="module" src="./js/app.js"></script>
+  <script type="module" src="./js/app.js?v=14"></script>
 </body>
 </html>

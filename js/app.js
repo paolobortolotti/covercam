@@ -148,6 +148,7 @@ const dom = {
   debugDialog: document.getElementById('debugDialog'),
   debugLogOutput: document.getElementById('debugLogOutput'),
   debugCountText: document.getElementById('debugCountText'),
+  btnHardResetCache: document.getElementById('btnHardResetCache'),
   btnCopyLogs: document.getElementById('btnCopyLogs'),
   btnClearLogs: document.getElementById('btnClearLogs')
 };
@@ -328,7 +329,15 @@ function setBlendMode(modeId) {
     dom.blendModeStatusText.textContent = found.label;
   }
   if (dom.dockLookBadge) {
-    dom.dockLookBadge.textContent = state.grading.enabled ? found.label : 'OFF';
+    const shortBlend = {
+      'multiply': 'Mult.',
+      'difference': 'Diff.',
+      'overlay': 'Over.',
+      'soft-light': 'Soft',
+      'color-burn': 'Burn',
+      'exclusion': 'Excl.'
+    };
+    dom.dockLookBadge.textContent = state.grading.enabled ? (shortBlend[modeId] || found.label) : 'OFF';
   }
   for (const container of [dom.blendModeBar, dom.lightBlendDrawerBar]) {
     if (!container) continue;
@@ -851,10 +860,39 @@ function exitPhotoMode() {
   scheduleOverlayRedraw();
 }
 
+async function forcePurgeAndReload() {
+  try {
+    if ('serviceWorker' in navigator) {
+      const regs = await navigator.serviceWorker.getRegistrations();
+      for (const r of regs) {
+        await r.unregister();
+      }
+    }
+    if ('caches' in window) {
+      const keys = await caches.keys();
+      for (const k of keys) {
+        await caches.delete(k);
+      }
+    }
+  } catch (err) {
+    logger.warn('Errore pulizia cache', err);
+  }
+  const url = new URL(window.location.href);
+  url.searchParams.set('v', String(Date.now()));
+  window.location.replace(url.toString());
+}
+
 async function registerServiceWorker() {
   if ('serviceWorker' in navigator) {
     try {
-      const reg = await navigator.serviceWorker.register('./sw.js');
+      const reg = await navigator.serviceWorker.register('./sw.js?v=14', { updateViaCache: 'none' });
+      reg.update();
+      navigator.serviceWorker.addEventListener('controllerchange', () => {
+        if (!window.__swReloading) {
+          window.__swReloading = true;
+          window.location.reload();
+        }
+      });
       logger.info('Service Worker registrato', { scope: reg.scope });
     } catch (err) {
       logger.warn('Registrazione Service Worker non riuscita', err);
@@ -875,7 +913,7 @@ async function bootstrap() {
   updateGradingUI();
 
   try {
-    const res = await fetch('./presets.json');
+    const res = await fetch('./presets.json', { cache: 'no-store' });
     const data = await res.json();
     state.genres = data.genres || [];
     state.presets = data.presets || [];
@@ -966,8 +1004,15 @@ async function bootstrap() {
       dom.btnToggleGradingEnable.setAttribute('aria-pressed', String(state.grading.enabled));
       dom.btnToggleGradingEnable.querySelector('span').textContent = state.grading.enabled ? '60·30·10 ON' : '60·30·10 OFF';
       if (dom.dockLookBadge) {
-        const found = LIGHT_BLEND_MODES.find(m => m.id === state.lightBlendMode) || LIGHT_BLEND_MODES[0];
-        dom.dockLookBadge.textContent = state.grading.enabled ? found.label : 'OFF';
+        const shortBlend = {
+          'multiply': 'Mult.',
+          'difference': 'Diff.',
+          'overlay': 'Over.',
+          'soft-light': 'Soft',
+          'color-burn': 'Burn',
+          'exclusion': 'Excl.'
+        };
+        dom.dockLookBadge.textContent = state.grading.enabled ? (shortBlend[state.lightBlendMode] || 'ON') : 'OFF';
       }
       applyVideoFilter();
       scheduleOverlayRedraw();
@@ -1183,7 +1228,14 @@ async function bootstrap() {
   dom.btnClearLogs.addEventListener('click', () => {
     logger.clear();
     refreshDebugLogs();
+    forcePurgeAndReload();
   });
+
+  if (dom.btnHardResetCache) {
+    dom.btnHardResetCache.addEventListener('click', () => {
+      forcePurgeAndReload();
+    });
+  }
 
   logger.subscribe(() => {
     if (dom.debugDialog.open) {

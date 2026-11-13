@@ -1,4 +1,4 @@
-const CACHE_NAME = 'covercam-v12';
+const CACHE_NAME = 'covercam-v14';
 const STATIC_ASSETS = [
   './',
   './index.html',
@@ -61,16 +61,18 @@ self.addEventListener('fetch', (event) => {
     return;
   }
 
-  event.respondWith(
-    caches.match(event.request).then((cached) => {
-      if (cached) return cached;
-      return fetch(event.request).then((res) => {
-        if (res && res.status === 200 && url.origin === self.location.origin) {
-          const clone = res.clone();
-          caches.open(CACHE_NAME).then((cache) => cache.put(event.request, clone));
-        }
-        return res;
-      });
-    })
-  );
+  if (url.origin === self.location.origin) {
+    event.respondWith(
+      fetch(event.request, { cache: 'no-store' })
+        .then((res) => {
+          if (res && res.status === 200) {
+            const clone = res.clone();
+            caches.open(CACHE_NAME).then((cache) => cache.put(event.request, clone));
+          }
+          return res;
+        })
+        .catch(() => caches.match(event.request))
+    );
+    return;
+  }
 });

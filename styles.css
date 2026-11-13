@@ -699,7 +699,7 @@ input[type="range"] {
   flex-direction: column;
   gap: 8px;
   margin: 0 8px 6px;
-  padding: 8px 12px 10px;
+  padding: 9px 12px 10px;
   background: var(--glass-bg);
   backdrop-filter: var(--glass-blur);
   -webkit-backdrop-filter: var(--glass-blur);
@@ -711,44 +711,55 @@ input[type="range"] {
 
 .quick-dock {
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 6px;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 8px;
+  width: 100%;
 }
 
 .dock-pill {
   display: flex;
+  flex-direction: column;
   align-items: center;
   justify-content: center;
-  gap: 5px;
-  height: 36px;
-  padding: 0 8px;
+  gap: 3px;
+  width: 100%;
+  min-height: 46px;
+  padding: 5px 6px;
   background: var(--glass-chip);
   border: 1px solid var(--glass-border);
-  border-radius: 999px;
+  border-radius: 16px;
   color: var(--text-primary);
   font-family: var(--font-ui);
   font-size: 0.72rem;
   font-weight: 600;
   cursor: pointer;
   white-space: nowrap;
-  overflow: hidden;
   transition: all 0.16s ease;
   box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.1);
 }
 
+.dock-pill-label {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 5px;
+  line-height: 1.1;
+}
+
 .dock-pill svg {
   flex-shrink: 0;
-  opacity: 0.9;
+  opacity: 0.92;
 }
 
 .dock-pill small {
   font-family: var(--font-mono);
-  font-size: 0.64rem;
+  font-size: 0.62rem;
   font-weight: 700;
   color: var(--text-muted);
   background: rgba(255, 255, 255, 0.08);
-  padding: 1px 6px;
+  padding: 1px 7px;
   border-radius: 999px;
+  line-height: 1.2;
 }
 
 .dock-pill[aria-expanded="true"],
@@ -769,20 +780,24 @@ input[type="range"] {
   display: grid;
   grid-template-columns: 1fr auto 1fr;
   align-items: center;
+  width: 100%;
 }
 
 .bottom-left {
   display: flex;
+  align-items: center;
   justify-content: flex-start;
 }
 
 .bottom-center {
   display: flex;
+  align-items: center;
   justify-content: center;
 }
 
 .bottom-right {
   display: flex;
+  align-items: center;
   justify-content: flex-end;
 }
 
@@ -792,14 +807,14 @@ input[type="range"] {
   align-items: center;
   justify-content: center;
   gap: 2px;
-  min-width: 82px;
+  width: 88px;
   height: 50px;
-  padding: 5px 12px;
+  padding: 4px 8px;
   background: var(--glass-chip);
   border: 1px solid var(--glass-border);
   border-radius: 16px;
   color: var(--text-primary);
-  font-size: 0.71rem;
+  font-size: 0.7rem;
   font-weight: 600;
   cursor: pointer;
   transition: transform 0.12s ease, background 0.18s ease;
