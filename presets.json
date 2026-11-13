@@ -32,6 +32,10 @@
     {
       "id": "nature",
       "label": "Natura & Scienza"
+    },
+    {
+      "id": "animals",
+      "label": "Animali"
     }
   ],
   "presets": [
@@ -5288,6 +5292,334 @@
         }
       ],
       "genre": "nature"
+    },
+    {
+      "id": "ani-01",
+      "genre": "animals",
+      "name": "Fauna · Ritratto Selvatico",
+      "defaultColor": "#FFFFFF",
+      "accentColor": "#DCE6D3",
+      "elements": [
+        {
+          "role": "issue",
+          "text": "REPORTAGE  /  NUMERO 01",
+          "x": 0.07,
+          "y": 0.035,
+          "w": 0.8,
+          "align": "left",
+          "font": "Inter",
+          "size": 0.02,
+          "weight": "700",
+          "tracking": 0.09
+        },
+        {
+          "role": "masthead",
+          "text": "ANIMALI",
+          "x": 0.5,
+          "y": 0.085,
+          "w": 0.9,
+          "align": "center",
+          "font": "Barlow Condensed",
+          "size": 0.195,
+          "weight": "800",
+          "tracking": 0.01
+        },
+        {
+          "role": "kicker",
+          "text": "FAUNA SELVATICA",
+          "x": 0.07,
+          "y": 0.505,
+          "w": 0.65,
+          "align": "left",
+          "font": "Inter",
+          "size": 0.026,
+          "weight": "800",
+          "tracking": 0.08
+        },
+        {
+          "role": "headline",
+          "text": "OCCHI NELLA FORESTA",
+          "x": 0.07,
+          "y": 0.575,
+          "w": 0.82,
+          "align": "left",
+          "font": "Barlow Condensed",
+          "size": 0.12,
+          "weight": "800",
+          "lineHeight": 1.23
+        },
+        {
+          "role": "lead",
+          "text": "Un incontro ravvicinato con le specie che abitano gli ultimi grandi habitat.",
+          "x": 0.07,
+          "y": 0.79,
+          "w": 0.76,
+          "align": "left",
+          "font": "Newsreader",
+          "size": 0.047,
+          "weight": "600",
+          "lineHeight": 1.4,
+          "maxLines": 3
+        },
+        {
+          "role": "cta",
+          "text": "FOTOGRAFIA  ·  NATURA  ·  CONSERVAZIONE",
+          "x": 0.07,
+          "y": 0.939,
+          "w": 0.83,
+          "align": "left",
+          "font": "Inter",
+          "size": 0.019,
+          "weight": "700",
+          "ruleTop": true
+        }
+      ]
+    },
+    {
+      "id": "ani-02",
+      "genre": "animals",
+      "name": "Compagni · Cani e Gatti",
+      "defaultColor": "#FFFFFF",
+      "accentColor": "#E9D5C4",
+      "elements": [
+        {
+          "role": "issue",
+          "text": "STORIE  /  VITA CON GLI ANIMALI",
+          "x": 0.5,
+          "y": 0.032,
+          "w": 0.88,
+          "align": "center",
+          "font": "Inter",
+          "size": 0.018,
+          "weight": "700",
+          "tracking": 0.09
+        },
+        {
+          "role": "masthead",
+          "text": "ZAMPE",
+          "x": 0.5,
+          "y": 0.08,
+          "w": 0.9,
+          "align": "center",
+          "font": "Barlow Condensed",
+          "size": 0.2,
+          "weight": "800",
+          "tracking": 0.025
+        },
+        {
+          "role": "kicker",
+          "text": "SPECIALE COMPORTAMENTO",
+          "x": 0.93,
+          "y": 0.495,
+          "w": 0.8,
+          "align": "right",
+          "font": "Inter",
+          "size": 0.024,
+          "weight": "800",
+          "tracking": 0.07
+        },
+        {
+          "role": "headline",
+          "text": "COSA CI DICONO DAVVERO",
+          "x": 0.93,
+          "y": 0.565,
+          "w": 0.82,
+          "align": "right",
+          "font": "Barlow Condensed",
+          "size": 0.105,
+          "weight": "800",
+          "lineHeight": 1.23
+        },
+        {
+          "role": "lead",
+          "text": "Il linguaggio di cani e gatti, raccontato attraverso gesti, sguardi e abitudini.",
+          "x": 0.93,
+          "y": 0.79,
+          "w": 0.77,
+          "align": "right",
+          "font": "Newsreader",
+          "size": 0.045,
+          "weight": "600",
+          "lineHeight": 1.4,
+          "maxLines": 3
+        },
+        {
+          "role": "cta",
+          "text": "RELAZIONE  /  CURA  /  BENESSERE",
+          "x": 0.07,
+          "y": 0.939,
+          "w": 0.78,
+          "align": "left",
+          "font": "Inter",
+          "size": 0.019,
+          "weight": "700",
+          "ruleTop": true
+        }
+      ]
+    },
+    {
+      "id": "ani-03",
+      "genre": "animals",
+      "name": "Birdlife · Atlante degli Uccelli",
+      "defaultColor": "#FFFFFF",
+      "accentColor": "#D5E7EE",
+      "elements": [
+        {
+          "role": "issue",
+          "text": "ATLANTE  ·  EDIZIONE FOTOGRAFICA",
+          "x": 0.5,
+          "y": 0.035,
+          "w": 0.86,
+          "align": "center",
+          "font": "Inter",
+          "size": 0.018,
+          "weight": "700",
+          "tracking": 0.08
+        },
+        {
+          "role": "masthead",
+          "text": "ALI",
+          "x": 0.5,
+          "y": 0.09,
+          "w": 0.89,
+          "align": "center",
+          "font": "Barlow Condensed",
+          "size": 0.21,
+          "weight": "800",
+          "tracking": 0.06
+        },
+        {
+          "role": "kicker",
+          "text": "MONDO ALATO",
+          "x": 0.07,
+          "y": 0.53,
+          "w": 0.75,
+          "align": "left",
+          "font": "Inter",
+          "size": 0.026,
+          "weight": "800",
+          "tracking": 0.09
+        },
+        {
+          "role": "headline",
+          "text": "IL CIELO È CASA",
+          "x": 0.07,
+          "y": 0.598,
+          "w": 0.8,
+          "align": "left",
+          "font": "Newsreader",
+          "size": 0.105,
+          "weight": "800",
+          "lineHeight": 1.2
+        },
+        {
+          "role": "lead",
+          "text": "Rotte, migrazioni e strategie sorprendenti degli uccelli del nostro pianeta.",
+          "x": 0.07,
+          "y": 0.79,
+          "w": 0.77,
+          "align": "left",
+          "font": "Inter",
+          "size": 0.039,
+          "weight": "700",
+          "lineHeight": 1.38,
+          "maxLines": 3
+        },
+        {
+          "role": "cta",
+          "text": "SPECIALE MIGRAZIONI",
+          "x": 0.07,
+          "y": 0.94,
+          "w": 0.75,
+          "align": "left",
+          "font": "Inter",
+          "size": 0.02,
+          "weight": "700",
+          "ruleTop": true
+        }
+      ]
+    },
+    {
+      "id": "ani-04",
+      "genre": "animals",
+      "name": "Macro · Piccoli Mondi",
+      "defaultColor": "#FFFFFF",
+      "accentColor": "#D7E6A8",
+      "elements": [
+        {
+          "role": "issue",
+          "text": "NATURA DA VICINO  /  VOL. 04",
+          "x": 0.07,
+          "y": 0.035,
+          "w": 0.83,
+          "align": "left",
+          "font": "Inter",
+          "size": 0.018,
+          "weight": "700",
+          "tracking": 0.09
+        },
+        {
+          "role": "masthead",
+          "text": "MICROFAUNA",
+          "x": 0.5,
+          "y": 0.085,
+          "w": 0.91,
+          "align": "center",
+          "font": "Barlow Condensed",
+          "size": 0.156,
+          "weight": "800",
+          "tracking": 0
+        },
+        {
+          "role": "kicker",
+          "text": "MACROFOTOGRAFIA",
+          "x": 0.93,
+          "y": 0.505,
+          "w": 0.75,
+          "align": "right",
+          "font": "Inter",
+          "size": 0.025,
+          "weight": "800",
+          "tracking": 0.09
+        },
+        {
+          "role": "headline",
+          "text": "UN UNIVERSO MINUSCOLO",
+          "x": 0.93,
+          "y": 0.57,
+          "w": 0.82,
+          "align": "right",
+          "font": "Barlow Condensed",
+          "size": 0.105,
+          "weight": "800",
+          "lineHeight": 1.22
+        },
+        {
+          "role": "lead",
+          "text": "Insetti, forme e colori che sfuggono allo sguardo, ma non all'obiettivo.",
+          "x": 0.93,
+          "y": 0.79,
+          "w": 0.77,
+          "align": "right",
+          "font": "Newsreader",
+          "size": 0.045,
+          "weight": "600",
+          "lineHeight": 1.4,
+          "maxLines": 3
+        },
+        {
+          "role": "cta",
+          "text": "SCOPRIRE  /  OSSERVARE  /  PROTEGGERE",
+          "x": 0.07,
+          "y": 0.939,
+          "w": 0.82,
+          "align": "left",
+          "font": "Inter",
+          "size": 0.019,
+          "weight": "700",
+          "ruleTop": true
+        }
+      ]
     }
   ]
 }
