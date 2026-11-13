@@ -59,12 +59,18 @@ const state = {
 
 const dom = {
   appTitleBtn: document.getElementById('appTitleBtn'),
+  btnToggleGenresBar: document.getElementById('btnToggleGenresBar'),
+  currentGenrePillText: document.getElementById('currentGenrePillText'),
+  genreChevron: document.getElementById('genreChevron'),
   btnPrevVariant: document.getElementById('btnPrevVariant'),
   btnNextVariant: document.getElementById('btnNextVariant'),
   presetIndexLabel: document.getElementById('presetIndexLabel'),
   presetNameLabel: document.getElementById('presetNameLabel'),
   btnInstallPwa: document.getElementById('btnInstallPwa'),
   btnExitPhoto: document.getElementById('btnExitPhoto'),
+  btnToggleQuickDock: document.getElementById('btnToggleQuickDock'),
+  quickDockContainer: document.getElementById('quickDockContainer'),
+  dockChevron: document.getElementById('dockChevron'),
   btnGenreLookToggle: document.getElementById('btnGenreLookToggle'),
   dockLookBadge: document.getElementById('dockLookBadge'),
   btnGuideCycle: document.getElementById('btnGuideCycle'),
@@ -375,6 +381,7 @@ function updateGuideUI() {
     dom.btnGuideCycle.setAttribute('aria-pressed', String(active));
     const shortMap = {
       'none': 'OFF',
+      'typo-grid': 'Griglia',
       'golden-spiral': 'Aurea',
       'phi-grid': 'Phi',
       'thirds': 'Terzi',
@@ -438,6 +445,10 @@ function updatePresetUI() {
   for (const btn of dom.genreTabs.querySelectorAll('.genre-tab')) {
     btn.classList.toggle('active', btn.dataset.genre === state.currentGenre);
   }
+  const activeGenreObj = state.genres.find(g => g.id === state.currentGenre);
+  if (dom.currentGenrePillText && activeGenreObj) {
+    dom.currentGenrePillText.textContent = activeGenreObj.label;
+  }
 
   applyVideoFilter();
   runSceneColorSample();
@@ -458,6 +469,12 @@ function renderGenreTabs() {
       state.variantIndex = 0;
       applyGenreDefaultTriad(g.id);
       logger.info('Cambio genere copertina', { genre: g.id });
+      if (dom.genreTabs && !dom.genreTabs.classList.contains('hidden')) {
+        dom.genreTabs.classList.add('hidden');
+        if (dom.btnToggleGenresBar) dom.btnToggleGenresBar.setAttribute('aria-expanded', 'false');
+        if (dom.genreChevron) dom.genreChevron.textContent = '▾';
+        updateStageDimensions();
+      }
       updatePresetUI();
     });
     dom.genreTabs.appendChild(btn);
@@ -964,6 +981,38 @@ async function bootstrap() {
   }
   if (dom.btnNextVariant) {
     dom.btnNextVariant.addEventListener('click', () => switchVariant(1));
+  }
+
+  if (dom.btnToggleGenresBar && dom.genreTabs) {
+    dom.btnToggleGenresBar.addEventListener('click', () => {
+      const isHidden = dom.genreTabs.classList.toggle('hidden');
+      dom.btnToggleGenresBar.setAttribute('aria-expanded', String(!isHidden));
+      if (dom.genreChevron) dom.genreChevron.textContent = isHidden ? '▾' : '▴';
+      updateStageDimensions();
+    });
+  }
+
+  if (dom.btnToggleQuickDock && dom.quickDockContainer) {
+    dom.btnToggleQuickDock.addEventListener('click', () => {
+      const isHidden = dom.quickDockContainer.classList.toggle('hidden');
+      dom.btnToggleQuickDock.setAttribute('aria-expanded', String(!isHidden));
+      if (dom.dockChevron) dom.dockChevron.textContent = isHidden ? '▴' : '▾';
+      updateStageDimensions();
+    });
+  }
+
+  for (const sheet of [dom.lookGradingPanel, dom.settingsDrawer]) {
+    if (!sheet) continue;
+    const detailsList = sheet.querySelectorAll('details.acc-section');
+    for (const det of detailsList) {
+      det.addEventListener('toggle', () => {
+        if (det.open) {
+          for (const other of detailsList) {
+            if (other !== det && other.open) other.open = false;
+          }
+        }
+      });
+    }
   }
 
   dom.btnSettingsToggle.addEventListener('click', () => {

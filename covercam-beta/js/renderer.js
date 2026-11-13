@@ -78,6 +78,7 @@ function resolveFontStack(fontName) {
 
 export const COMPOSITION_GUIDES = [
   { id: 'none', label: 'Nessuna' },
+  { id: 'typo-grid', label: 'Griglia Tipografica' },
   { id: 'golden-spiral', label: 'Spirale Aurea' },
   { id: 'phi-grid', label: 'Griglia Aurea (Phi)' },
   { id: 'thirds', label: 'Regola dei Terzi' },
@@ -310,10 +311,11 @@ export function renderCoverOverlay(ctx, width, height, preset, options) {
 
   let prevFlowBottom = null;
   let prevAlign = null;
+  const placedBoxes = [];
 
   for (const el of preset.elements) {
     const { y: adaptedY, size: adaptedSize } = adaptElementPosition(el, formatId, showSafeZones);
-    const fontPx = Math.max(11, Math.round(adaptedSize * width));
+    let fontPx = Math.max(11, Math.round(adaptedSize * width));
     const fontStyle = el.italic ? 'italic' : 'normal';
     const fontWeight = el.weight || '400';
     const fontFamily = resolveFontStack(el.font);
@@ -330,12 +332,39 @@ export function renderCoverOverlay(ctx, width, height, preset, options) {
 
     const rawText = el.uppercase ? el.text.toUpperCase() : el.text;
     const isEditorialBoxRole = el.role === 'lead' || el.role === 'body';
+    const isSingleLineBarRole = el.role === 'masthead' || el.role === 'issue' || el.role === 'cta' || el.role === 'kicker';
     const defaultColW = isEditorialBoxRole
       ? (el.align === 'center' ? 0.66 : 0.52)
       : 0.88;
-    const maxW = Math.min(el.w || defaultColW, isEditorialBoxRole ? 0.74 : 0.94) * width;
+    const maxW = Math.min(el.w || defaultColW, isEditorialBoxRole ? 0.74 : 0.88) * width;
     let xPos = el.x * width;
     let yPos = adaptedY * height;
+
+    if (isSingleLineBarRole) {
+      const measured = ctx.measureText(rawText).width;
+      const targetMax = el.bg === 'accent' ? Math.max(20, maxW - fontPx * 1.3) : maxW;
+      if (measured > targetMax && measured > 0) {
+        const minPx = el.role === 'masthead' ? 16 : 9;
+        fontPx = Math.max(minPx, Math.floor(fontPx * (targetMax / measured)));
+        ctx.font = `${fontStyle} ${fontWeight} ${fontPx}px ${fontFamily}`;
+        if ('letterSpacing' in ctx) {
+          const trackPx = (el.tracking || 0) * fontPx;
+          ctx.letterSpacing = `${trackPx.toFixed(2)}px`;
+        }
+      }
+    }
+
+    let lines = isSingleLineBarRole ? [rawText] : wrapLines(ctx, rawText, maxW);
+    if (isEditorialBoxRole && lines.length > (el.maxLines || 3)) {
+      lines = lines.slice(0, el.maxLines || 3);
+    }
+    const lineH = fontPx * (el.lineHeight || (isEditorialBoxRole ? 1.2 : 1.06));
+    const blockH = el.bg === 'accent' ? fontPx * 1.45 : lines.length * lineH;
+
+    let boxLeft = xPos;
+    if (el.align === 'center') boxLeft = xPos - maxW / 2;
+    else if (el.align === 'right') boxLeft = xPos - maxW;
+    let boxRight = boxLeft + maxW;
 
     const isFlowRole = el.role === 'kicker' || el.role === 'headline' || el.role === 'lead' || el.role === 'body';
     if (
@@ -345,7 +374,19 @@ export function renderCoverOverlay(ctx, width, height, preset, options) {
       prevAlign === (el.align || 'left') &&
       Math.abs(yPos - prevFlowBottom) < height * 0.16
     ) {
-      yPos = prevFlowBottom + fontPx * (el.role === 'headline' ? 0.18 : 0.34);
+      yPos = Math.max(yPos, prevFlowBottom + fontPx * (el.role === 'headline' ? 0.22 : 0.38));
+    }
+
+    const minGap = Math.max(6, height * 0.014);
+    for (const b of placedBoxes) {
+      const horizOverlap = Math.min(boxRight, b.right) - Math.max(boxLeft, b.left) > width * 0.04;
+      if (horizOverlap && yPos < b.bottom + minGap && yPos + blockH > b.top - minGap) {
+        yPos = b.bottom + minGap;
+      }
+    }
+
+    if (el.role !== 'masthead' && yPos + blockH > height * 0.955) {
+      yPos = Math.max(height * 0.18, height * 0.95 - blockH);
     }
 
     let fillColor = secondaryColor;
@@ -354,23 +395,6 @@ export function renderCoverOverlay(ctx, width, height, preset, options) {
     }
     if (el.colorRole === 'accent') {
       fillColor = accentColor;
-    }
-
-    let lines = el.role === 'masthead' ? [rawText] : wrapLines(ctx, rawText, maxW);
-    if (isEditorialBoxRole && lines.length > (el.maxLines || 3)) {
-      lines = lines.slice(0, el.maxLines || 3);
-    }
-    const lineH = fontPx * (el.lineHeight || (isEditorialBoxRole ? 1.2 : 1.06));
-    if (el.role !== 'masthead' && yPos + lines.length * lineH > height * 0.96) {
-      yPos = Math.max(height * 0.18, height * 0.955 - lines.length * lineH);
-    }
-
-    if (el.role === 'masthead' && lines[0]) {
-      const measured = ctx.measureText(lines[0]).width;
-      if (measured > maxW && measured > 0) {
-        const scaledPx = Math.max(16, Math.floor(fontPx * (maxW / measured)));
-        ctx.font = `${fontStyle} ${fontWeight} ${scaledPx}px ${fontFamily}`;
-      }
     }
 
     if (el.ruleTop) {
@@ -404,6 +428,13 @@ export function renderCoverOverlay(ctx, width, height, preset, options) {
 
       const lum = relativeLuminance(hexToRgb(accentColor));
       fillColor = lum > 0.42 ? '#0D0D0D' : '#FFFFFF';
+      placedBoxes.push({
+        role: el.role,
+        left: bx,
+        right: bx + pillW,
+        top: yPos - fontPx * 0.2,
+        bottom: yPos - fontPx * 0.2 + pillH
+      });
       if (el.align === 'left') {
         ctx.fillStyle = fillColor;
         ctx.fillText(lines[0], bx + fontPx * 0.6, yPos);
@@ -419,6 +450,15 @@ export function renderCoverOverlay(ctx, width, height, preset, options) {
         if (isFlowRole) {
           prevFlowBottom = yPos + pillH;
           prevAlign = el.align || 'right';
+        }
+        ctx.restore();
+        continue;
+      } else {
+        ctx.fillStyle = fillColor;
+        ctx.fillText(lines[0], xPos, yPos);
+        if (isFlowRole) {
+          prevFlowBottom = yPos + pillH;
+          prevAlign = 'center';
         }
         ctx.restore();
         continue;
@@ -497,6 +537,14 @@ export function renderCoverOverlay(ctx, width, height, preset, options) {
       ctx.restore();
     }
 
+    placedBoxes.push({
+      role: el.role,
+      left: boxLeft,
+      right: boxRight,
+      top: yPos,
+      bottom: yPos + lines.length * lineH
+    });
+
     if (isFlowRole) {
       prevFlowBottom = yPos + lines.length * lineH;
       prevAlign = el.align || 'left';
@@ -527,7 +575,7 @@ export function renderCoverOverlay(ctx, width, height, preset, options) {
   ctx.restore();
 
   if (!isExport && compositionGuide && compositionGuide !== 'none') {
-    drawCompositionGuide(ctx, width, height, compositionGuide);
+    drawCompositionGuide(ctx, width, height, compositionGuide, placedBoxes);
   }
 
   if (!isExport && showSafeZones && formatId === 'story') {
@@ -539,13 +587,41 @@ export function renderCoverOverlay(ctx, width, height, preset, options) {
   }
 }
 
-function drawCompositionGuide(ctx, width, height, guideId) {
+function drawCompositionGuide(ctx, width, height, guideId, placedBoxes = []) {
   ctx.save();
   const strokeMain = 'rgba(255, 215, 0, 0.55)';
   const strokeSub = 'rgba(255, 255, 255, 0.35)';
   ctx.lineWidth = Math.max(1.2, width * 0.0028);
 
-  if (guideId === 'thirds') {
+  if (guideId === 'typo-grid') {
+    const mX = width * 0.06;
+    const mTop = height * 0.04;
+    const mBot = height * 0.94;
+    const innerW = width * 0.88;
+    const gutter = width * 0.02;
+    const cols = 6;
+    const colW = (innerW - gutter * (cols - 1)) / cols;
+
+    ctx.fillStyle = 'rgba(0, 229, 255, 0.05)';
+    ctx.strokeStyle = 'rgba(0, 229, 255, 0.25)';
+    ctx.lineWidth = 1;
+    for (let c = 0; c < cols; c++) {
+      const cx = mX + c * (colW + gutter);
+      ctx.fillRect(cx, mTop, colW, mBot - mTop);
+      ctx.strokeRect(cx, mTop, colW, mBot - mTop);
+    }
+
+    ctx.strokeStyle = 'rgba(255, 51, 85, 0.72)';
+    ctx.lineWidth = 1.4;
+    ctx.strokeRect(mX, mTop, innerW, mBot - mTop);
+
+    ctx.strokeStyle = 'rgba(255, 215, 0, 0.75)';
+    ctx.setLineDash([4, 3]);
+    for (const b of placedBoxes) {
+      ctx.strokeRect(b.left, b.top, b.right - b.left, b.bottom - b.top);
+    }
+    ctx.setLineDash([]);
+  } else if (guideId === 'thirds') {
     ctx.strokeStyle = strokeSub;
     const x1 = width / 3;
     const x2 = (width * 2) / 3;

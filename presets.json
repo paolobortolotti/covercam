@@ -47,8 +47,8 @@
           "align": "center",
           "font": "Futura",
           "weight": "700",
-          "size": 0.026,
-          "tracking": 0.24,
+          "size": 0.02,
+          "tracking": 0.14,
           "uppercase": true
         },
         {
@@ -56,7 +56,7 @@
           "text": "ATELIER",
           "x": 0.5,
           "y": 0.058,
-          "w": 0.92,
+          "w": 0.88,
           "align": "center",
           "font": "Futura",
           "weight": "900",
@@ -114,7 +114,7 @@
           "align": "left",
           "font": "Futura",
           "weight": "700",
-          "size": 0.027,
+          "size": 0.022,
           "tracking": 0.16,
           "uppercase": true,
           "ruleTop": true
@@ -133,7 +133,7 @@
           "text": "VELVET",
           "x": 0.5,
           "y": 0.04,
-          "w": 0.92,
+          "w": 0.88,
           "align": "center",
           "font": "Jost",
           "weight": "900",
@@ -150,7 +150,7 @@
           "align": "center",
           "font": "Inter",
           "weight": "600",
-          "size": 0.024,
+          "size": 0.022,
           "tracking": 0.22,
           "uppercase": true,
           "ruleTop": true
@@ -191,7 +191,7 @@
           "align": "center",
           "font": "Futura",
           "weight": "700",
-          "size": 0.026,
+          "size": 0.022,
           "tracking": 0.18,
           "uppercase": true
         }
@@ -209,7 +209,7 @@
           "text": "MUSE",
           "x": 0.5,
           "y": 0.035,
-          "w": 0.94,
+          "w": 0.88,
           "align": "center",
           "font": "Bodoni Moda",
           "weight": "900",
@@ -295,7 +295,7 @@
           "align": "center",
           "font": "Futura",
           "weight": "700",
-          "size": 0.026,
+          "size": 0.022,
           "tracking": 0.22,
           "uppercase": true
         }
@@ -317,8 +317,8 @@
           "align": "left",
           "font": "Futura",
           "weight": "700",
-          "size": 0.026,
-          "tracking": 0.2,
+          "size": 0.02,
+          "tracking": 0.14,
           "uppercase": true,
           "ruleTop": true
         },
@@ -357,7 +357,7 @@
           "align": "left",
           "font": "Futura",
           "weight": "700",
-          "size": 0.027,
+          "size": 0.022,
           "tracking": 0.15,
           "uppercase": true,
           "colorRole": "accent"
@@ -367,7 +367,7 @@
           "text": "SILHOUETTE",
           "x": 0.5,
           "y": 0.76,
-          "w": 0.92,
+          "w": 0.88,
           "align": "center",
           "font": "Futura",
           "weight": "900",
@@ -422,7 +422,7 @@
           "align": "left",
           "font": "Futura",
           "weight": "700",
-          "size": 0.026,
+          "size": 0.022,
           "tracking": 0.18,
           "uppercase": true
         },
@@ -461,7 +461,7 @@
           "align": "right",
           "font": "Futura",
           "weight": "700",
-          "size": 0.026,
+          "size": 0.022,
           "tracking": 0.14,
           "uppercase": true,
           "bg": "accent"
@@ -501,7 +501,7 @@
           "align": "center",
           "font": "Inter",
           "weight": "600",
-          "size": 0.024,
+          "size": 0.022,
           "tracking": 0.22,
           "uppercase": true
         },
@@ -554,7 +554,7 @@
           "align": "center",
           "font": "Futura",
           "weight": "700",
-          "size": 0.024,
+          "size": 0.022,
           "tracking": 0.2,
           "uppercase": true
         }
@@ -572,7 +572,7 @@
           "text": "PARADIGM",
           "x": 0.5,
           "y": 0.04,
-          "w": 0.92,
+          "w": 0.88,
           "align": "center",
           "font": "Futura",
           "weight": "900",
@@ -645,7 +645,7 @@
           "align": "right",
           "font": "Futura",
           "weight": "700",
-          "size": 0.028,
+          "size": 0.022,
           "tracking": 0.15,
           "uppercase": true
         }
@@ -663,7 +663,7 @@
           "text": "ÉCLAT",
           "x": 0.5,
           "y": 0.035,
-          "w": 0.92,
+          "w": 0.88,
           "align": "center",
           "font": "Playfair Display",
           "weight": "900",
@@ -748,7 +748,7 @@
           "align": "left",
           "font": "Futura",
           "weight": "700",
-          "size": 0.026,
+          "size": 0.022,
           "tracking": 0.18,
           "uppercase": true,
           "ruleTop": true
@@ -765,9 +765,9 @@
         {
           "role": "masthead",
           "text": "FORMA",
-          "x": 0.05,
+          "x": 0.06,
           "y": 0.03,
-          "w": 0.9,
+          "w": 0.88,
           "align": "left",
           "font": "Syne",
           "weight": "800",
@@ -778,13 +778,13 @@
         {
           "role": "issue",
           "text": "N. 03 // ARCHITETTURA DEL CORPO",
-          "x": 0.05,
+          "x": 0.06,
           "y": 0.19,
-          "w": 0.9,
+          "w": 0.88,
           "align": "left",
           "font": "Futura",
           "weight": "700",
-          "size": 0.026,
+          "size": 0.022,
           "tracking": 0.2,
           "uppercase": true,
           "bg": "accent"
@@ -792,7 +792,7 @@
         {
           "role": "headline",
           "text": "VOLUMI RADICALI",
-          "x": 0.05,
+          "x": 0.06,
           "y": 0.655,
           "w": 0.68,
           "align": "left",
@@ -805,7 +805,7 @@
         {
           "role": "lead",
           "text": "Spalle scolpite, geometrie asimmetriche e materiali tecnici d'avanguardia.",
-          "x": 0.05,
+          "x": 0.06,
           "y": 0.78,
           "w": 0.52,
           "align": "left",
@@ -819,14 +819,14 @@
         {
           "role": "cta",
           "text": "SPECIAL REPORT · BERLINO / ANVERSA / LONDRA",
-          "x": 0.05,
+          "x": 0.06,
           "y": 0.93,
-          "w": 0.9,
+          "w": 0.88,
           "align": "left",
           "font": "Futura",
           "weight": "700",
-          "size": 0.026,
-          "tracking": 0.16,
+          "size": 0.02,
+          "tracking": 0.14,
           "uppercase": true
         }
       ]
@@ -847,7 +847,7 @@
           "align": "center",
           "font": "Futura",
           "weight": "600",
-          "size": 0.024,
+          "size": 0.022,
           "tracking": 0.26,
           "uppercase": true
         },
@@ -856,7 +856,7 @@
           "text": "AURA",
           "x": 0.5,
           "y": 0.075,
-          "w": 0.9,
+          "w": 0.88,
           "align": "center",
           "font": "Jost",
           "weight": "800",
@@ -867,7 +867,7 @@
         {
           "role": "headline",
           "text": "Stanze della Memoria",
-          "x": 0.07,
+          "x": 0.06,
           "y": 0.665,
           "w": 0.68,
           "align": "left",
@@ -880,7 +880,7 @@
         {
           "role": "lead",
           "text": "Viaggio fotografico tra dimore storiche, lino grezzo e silenzi.",
-          "x": 0.07,
+          "x": 0.06,
           "y": 0.79,
           "w": 0.52,
           "align": "left",
@@ -894,14 +894,14 @@
         {
           "role": "cta",
           "text": "CON UN TESTO INEDITO SULLA BELLEZZA IMPERFETTA",
-          "x": 0.07,
+          "x": 0.06,
           "y": 0.925,
           "w": 0.86,
           "align": "left",
           "font": "Futura",
           "weight": "600",
-          "size": 0.024,
-          "tracking": 0.18,
+          "size": 0.02,
+          "tracking": 0.14,
           "uppercase": true,
           "ruleTop": true
         }
@@ -919,7 +919,7 @@
           "text": "KULT",
           "x": 0.5,
           "y": 0.035,
-          "w": 0.92,
+          "w": 0.88,
           "align": "center",
           "font": "Futura",
           "weight": "900",
@@ -976,8 +976,8 @@
           "align": "center",
           "font": "Futura",
           "weight": "700",
-          "size": 0.026,
-          "tracking": 0.2,
+          "size": 0.02,
+          "tracking": 0.14,
           "uppercase": true,
           "ruleTop": true
         }
@@ -1012,7 +1012,7 @@
           "align": "left",
           "font": "Inter",
           "weight": "600",
-          "size": 0.024,
+          "size": 0.022,
           "tracking": 0.22,
           "uppercase": true,
           "ruleTop": true
@@ -1066,7 +1066,7 @@
           "align": "left",
           "font": "Futura",
           "weight": "700",
-          "size": 0.024,
+          "size": 0.022,
           "tracking": 0.2,
           "uppercase": true
         }
@@ -1106,14 +1106,14 @@
           "align": "center",
           "font": "Inter",
           "weight": "700",
-          "size": 0.024,
-          "tracking": 0.16,
+          "size": 0.02,
+          "tracking": 0.14,
           "uppercase": true
         },
         {
           "role": "kicker",
           "text": "FOCUS · PAG. 18",
-          "x": 0.08,
+          "x": 0.06,
           "y": 0.3,
           "w": 0.36,
           "align": "left",
@@ -1127,7 +1127,7 @@
         {
           "role": "body",
           "text": " Intelligenza Artificiale: le nuove regole europee.",
-          "x": 0.08,
+          "x": 0.06,
           "y": 0.325,
           "w": 0.44,
           "align": "left",
@@ -1141,7 +1141,7 @@
         {
           "role": "kicker",
           "text": "ESTERI · PAG. 42",
-          "x": 0.08,
+          "x": 0.06,
           "y": 0.43,
           "w": 0.36,
           "align": "left",
@@ -1155,7 +1155,7 @@
         {
           "role": "body",
           "text": "La corsa alle terre rare ridisegna le rotte artiche.",
-          "x": 0.08,
+          "x": 0.06,
           "y": 0.455,
           "w": 0.44,
           "align": "left",
@@ -1169,7 +1169,7 @@
         {
           "role": "kicker",
           "text": "IL RAPPORTO ESCLUSIVO",
-          "x": 0.08,
+          "x": 0.06,
           "y": 0.605,
           "w": 0.52,
           "align": "left",
@@ -1183,7 +1183,7 @@
         {
           "role": "headline",
           "text": "IL PUNTO DI SVOLTA",
-          "x": 0.08,
+          "x": 0.06,
           "y": 0.645,
           "w": 0.68,
           "align": "left",
@@ -1196,7 +1196,7 @@
         {
           "role": "lead",
           "text": "Tecnologie energetiche e mercati globali ridisegnano il decennio.",
-          "x": 0.08,
+          "x": 0.06,
           "y": 0.77,
           "w": 0.52,
           "align": "left",
@@ -1210,13 +1210,13 @@
         {
           "role": "cta",
           "text": "ALL'INTERNO: MAPPE, DATI E LE VOCI DEI PROTAGONISTI",
-          "x": 0.08,
+          "x": 0.06,
           "y": 0.91,
           "w": 0.84,
           "align": "left",
           "font": "Inter",
           "weight": "700",
-          "size": 0.024,
+          "size": 0.02,
           "tracking": 0.12,
           "uppercase": true,
           "ruleTop": true
@@ -1251,7 +1251,7 @@
         {
           "role": "kicker",
           "text": "MICRO-DOSSIER",
-          "x": 0.92,
+          "x": 0.94,
           "y": 0.3,
           "w": 0.36,
           "align": "right",
@@ -1265,7 +1265,7 @@
         {
           "role": "body",
           "text": "Clima urbano: 12 metropoli a confronto.",
-          "x": 0.92,
+          "x": 0.94,
           "y": 0.325,
           "w": 0.44,
           "align": "right",
@@ -1326,7 +1326,7 @@
           "align": "center",
           "font": "Futura",
           "weight": "700",
-          "size": 0.024,
+          "size": 0.022,
           "tracking": 0.2,
           "uppercase": true
         }
@@ -1361,7 +1361,7 @@
           "align": "left",
           "font": "Inter",
           "weight": "700",
-          "size": 0.024,
+          "size": 0.02,
           "tracking": 0.14,
           "uppercase": true,
           "ruleTop": true
@@ -1471,7 +1471,7 @@
           "align": "left",
           "font": "Futura",
           "weight": "700",
-          "size": 0.026,
+          "size": 0.02,
           "tracking": 0.12,
           "uppercase": true,
           "colorRole": "accent"
@@ -1499,7 +1499,7 @@
           "align": "center",
           "font": "Futura",
           "weight": "700",
-          "size": 0.024,
+          "size": 0.022,
           "tracking": 0.22,
           "uppercase": true,
           "bg": "accent"
@@ -1565,7 +1565,7 @@
           "align": "center",
           "font": "Futura",
           "weight": "700",
-          "size": 0.024,
+          "size": 0.022,
           "tracking": 0.18,
           "uppercase": true
         }
@@ -1600,7 +1600,7 @@
           "align": "left",
           "font": "Inter",
           "weight": "600",
-          "size": 0.024,
+          "size": 0.02,
           "tracking": 0.14,
           "uppercase": true,
           "ruleTop": true
@@ -1682,7 +1682,7 @@
           "align": "left",
           "font": "Futura",
           "weight": "700",
-          "size": 0.024,
+          "size": 0.02,
           "tracking": 0.12,
           "uppercase": true,
           "ruleTop": true
@@ -1715,7 +1715,7 @@
           "text": "REPORTER",
           "x": 0.5,
           "y": 0.075,
-          "w": 0.9,
+          "w": 0.88,
           "align": "center",
           "font": "Anton",
           "weight": "400",
@@ -1759,8 +1759,8 @@
           "align": "center",
           "font": "Futura",
           "weight": "700",
-          "size": 0.026,
-          "tracking": 0.18,
+          "size": 0.02,
+          "tracking": 0.14,
           "uppercase": true,
           "ruleTop": true
         }
@@ -1795,7 +1795,7 @@
           "align": "left",
           "font": "Inter",
           "weight": "600",
-          "size": 0.024,
+          "size": 0.022,
           "tracking": 0.16,
           "uppercase": true
         },
@@ -1876,7 +1876,7 @@
           "align": "right",
           "font": "Futura",
           "weight": "700",
-          "size": 0.024,
+          "size": 0.02,
           "tracking": 0.14,
           "uppercase": true,
           "ruleTop": true
@@ -1899,8 +1899,8 @@
           "align": "center",
           "font": "Futura",
           "weight": "700",
-          "size": 0.024,
-          "tracking": 0.22,
+          "size": 0.02,
+          "tracking": 0.14,
           "uppercase": true
         },
         {
@@ -1908,7 +1908,7 @@
           "text": "PAGINE",
           "x": 0.5,
           "y": 0.07,
-          "w": 0.9,
+          "w": 0.88,
           "align": "center",
           "font": "Newsreader",
           "weight": "800",
@@ -1919,7 +1919,7 @@
         {
           "role": "kicker",
           "text": "IL DIBATTITO",
-          "x": 0.07,
+          "x": 0.06,
           "y": 0.585,
           "w": 0.4,
           "align": "left",
@@ -1933,7 +1933,7 @@
         {
           "role": "headline",
           "text": "L'Elogio della Lentezza nell'Era Iperconnessa",
-          "x": 0.07,
+          "x": 0.06,
           "y": 0.67,
           "w": 0.68,
           "align": "left",
@@ -1946,7 +1946,7 @@
         {
           "role": "lead",
           "text": "Cinque intellettuali discutono di disconnessione e tempo profondo.",
-          "x": 0.07,
+          "x": 0.06,
           "y": 0.8,
           "w": 0.52,
           "align": "left",
@@ -1960,14 +1960,14 @@
         {
           "role": "cta",
           "text": "SAGGI INEDITI · RECENSIONI · ARCHIVIO DEL PENSIERO",
-          "x": 0.07,
+          "x": 0.06,
           "y": 0.925,
           "w": 0.86,
           "align": "left",
           "font": "Futura",
           "weight": "700",
-          "size": 0.024,
-          "tracking": 0.15,
+          "size": 0.02,
+          "tracking": 0.14,
           "uppercase": true,
           "ruleTop": true
         }
@@ -1985,7 +1985,7 @@
           "text": "RADAR",
           "x": 0.5,
           "y": 0.04,
-          "w": 0.92,
+          "w": 0.88,
           "align": "center",
           "font": "Bebas Neue",
           "weight": "400",
@@ -2070,7 +2070,7 @@
           "align": "left",
           "font": "Futura",
           "weight": "700",
-          "size": 0.024,
+          "size": 0.02,
           "tracking": 0.14,
           "uppercase": true,
           "colorRole": "accent"
@@ -2089,7 +2089,7 @@
           "text": "PRISMA",
           "x": 0.5,
           "y": 0.035,
-          "w": 0.9,
+          "w": 0.88,
           "align": "center",
           "font": "Futura",
           "weight": "900",
@@ -2188,7 +2188,7 @@
           "align": "left",
           "font": "Futura",
           "weight": "700",
-          "size": 0.024,
+          "size": 0.022,
           "tracking": 0.15,
           "uppercase": true,
           "ruleTop": true
@@ -2207,7 +2207,7 @@
           "text": "LA VOCE",
           "x": 0.5,
           "y": 0.04,
-          "w": 0.9,
+          "w": 0.88,
           "align": "center",
           "font": "Newsreader",
           "weight": "800",
@@ -2224,8 +2224,8 @@
           "align": "center",
           "font": "Inter",
           "weight": "600",
-          "size": 0.024,
-          "tracking": 0.18,
+          "size": 0.02,
+          "tracking": 0.14,
           "uppercase": true,
           "ruleTop": true
         },
@@ -2265,7 +2265,7 @@
           "align": "center",
           "font": "Futura",
           "weight": "700",
-          "size": 0.024,
+          "size": 0.022,
           "tracking": 0.15,
           "uppercase": true,
           "bg": "accent"
@@ -2288,7 +2288,7 @@
           "align": "left",
           "font": "Futura",
           "weight": "700",
-          "size": 0.024,
+          "size": 0.022,
           "tracking": 0.2,
           "uppercase": true,
           "colorRole": "accent"
@@ -2356,7 +2356,7 @@
           "align": "left",
           "font": "Futura",
           "weight": "700",
-          "size": 0.024,
+          "size": 0.022,
           "tracking": 0.18,
           "uppercase": true,
           "ruleTop": true
@@ -2392,7 +2392,7 @@
           "align": "center",
           "font": "Inter",
           "weight": "600",
-          "size": 0.024,
+          "size": 0.022,
           "tracking": 0.22,
           "uppercase": true
         },
@@ -2432,7 +2432,7 @@
           "align": "center",
           "font": "Futura",
           "weight": "700",
-          "size": 0.026,
+          "size": 0.022,
           "tracking": 0.16,
           "uppercase": true,
           "bg": "accent"
@@ -2450,22 +2450,22 @@
           "role": "masthead",
           "text": "MODULO // LAB",
           "x": 0.06,
-          "y": 0.045,
-          "w": 0.62,
+          "y": 0.065,
+          "w": 0.88,
           "align": "left",
           "font": "Space Grotesk",
           "weight": "700",
-          "size": 0.165,
+          "size": 0.145,
           "tracking": 0.12,
           "uppercase": true
         },
         {
           "role": "kicker",
           "text": "SPEC. REV 2.4",
-          "x": 0.94,
-          "y": 0.052,
-          "w": 0.32,
-          "align": "right",
+          "x": 0.06,
+          "y": 0.21,
+          "w": 0.42,
+          "align": "left",
           "font": "Space Grotesk",
           "weight": "700",
           "size": 0.026,
@@ -2525,7 +2525,7 @@
           "align": "left",
           "font": "Futura",
           "weight": "700",
-          "size": 0.026,
+          "size": 0.022,
           "tracking": 0.15,
           "uppercase": true,
           "colorRole": "accent"
@@ -2601,7 +2601,7 @@
           "align": "left",
           "font": "Futura",
           "weight": "700",
-          "size": 0.027,
+          "size": 0.022,
           "tracking": 0.18,
           "uppercase": true,
           "ruleTop": true
@@ -2628,8 +2628,8 @@
           "align": "center",
           "font": "Futura",
           "weight": "600",
-          "size": 0.024,
-          "tracking": 0.2,
+          "size": 0.02,
+          "tracking": 0.14,
           "uppercase": true
         },
         {
@@ -2681,7 +2681,7 @@
           "align": "center",
           "font": "Futura",
           "weight": "700",
-          "size": 0.024,
+          "size": 0.022,
           "tracking": 0.16,
           "uppercase": true,
           "bg": "accent"
@@ -2717,8 +2717,8 @@
           "align": "left",
           "font": "Inter",
           "weight": "600",
-          "size": 0.024,
-          "tracking": 0.18,
+          "size": 0.02,
+          "tracking": 0.14,
           "uppercase": true,
           "ruleTop": true
         },
@@ -2771,7 +2771,7 @@
           "align": "left",
           "font": "Futura",
           "weight": "700",
-          "size": 0.026,
+          "size": 0.022,
           "tracking": 0.22,
           "uppercase": true
         }
@@ -2789,7 +2789,7 @@
           "text": "SONO",
           "x": 0.5,
           "y": 0.04,
-          "w": 0.9,
+          "w": 0.88,
           "align": "center",
           "font": "Futura",
           "weight": "900",
@@ -2846,7 +2846,7 @@
           "align": "center",
           "font": "Futura",
           "weight": "700",
-          "size": 0.024,
+          "size": 0.022,
           "tracking": 0.16,
           "uppercase": true,
           "bg": "accent"
@@ -2869,8 +2869,8 @@
           "align": "center",
           "font": "Futura",
           "weight": "700",
-          "size": 0.024,
-          "tracking": 0.2,
+          "size": 0.02,
+          "tracking": 0.14,
           "uppercase": true
         },
         {
@@ -2878,7 +2878,7 @@
           "text": "ORIGINE",
           "x": 0.5,
           "y": 0.075,
-          "w": 0.9,
+          "w": 0.88,
           "align": "center",
           "font": "Playfair Display",
           "weight": "900",
@@ -2936,8 +2936,8 @@
           "align": "left",
           "font": "Futura",
           "weight": "700",
-          "size": 0.024,
-          "tracking": 0.15,
+          "size": 0.02,
+          "tracking": 0.14,
           "uppercase": true,
           "ruleTop": true
         }
@@ -2972,7 +2972,7 @@
           "align": "left",
           "font": "Inter",
           "weight": "600",
-          "size": 0.024,
+          "size": 0.022,
           "tracking": 0.18,
           "uppercase": true
         },
@@ -3012,7 +3012,7 @@
           "align": "left",
           "font": "Futura",
           "weight": "700",
-          "size": 0.026,
+          "size": 0.022,
           "tracking": 0.16,
           "uppercase": true,
           "ruleTop": true
@@ -3031,7 +3031,7 @@
           "text": "LUMEN",
           "x": 0.5,
           "y": 0.04,
-          "w": 0.9,
+          "w": 0.88,
           "align": "center",
           "font": "Futura",
           "weight": "800",
@@ -3048,8 +3048,8 @@
           "align": "center",
           "font": "Inter",
           "weight": "600",
-          "size": 0.024,
-          "tracking": 0.2,
+          "size": 0.02,
+          "tracking": 0.14,
           "uppercase": true,
           "ruleTop": true
         },
@@ -3103,7 +3103,7 @@
           "align": "left",
           "font": "Futura",
           "weight": "700",
-          "size": 0.024,
+          "size": 0.022,
           "tracking": 0.16,
           "uppercase": true
         }
@@ -3121,7 +3121,7 @@
           "text": "ABSOLU",
           "x": 0.5,
           "y": 0.05,
-          "w": 0.9,
+          "w": 0.88,
           "align": "center",
           "font": "Futura",
           "weight": "800",
@@ -3138,7 +3138,7 @@
           "align": "center",
           "font": "Montserrat",
           "weight": "600",
-          "size": 0.024,
+          "size": 0.022,
           "tracking": 0.24,
           "uppercase": true
         },
@@ -3178,8 +3178,8 @@
           "align": "center",
           "font": "Futura",
           "weight": "700",
-          "size": 0.024,
-          "tracking": 0.2,
+          "size": 0.02,
+          "tracking": 0.14,
           "uppercase": true
         }
       ]
@@ -3253,7 +3253,7 @@
           "align": "right",
           "font": "Futura",
           "weight": "700",
-          "size": 0.024,
+          "size": 0.022,
           "tracking": 0.18,
           "uppercase": true,
           "ruleTop": true
@@ -3276,8 +3276,8 @@
           "align": "left",
           "font": "Futura",
           "weight": "700",
-          "size": 0.024,
-          "tracking": 0.18,
+          "size": 0.02,
+          "tracking": 0.14,
           "uppercase": true
         },
         {
@@ -3343,7 +3343,7 @@
           "align": "left",
           "font": "Futura",
           "weight": "700",
-          "size": 0.024,
+          "size": 0.02,
           "tracking": 0.14,
           "uppercase": true,
           "ruleTop": true
@@ -3371,8 +3371,8 @@
           "align": "center",
           "font": "Futura",
           "weight": "600",
-          "size": 0.024,
-          "tracking": 0.24,
+          "size": 0.02,
+          "tracking": 0.14,
           "uppercase": true
         },
         {
@@ -3438,8 +3438,8 @@
           "align": "center",
           "font": "Futura",
           "weight": "600",
-          "size": 0.024,
-          "tracking": 0.2,
+          "size": 0.02,
+          "tracking": 0.14,
           "uppercase": true
         }
       ]
@@ -3456,7 +3456,7 @@
           "text": "VALMONT",
           "x": 0.5,
           "y": 0.045,
-          "w": 0.9,
+          "w": 0.88,
           "align": "center",
           "font": "Cinzel",
           "weight": "800",
@@ -3473,8 +3473,8 @@
           "align": "center",
           "font": "Futura",
           "weight": "600",
-          "size": 0.024,
-          "tracking": 0.22,
+          "size": 0.02,
+          "tracking": 0.14,
           "uppercase": true,
           "ruleTop": true
         },
@@ -3513,8 +3513,8 @@
           "align": "left",
           "font": "Futura",
           "weight": "700",
-          "size": 0.024,
-          "tracking": 0.2,
+          "size": 0.02,
+          "tracking": 0.14,
           "uppercase": true,
           "colorRole": "accent"
         }
@@ -3536,8 +3536,8 @@
           "align": "center",
           "font": "Futura",
           "weight": "600",
-          "size": 0.024,
-          "tracking": 0.22,
+          "size": 0.02,
+          "tracking": 0.14,
           "uppercase": true
         },
         {
@@ -3545,7 +3545,7 @@
           "text": "SOVEREIGN",
           "x": 0.5,
           "y": 0.07,
-          "w": 0.92,
+          "w": 0.88,
           "align": "center",
           "font": "Futura",
           "weight": "800",
@@ -3602,7 +3602,7 @@
           "align": "center",
           "font": "Futura",
           "weight": "700",
-          "size": 0.024,
+          "size": 0.022,
           "tracking": 0.2,
           "uppercase": true,
           "ruleTop": true
@@ -3621,7 +3621,7 @@
           "text": "LUMIÈRE",
           "x": 0.5,
           "y": 0.04,
-          "w": 0.9,
+          "w": 0.88,
           "align": "center",
           "font": "Cormorant Garamond",
           "weight": "700",
@@ -3638,7 +3638,7 @@
           "align": "center",
           "font": "Futura",
           "weight": "600",
-          "size": 0.024,
+          "size": 0.022,
           "tracking": 0.26,
           "uppercase": true
         },
@@ -3678,7 +3678,7 @@
           "align": "center",
           "font": "Futura",
           "weight": "700",
-          "size": 0.024,
+          "size": 0.022,
           "tracking": 0.22,
           "uppercase": true
         }
@@ -3713,8 +3713,8 @@
           "align": "left",
           "font": "Futura",
           "weight": "600",
-          "size": 0.024,
-          "tracking": 0.2,
+          "size": 0.02,
+          "tracking": 0.14,
           "uppercase": true,
           "ruleTop": true
         },
@@ -3768,8 +3768,8 @@
           "align": "left",
           "font": "Futura",
           "weight": "700",
-          "size": 0.024,
-          "tracking": 0.18,
+          "size": 0.02,
+          "tracking": 0.14,
           "uppercase": true,
           "ruleTop": true
         }
@@ -3860,7 +3860,7 @@
           "align": "right",
           "font": "Futura",
           "weight": "600",
-          "size": 0.024,
+          "size": 0.022,
           "tracking": 0.22,
           "uppercase": true,
           "ruleTop": true
@@ -3900,8 +3900,8 @@
           "align": "center",
           "font": "Futura",
           "weight": "600",
-          "size": 0.024,
-          "tracking": 0.2,
+          "size": 0.02,
+          "tracking": 0.14,
           "uppercase": true
         },
         {
@@ -3940,8 +3940,8 @@
           "align": "center",
           "font": "Futura",
           "weight": "700",
-          "size": 0.024,
-          "tracking": 0.2,
+          "size": 0.02,
+          "tracking": 0.14,
           "uppercase": true
         }
       ]
@@ -3962,8 +3962,8 @@
           "align": "center",
           "font": "Futura",
           "weight": "600",
-          "size": 0.024,
-          "tracking": 0.22,
+          "size": 0.02,
+          "tracking": 0.14,
           "uppercase": true
         },
         {
@@ -3971,7 +3971,7 @@
           "text": "MILLÉSIME",
           "x": 0.5,
           "y": 0.07,
-          "w": 0.9,
+          "w": 0.88,
           "align": "center",
           "font": "Cormorant Garamond",
           "weight": "700",
@@ -4029,8 +4029,8 @@
           "align": "left",
           "font": "Futura",
           "weight": "700",
-          "size": 0.024,
-          "tracking": 0.2,
+          "size": 0.02,
+          "tracking": 0.14,
           "uppercase": true,
           "ruleTop": true
         }
@@ -4048,7 +4048,7 @@
           "text": "BESPOKE",
           "x": 0.5,
           "y": 0.04,
-          "w": 0.9,
+          "w": 0.88,
           "align": "center",
           "font": "Futura",
           "weight": "900",
@@ -4065,8 +4065,8 @@
           "align": "center",
           "font": "Inter",
           "weight": "600",
-          "size": 0.024,
-          "tracking": 0.2,
+          "size": 0.02,
+          "tracking": 0.14,
           "uppercase": true,
           "ruleTop": true
         },
@@ -4105,7 +4105,7 @@
           "align": "center",
           "font": "Futura",
           "weight": "700",
-          "size": 0.024,
+          "size": 0.022,
           "tracking": 0.2,
           "uppercase": true,
           "bg": "accent"
@@ -4124,7 +4124,7 @@
           "text": "PATRIMOINE",
           "x": 0.5,
           "y": 0.04,
-          "w": 0.92,
+          "w": 0.88,
           "align": "center",
           "font": "Cinzel",
           "weight": "700",
@@ -4141,8 +4141,8 @@
           "align": "center",
           "font": "Futura",
           "weight": "600",
-          "size": 0.024,
-          "tracking": 0.22,
+          "size": 0.02,
+          "tracking": 0.14,
           "uppercase": true
         },
         {
@@ -4195,7 +4195,7 @@
           "align": "left",
           "font": "Futura",
           "weight": "700",
-          "size": 0.024,
+          "size": 0.022,
           "tracking": 0.2,
           "uppercase": true,
           "ruleTop": true
@@ -4218,8 +4218,8 @@
           "align": "left",
           "font": "Futura",
           "weight": "700",
-          "size": 0.024,
-          "tracking": 0.2,
+          "size": 0.02,
+          "tracking": 0.14,
           "uppercase": true
         },
         {
@@ -4285,8 +4285,8 @@
           "align": "left",
           "font": "Futura",
           "weight": "700",
-          "size": 0.024,
-          "tracking": 0.2,
+          "size": 0.02,
+          "tracking": 0.14,
           "uppercase": true,
           "ruleTop": true
         }
@@ -4304,7 +4304,7 @@
           "text": "ALTITUDE",
           "x": 0.5,
           "y": 0.04,
-          "w": 0.9,
+          "w": 0.88,
           "align": "center",
           "font": "Futura",
           "weight": "800",
@@ -4321,7 +4321,7 @@
           "align": "center",
           "font": "Inter",
           "weight": "600",
-          "size": 0.024,
+          "size": 0.022,
           "tracking": 0.22,
           "uppercase": true
         },
@@ -4361,8 +4361,8 @@
           "align": "center",
           "font": "Futura",
           "weight": "700",
-          "size": 0.024,
-          "tracking": 0.2,
+          "size": 0.02,
+          "tracking": 0.14,
           "uppercase": true,
           "ruleTop": true
         }
@@ -4397,8 +4397,8 @@
           "align": "left",
           "font": "Inter",
           "weight": "600",
-          "size": 0.024,
-          "tracking": 0.18,
+          "size": 0.02,
+          "tracking": 0.14,
           "uppercase": true,
           "ruleTop": true
         },
@@ -4451,7 +4451,7 @@
           "align": "left",
           "font": "Futura",
           "weight": "700",
-          "size": 0.024,
+          "size": 0.022,
           "tracking": 0.18,
           "uppercase": true,
           "ruleTop": true
@@ -4470,7 +4470,7 @@
           "text": "SPAZIO",
           "x": 0.5,
           "y": 0.04,
-          "w": 0.9,
+          "w": 0.88,
           "align": "center",
           "font": "League Spartan",
           "weight": "900",
@@ -4541,7 +4541,7 @@
           "align": "left",
           "font": "Futura",
           "weight": "700",
-          "size": 0.024,
+          "size": 0.022,
           "tracking": 0.18,
           "uppercase": true
         }
@@ -4567,8 +4567,8 @@
           "align": "center",
           "font": "Futura",
           "weight": "600",
-          "size": 0.024,
-          "tracking": 0.2,
+          "size": 0.02,
+          "tracking": 0.14,
           "uppercase": true
         },
         {
@@ -4620,7 +4620,7 @@
           "align": "center",
           "font": "Futura",
           "weight": "700",
-          "size": 0.024,
+          "size": 0.022,
           "tracking": 0.2,
           "uppercase": true
         }
@@ -4638,7 +4638,7 @@
           "text": "REVERB",
           "x": 0.5,
           "y": 0.035,
-          "w": 0.92,
+          "w": 0.88,
           "align": "center",
           "font": "Anton",
           "weight": "400",
@@ -4655,7 +4655,7 @@
           "align": "center",
           "font": "Futura",
           "weight": "700",
-          "size": 0.024,
+          "size": 0.022,
           "tracking": 0.2,
           "uppercase": true,
           "ruleTop": true
@@ -4709,7 +4709,7 @@
           "align": "left",
           "font": "Futura",
           "weight": "700",
-          "size": 0.026,
+          "size": 0.022,
           "tracking": 0.16,
           "uppercase": true,
           "ruleTop": true
@@ -4799,7 +4799,7 @@
           "align": "left",
           "font": "Futura",
           "weight": "700",
-          "size": 0.026,
+          "size": 0.022,
           "tracking": 0.18,
           "uppercase": true
         }
@@ -4817,7 +4817,7 @@
           "text": "STADIO",
           "x": 0.5,
           "y": 0.035,
-          "w": 0.92,
+          "w": 0.88,
           "align": "center",
           "font": "Bebas Neue",
           "weight": "400",
@@ -4875,7 +4875,7 @@
           "align": "left",
           "font": "Futura",
           "weight": "700",
-          "size": 0.026,
+          "size": 0.022,
           "tracking": 0.16,
           "uppercase": true,
           "ruleTop": true
@@ -4898,8 +4898,8 @@
           "align": "center",
           "font": "Futura",
           "weight": "700",
-          "size": 0.024,
-          "tracking": 0.22,
+          "size": 0.02,
+          "tracking": 0.14,
           "uppercase": true
         },
         {
@@ -4907,7 +4907,7 @@
           "text": "CRESTA",
           "x": 0.5,
           "y": 0.07,
-          "w": 0.9,
+          "w": 0.88,
           "align": "center",
           "font": "Futura",
           "weight": "900",
@@ -4950,7 +4950,7 @@
           "align": "center",
           "font": "Futura",
           "weight": "700",
-          "size": 0.024,
+          "size": 0.022,
           "tracking": 0.18,
           "uppercase": true,
           "ruleTop": true

@@ -13,7 +13,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Anton&family=Archivo+Black&family=Barlow+Condensed:ital,wght@0,600;0,700;0,800;1,700&family=Bebas+Neue&family=Bodoni+Moda:ital,opsz,wght@0,6..96,700;0,6..96,900;1,6..96,700&family=Cinzel:wght@700;800&family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400;1,600;1,700&family=DM+Sans:ital,wght@0,400;0,500;0,700;1,400&family=Inter:wght@400;500;600;700;800&family=Jost:ital,wght@0,400;0,500;0,600;0,700;0,800;0,900;1,500;1,700&family=Lato:ital,wght@0,400;0,700;0,900;1,400;1,700&family=League+Spartan:wght@600;700;800;900&family=Montserrat:wght@400;500;600;700;800;900&family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,600;0,6..72,800;1,6..72,400;1,6..72,800&family=Oswald:wght@500;600;700&family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400;1,700;1,900&family=Plus+Jakarta+Sans:wght@500;600;700;800&family=Space+Grotesk:wght@500;600;700&family=Syne:wght@700;800&family=Work+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="./styles.css?v=14">
+  <link rel="stylesheet" href="./styles.css?v=16">
 </head>
 <body>
   <div class="app-shell">
@@ -21,6 +21,11 @@
       <div class="top-row">
         <button type="button" id="appTitleBtn" class="brand-title" title="Tieni premuto per il pannello log">
           COVERCAM
+        </button>
+
+        <button type="button" id="btnToggleGenresBar" class="genre-collapse-pill" aria-expanded="false" aria-controls="genreTabs" title="Espandi/chiudi categorie rivista">
+          <span id="currentGenrePillText">Moda</span>
+          <span class="chevron-icon" id="genreChevron">▾</span>
         </button>
 
         <div class="preset-pill" id="presetBadge" aria-live="polite">
@@ -42,7 +47,7 @@
             <span>Live</span>
           </button>
           <button type="button" id="btnFlipCamera" class="icon-btn" aria-label="Cambia fotocamera" title="Cambia fotocamera">
-            <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2">
+            <svg viewBox="0 0 24 24" width="17" height="17" fill="none" stroke="currentColor" stroke-width="2">
               <path d="M20 7h-3l-2-2H9L7 7H4a2 2 0 0 0-2 2v9a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V9a2 2 0 0 0-2-2Z"/>
               <path d="M15 13a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z"/>
             </svg>
@@ -50,7 +55,7 @@
         </div>
       </div>
 
-      <nav class="genre-tabs" id="genreTabs" aria-label="Generi copertina"></nav>
+      <nav class="genre-tabs hidden" id="genreTabs" aria-label="Generi copertina"></nav>
     </header>
 
     <main class="viewport-area" id="viewportArea">
@@ -68,7 +73,14 @@
     </main>
 
     <footer class="bottom-bar">
-      <div class="quick-dock" role="toolbar" aria-label="Strumenti rapidi copertina">
+      <div class="dock-collapse-row">
+        <button type="button" id="btnToggleQuickDock" class="dock-toggle-handle" aria-expanded="false" aria-controls="quickDockContainer">
+          <span>Strumenti (Look · Guida · Impostazioni)</span>
+          <span class="chevron-icon" id="dockChevron">▴</span>
+        </button>
+      </div>
+
+      <div id="quickDockContainer" class="quick-dock hidden" role="toolbar" aria-label="Strumenti rapidi copertina">
         <button type="button" id="btnGenreLookToggle" class="dock-pill" aria-pressed="false" title="Pannello Look & Color Grading 60-30-10">
           <span class="dock-pill-label">
             <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2">
@@ -117,7 +129,7 @@
         <div class="bottom-left">
           <input type="file" id="galleryInput" accept="image/*" class="sr-only">
           <button type="button" id="btnImportGallery" class="thumb-btn" aria-label="Importa foto da galleria">
-            <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.8">
+            <svg viewBox="0 0 24 24" width="19" height="19" fill="none" stroke="currentColor" stroke-width="1.8">
               <rect x="3" y="3" width="18" height="18" rx="2"/>
               <circle cx="8.5" cy="8.5" r="1.5"/>
               <path d="M21 15l-5-5L5 21"/>
@@ -149,71 +161,87 @@
         <strong>Look & Color Grading (60 · 30 · 10)</strong>
         <button type="button" id="btnCloseLookSheet" class="icon-btn" aria-label="Chiudi pannello Look">✕</button>
       </div>
-      <div class="grading-top">
-        <button type="button" id="btnToggleGradingEnable" class="chip-btn active" aria-pressed="true">
-          <span>60·30·10 ON</span>
-        </button>
-        <div class="grading-bar-preview" aria-hidden="true">
-          <span id="bar60" class="bar-seg seg-60">60%</span>
-          <span id="bar30" class="bar-seg seg-30">30%</span>
-          <span id="bar10" class="bar-seg seg-10">10%</span>
+
+      <details class="acc-section" open>
+        <summary class="acc-summary">
+          <span>Triadi Cromatiche 60·30·10</span>
+          <span class="contrast-badge">Mix & Palette</span>
+        </summary>
+        <div class="acc-body">
+          <div class="grading-top">
+            <button type="button" id="btnToggleGradingEnable" class="chip-btn active" aria-pressed="true">
+              <span>60·30·10 ON</span>
+            </button>
+            <div class="grading-bar-preview" aria-hidden="true">
+              <span id="bar60" class="bar-seg seg-60">60%</span>
+              <span id="bar30" class="bar-seg seg-30">30%</span>
+              <span id="bar10" class="bar-seg seg-10">10%</span>
+            </div>
+            <label class="grading-intensity">
+              <span>Mix</span>
+              <input type="range" id="gradingStrengthSlider" min="0" max="100" value="55" step="1">
+            </label>
+          </div>
+          <div class="grading-presets" id="gradingPresetsRow" role="radiogroup" aria-label="Triadi cromatiche 60-30-10"></div>
+          <div class="grading-pickers">
+            <label class="color-slot">
+              <span class="slot-pct">60% Base</span>
+              <div class="slot-input-wrap">
+                <input type="color" id="color60Input" value="#1A242D">
+                <code id="color60Hex">#1A242D</code>
+              </div>
+            </label>
+            <label class="color-slot">
+              <span class="slot-pct">30% Toni Medi</span>
+              <div class="slot-input-wrap">
+                <input type="color" id="color30Input" value="#D8C3A5">
+                <code id="color30Hex">#D8C3A5</code>
+              </div>
+            </label>
+            <label class="color-slot">
+              <span class="slot-pct">10% Accento</span>
+              <div class="slot-input-wrap">
+                <input type="color" id="color10Input" value="#E63946">
+                <code id="color10Hex">#E63946</code>
+              </div>
+            </label>
+          </div>
         </div>
-        <label class="grading-intensity">
-          <span>Mix</span>
-          <input type="range" id="gradingStrengthSlider" min="0" max="100" value="55" step="1">
-        </label>
-      </div>
+      </details>
 
-      <div class="grading-presets" id="gradingPresetsRow" role="radiogroup" aria-label="Triadi cromatiche 60-30-10"></div>
-
-      <div class="setting-group">
-        <div class="setting-header">
-          <span>Metodo di fusione (Grading & Luci)</span>
+      <details class="acc-section">
+        <summary class="acc-summary">
+          <span>Metodo di Fusione (Grading & Luci)</span>
           <span id="blendModeStatusText" class="contrast-badge">Multiply</span>
+        </summary>
+        <div class="acc-body">
+          <div class="color-row" id="blendModeBar" role="radiogroup" aria-label="Metodo di fusione per luci e grading"></div>
         </div>
-        <div class="color-row" id="blendModeBar" role="radiogroup" aria-label="Metodo di fusione per luci e grading"></div>
-      </div>
+      </details>
 
-      <div class="grading-pickers">
-        <label class="color-slot">
-          <span class="slot-pct">60% Base</span>
-          <div class="slot-input-wrap">
-            <input type="color" id="color60Input" value="#1A242D">
-            <code id="color60Hex">#1A242D</code>
+      <details class="acc-section">
+        <summary class="acc-summary">
+          <span>Contrasto & Punto Bianco/Nero</span>
+          <span id="contrastToneValue" class="contrast-badge">100%</span>
+        </summary>
+        <div class="acc-body">
+          <div class="tone-sliders">
+            <label class="tone-control">
+              <div class="setting-header">
+                <span>Contrasto B/N</span>
+              </div>
+              <input type="range" id="contrastToneSlider" min="70" max="180" value="100" step="2">
+            </label>
+            <label class="tone-control">
+              <div class="setting-header">
+                <span>Punto Bianco / Nero</span>
+                <span id="brightnessToneValue">100%</span>
+              </div>
+              <input type="range" id="brightnessToneSlider" min="70" max="140" value="100" step="2">
+            </label>
           </div>
-        </label>
-        <label class="color-slot">
-          <span class="slot-pct">30% Toni Medi</span>
-          <div class="slot-input-wrap">
-            <input type="color" id="color30Input" value="#D8C3A5">
-            <code id="color30Hex">#D8C3A5</code>
-          </div>
-        </label>
-        <label class="color-slot">
-          <span class="slot-pct">10% Accento</span>
-          <div class="slot-input-wrap">
-            <input type="color" id="color10Input" value="#E63946">
-            <code id="color10Hex">#E63946</code>
-          </div>
-        </label>
-      </div>
-
-      <div class="tone-sliders">
-        <label class="tone-control">
-          <div class="setting-header">
-            <span>Contrasto B/N</span>
-            <span id="contrastToneValue">100%</span>
-          </div>
-          <input type="range" id="contrastToneSlider" min="70" max="180" value="100" step="2">
-        </label>
-        <label class="tone-control">
-          <div class="setting-header">
-            <span>Punto Bianco / Nero</span>
-            <span id="brightnessToneValue">100%</span>
-          </div>
-          <input type="range" id="brightnessToneSlider" min="70" max="140" value="100" step="2">
-        </label>
-      </div>
+        </div>
+      </details>
     </section>
 
     <section id="settingsDrawer" class="settings-drawer hidden" aria-label="Pannello impostazioni">
@@ -221,100 +249,111 @@
         <span class="sheet-pill-indicator"></span>
       </div>
       <div class="sheet-header-row">
-        <strong>Impostazioni Copertina & Scontorno</strong>
+        <strong>Impostazioni (clicca una voce per espandere)</strong>
         <button type="button" id="btnCloseSettingsSheet" class="icon-btn" aria-label="Chiudi impostazioni">✕</button>
       </div>
-      <div class="setting-group">
-        <div class="setting-header">
-          <label for="opacitySlider">Opacità layout</label>
-          <span id="opacityValue">100%</span>
-        </div>
-        <input type="range" id="opacitySlider" min="15" max="100" value="100" step="1">
-      </div>
 
-      <div class="setting-group">
-        <div class="setting-header">
-          <span>Colore testo e contrasto WCAG</span>
-          <span id="contrastStatus" class="contrast-badge">AUTO · --:1</span>
-        </div>
-        <div class="color-row">
-          <button type="button" id="btnAutoColor" class="chip-btn active">
-            <span class="swatch-dot" id="autoSwatchDot"></span>
-            <span>Auto Scena</span>
-          </button>
-          <div class="palette-swatches" id="paletteContainer" role="radiogroup" aria-label="Palette colori manuale"></div>
-        </div>
-      </div>
-
-      <div class="setting-group">
-        <div class="setting-header">
-          <span>Guida composizione (solo mirino)</span>
+      <details class="acc-section" open>
+        <summary class="acc-summary">
+          <span>Griglia Tipografica & Guide</span>
           <span id="guideStatusText" class="contrast-badge">Nessuna</span>
+        </summary>
+        <div class="acc-body">
+          <div class="color-row" id="guideBar" role="radiogroup" aria-label="Guide di composizione fotografica"></div>
         </div>
-        <div class="color-row" id="guideBar" role="radiogroup" aria-label="Guide di composizione fotografica"></div>
-      </div>
+      </details>
 
-      <div class="setting-group">
-        <div class="setting-header">
-          <span>Effetto immagine</span>
-          <span id="filterStatusText" class="contrast-badge">Naturale</span>
+      <details class="acc-section">
+        <summary class="acc-summary">
+          <span>Colore Testo & Contrasto WCAG</span>
+          <span id="contrastStatus" class="contrast-badge">AUTO · --:1</span>
+        </summary>
+        <div class="acc-body">
+          <div class="color-row">
+            <button type="button" id="btnAutoColor" class="chip-btn active">
+              <span class="swatch-dot" id="autoSwatchDot"></span>
+              <span>Auto Scena</span>
+            </button>
+            <div class="palette-swatches" id="paletteContainer" role="radiogroup" aria-label="Palette colori manuale"></div>
+          </div>
+          <div class="setting-header" style="margin-top:6px">
+            <label for="opacitySlider">Opacità layout</label>
+            <span id="opacityValue">100%</span>
+          </div>
+          <input type="range" id="opacitySlider" min="15" max="100" value="100" step="1">
         </div>
-        <div class="color-row" id="filterBar" role="radiogroup" aria-label="Filtri fotografici"></div>
-      </div>
+      </details>
 
-      <div class="setting-group">
-        <div class="setting-header">
-          <span>Scontorno volto su testata (trascina o pizzica)</span>
-          <button type="button" id="btnFaceCutoutToggle" class="chip-btn" aria-pressed="false">
-            <strong id="faceCutoutStatusText">OFF</strong>
-          </button>
+      <details class="acc-section">
+        <summary class="acc-summary">
+          <span>Scontorno Volto su Testata</span>
+          <strong id="faceCutoutStatusText" class="contrast-badge">OFF</strong>
+        </summary>
+        <div class="acc-body">
+          <div class="setting-header">
+            <span>Attiva maschera (trascina o pizzica sul volto)</span>
+            <button type="button" id="btnFaceCutoutToggle" class="chip-btn" aria-pressed="false">
+              <span>Attiva / Disattiva</span>
+            </button>
+          </div>
+          <div class="tone-sliders">
+            <label class="tone-control">
+              <div class="setting-header">
+                <span>Grandezza zona</span>
+                <span id="faceSizeValue">24%</span>
+              </div>
+              <input type="range" id="faceSizeSlider" min="10" max="50" value="24" step="1">
+            </label>
+            <label class="tone-control">
+              <div class="setting-header">
+                <span>Sfumatura bordo</span>
+                <span id="faceFeatherValue">72%</span>
+              </div>
+              <input type="range" id="faceFeatherSlider" min="20" max="95" value="72" step="1">
+            </label>
+          </div>
         </div>
-        <div class="tone-sliders">
-          <label class="tone-control">
-            <div class="setting-header">
-              <span>Grandezza zona</span>
-              <span id="faceSizeValue">24%</span>
-            </div>
-            <input type="range" id="faceSizeSlider" min="10" max="50" value="24" step="1">
-          </label>
-          <label class="tone-control">
-            <div class="setting-header">
-              <span>Sfumatura bordo</span>
-              <span id="faceFeatherValue">72%</span>
-            </div>
-            <input type="range" id="faceFeatherSlider" min="20" max="95" value="72" step="1">
-          </label>
-        </div>
-      </div>
+      </details>
 
-      <div class="setting-group">
-        <div class="setting-header">
-          <span>Aloni di luce (tocca sulla foto)</span>
+      <details class="acc-section">
+        <summary class="acc-summary">
+          <span>Aloni di Luce & Blend Mode</span>
           <span id="lightSpotCountText" class="contrast-badge">0 punti</span>
+        </summary>
+        <div class="acc-body">
+          <div class="color-row" id="lightBlendDrawerBar" role="radiogroup" aria-label="Metodo fusione aloni"></div>
+          <div class="setting-toggles">
+            <button type="button" id="btnLightModeToggle" class="toggle-pill" aria-pressed="false">
+              <span>Tocca foto per alone</span>
+              <strong id="lightModeStatusText">OFF</strong>
+            </button>
+            <button type="button" id="btnClearLights" class="toggle-pill">
+              <span>Rimuovi aloni</span>
+              <strong>RESET</strong>
+            </button>
+          </div>
         </div>
-        <div class="color-row" id="lightBlendDrawerBar" role="radiogroup" aria-label="Metodo fusione aloni"></div>
-        <div class="setting-toggles">
-          <button type="button" id="btnLightModeToggle" class="toggle-pill" aria-pressed="false">
-            <span>Tocca foto per alone</span>
-            <strong id="lightModeStatusText">OFF</strong>
-          </button>
-          <button type="button" id="btnClearLights" class="toggle-pill">
-            <span>Rimuovi aloni</span>
-            <strong>RESET</strong>
-          </button>
-        </div>
-      </div>
+      </details>
 
-      <div class="setting-toggles">
-        <button type="button" id="btnHorizonToggle" class="toggle-pill" aria-pressed="false">
-          <span>Livella orizzonte</span>
-          <strong id="horizonStatusText">OFF</strong>
-        </button>
-        <button type="button" id="btnSafeZoneToggle" class="toggle-pill" aria-pressed="false">
-          <span>Zone sicure Story</span>
-          <strong id="safeZoneStatusText">OFF</strong>
-        </button>
-      </div>
+      <details class="acc-section">
+        <summary class="acc-summary">
+          <span>Filtro Fotografico, Livella & Safe Zone</span>
+          <span id="filterStatusText" class="contrast-badge">Naturale</span>
+        </summary>
+        <div class="acc-body">
+          <div class="color-row" id="filterBar" role="radiogroup" aria-label="Filtri fotografici"></div>
+          <div class="setting-toggles" style="margin-top:6px">
+            <button type="button" id="btnHorizonToggle" class="toggle-pill" aria-pressed="false">
+              <span>Livella orizzonte</span>
+              <strong id="horizonStatusText">OFF</strong>
+            </button>
+            <button type="button" id="btnSafeZoneToggle" class="toggle-pill" aria-pressed="false">
+              <span>Zone sicure Story</span>
+              <strong id="safeZoneStatusText">OFF</strong>
+            </button>
+          </div>
+        </div>
+      </details>
     </section>
   </div>
 
@@ -372,6 +411,6 @@
     </div>
   </dialog>
 
-  <script type="module" src="./js/app.js?v=14"></script>
+  <script type="module" src="./js/app.js?v=16"></script>
 </body>
 </html>
