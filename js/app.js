@@ -1136,14 +1136,24 @@ async function bootstrap() {
   updateGradingUI();
 
   try {
-    const res = await fetch('./presets.json', { cache: 'no-store' });
+    const res = await fetch('./presets.json?v=27', { cache: 'no-store' });
+    if (!res.ok) throw new Error('HTTP ' + res.status + ' durante il caricamento dei preset');
     const data = await res.json();
-    state.genres = data.genres || [];
-    state.presets = data.presets || [];
+    if (!Array.isArray(data.genres) || !Array.isArray(data.presets) || !data.genres.length || !data.presets.length) {
+      throw new Error('Catalogo preset non valido o vuoto');
+    }
+    state.genres = data.genres;
+    state.presets = data.presets;
     for (const preset of state.presets) originalEditorialTexts.set(preset.id, preset.elements.map(el => el.text));
     logger.info('Preset caricati da presets.json', { count: state.presets.length });
   } catch (err) {
     logger.error('Errore caricamento presets.json', err);
+    const fallback = document.getElementById('presetLoadError');
+    if (fallback) {
+      fallback.hidden = false;
+      fallback.textContent = 'Impossibile caricare i layout: ' + err.message + '. Tocca per riprovare.';
+      fallback.addEventListener('click', () => location.reload(), { once: true });
+    }
   }
 
   dom.editorialLineGap?.addEventListener('input', () => {
