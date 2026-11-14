@@ -1,5 +1,5 @@
 import { logger } from './logger.js';
-import { FORMATS, resolveFilterCss, computeCropRect, renderCoverOverlay } from './renderer.js?v=30';
+import { FORMATS, resolveFilterCss, computeCropRect, computeZoomCropRect, renderCoverOverlay } from './renderer.js?v=31';
 
 function formatTimestamp(date = new Date()) {
   const pad = n => String(n).padStart(2, '0');
@@ -31,12 +31,14 @@ export async function captureDualResolution({
 }) {
   const format = FORMATS[formatId] || FORMATS.magazine;
   const crop = computeCropRect(sourceWidth, sourceHeight, format.ratio);
+  const zoomCrop = computeZoomCropRect(sourceWidth, sourceHeight, format.ratio, renderOptions?.zoom ?? 1);
 
   logger.info('Avvio cattura ad alta risoluzione', {
     sourceWidth,
     sourceHeight,
     cropWidth: crop.sw,
     cropHeight: crop.sh,
+    zoom: renderOptions?.zoom ?? 1,
     format: format.id,
     presetId: preset ? preset.id : null
   });
@@ -59,10 +61,10 @@ export async function captureDualResolution({
   }
   cleanCtx.drawImage(
     source,
-    crop.sx,
-    crop.sy,
-    crop.sw,
-    crop.sh,
+    zoomCrop.sx,
+    zoomCrop.sy,
+    zoomCrop.sw,
+    zoomCrop.sh,
     0,
     0,
     crop.sw,
