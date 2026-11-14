@@ -329,6 +329,19 @@ export function renderCoverOverlay(ctx, width, height, preset, options) {
   let prevFlowBottom = null;
   let prevAlign = null;
   const placedBoxes = [];
+  // The bottom caption is a fixed editorial zone, not a free-floating text box.
+  // Reserve it before laying out headlines and supporting stories.
+  const footerElement = preset.elements.find(item => item.role === 'cta' && typeof item.text === 'string');
+  let footerReserve = null;
+  if (footerElement) {
+    const { y: footerY } = adaptElementPosition(footerElement, formatId, showSafeZones);
+    const x = footerElement.x * width;
+    const w = Math.min(footerElement.w || 0.88, 0.88) * width;
+    const left = footerElement.align === 'center' ? x - w / 2
+      : footerElement.align === 'right' ? x - w : x;
+    const top = footerY * height - (footerElement.ruleTop ? width * 0.04 : 0) - width * 0.025;
+    footerReserve = { role: 'footer-reserve', left, right: left + w, top, bottom: height };
+  }
 
   for (const el of preset.elements) {
     if (typeof el.text !== 'string' || !el.text.trim()) continue;
@@ -433,28 +446,53 @@ export function renderCoverOverlay(ctx, width, height, preset, options) {
     const targetY = yPos;
     const bottomLimit = height * 0.956;
     const topLimit = width * 0.018;
-    const conflictsAt = (top) => placedBoxes.filter(b => {
-      const horizOverlap = Math.min(boxRight, b.right) - Math.max(boxLeft, b.left) > width * 0.025;
-      return horizOverlap && top - topInset < b.bottom + minGap && top + blockH > b.top - minGap;
-    });
-    for (let pass = 0; pass < placedBoxes.length + 1; pass++) {
-      const conflicts = conflictsAt(yPos);
-      if (!conflicts.length) break;
-      yPos = Math.max(yPos, ...conflicts.map(b => b.bottom + minGap + topInset));
+    const obstacles = el.role === 'cta' || !footerReserve
+      ? placedBoxes
+      : [...placedBoxes, footerReserve];
+    const intersectsHorizontally = b =>
+      Math.min(boxRight, b.right) - Math.max(boxLeft, b.left) > width * 0.025;
+    const collisionsAt = top => obstacles.filter(b =>
+      intersectsHorizontally(b) &&
+      top - topInset < b.bottom + minGap &&
+      top + blockH > b.top - minGap
+    );
+
+    // Preserve each role's authored vertical region and never move the footer
+    // into the photograph's main-story area to make a collision disappear.
+    const hardMin = topLimit + topInset;
+    const hardMax = bottomLimit - blockH;
+    const band = el.role === 'masthead' || el.role === 'issue' ? height * 0.055
+      : el.role === 'cta' ? height * 0.07 : height * 0.15;
+    const bandMin = el.role === 'cta' ? height * 0.83 : targetY - band;
+    const bandMax = targetY + band;
+    const minY = Math.max(hardMin, bandMin);
+    const maxY = Math.min(hardMax, bandMax);
+    const candidates = new Set([targetY, minY, maxY]);
+    for (const b of obstacles) {
+      candidates.add(b.bottom + minGap + topInset);
+      candidates.add(b.top - minGap - blockH);
     }
-    if (el.role !== 'masthead' && yPos + blockH > bottomLimit) {
-      // Find genuinely available space before placing a box near the footer.
-      const candidates = [Math.max(topLimit + topInset, bottomLimit - blockH)];
-      for (const b of placedBoxes) candidates.push(b.top - minGap - blockH);
-      const valid = candidates.filter(top =>
-        top - topInset >= topLimit && top + blockH <= bottomLimit && conflictsAt(top).length === 0
-      );
-      if (valid.length) {
-        valid.sort((a, b) => Math.abs(a - targetY) - Math.abs(b - targetY));
-        yPos = valid[0];
-      } else {
-        yPos = Math.max(topLimit + topInset, bottomLimit - blockH);
-      }
+    // Search intermediate positions, not only the edges of other boxes.
+    for (let step = minY; step <= maxY; step += editorialLineGap * width * 0.009) {
+      candidates.add(step);
+    }
+    const inRange = top => Number.isFinite(top) && top >= minY - 0.5 && top <= maxY + 0.5;
+    const best = [...candidates].filter(inRange).filter(top => collisionsAt(top).length === 0)
+      .sort((a, b) => Math.abs(a - targetY) - Math.abs(b - targetY));
+    yPos = best.length ? best[0] : Math.max(hardMin, Math.min(targetY, hardMax));
+    if (!best.length && minY <= maxY) {
+      // If a preset is genuinely overcrowded, keep the text near its authored
+      // area and minimize the obstruction instead of teleporting the footer.
+      const overlapCost = top => obstacles.reduce((sum, b) => {
+        if (!intersectsHorizontally(b)) return sum;
+        const shared = Math.min(top + blockH, b.bottom) - Math.max(top - topInset, b.top);
+        return sum + Math.max(0, shared);
+      }, 0);
+      yPos = [...candidates].filter(inRange)
+        .sort((a, b) =>
+          overlapCost(a) - overlapCost(b) ||
+          Math.abs(a - targetY) - Math.abs(b - targetY)
+        )[0] ?? yPos;
     }
 
     let fillColor = secondaryColor;
