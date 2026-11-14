@@ -27,6 +27,21 @@ export function computeCropRect(sourceWidth, sourceHeight, targetRatio) {
   return { sx, sy, sw, sh };
 }
 
+// Digital zoom uses the same centered source crop as CSS object-fit: cover.
+// Keeping this calculation shared prevents a preview/export framing mismatch.
+export function computeZoomCropRect(sourceWidth, sourceHeight, targetRatio, zoom = 1) {
+  const base = computeCropRect(sourceWidth, sourceHeight, targetRatio);
+  const safeZoom = Math.max(1, Math.min(3, Number(zoom) || 1));
+  const sw = base.sw / safeZoom;
+  const sh = base.sh / safeZoom;
+  return {
+    sx: base.sx + (base.sw - sw) / 2,
+    sy: base.sy + (base.sh - sh) / 2,
+    sw,
+    sh
+  };
+}
+
 function adaptElementPosition(el, formatId, showSafeZones) {
   let y = el.y;
   let size = el.size;
@@ -210,7 +225,11 @@ export function renderLightSpots(ctx, width, height, spots = [], isExport = fals
     const cx = spot.x * width;
     const cy = spot.y * height;
     const radius = (spot.radius || 0.34) * Math.min(width, height);
-    const intensity = spot.intensity || 0.48;
+    const intensity = spot.intensity ?? 0.48;
+    const customHaloColor = typeof spot.color === 'string' && /^#[0-9a-f]{6}$/i.test(spot.color)
+      ? hexToRgb(spot.color) : null;
+    const haloCore = customHaloColor || rgb30;
+    const haloEdge = customHaloColor || rgb10;
     const mode = spot.blendMode || blendMode || 'multiply';
 
     ctx.save();
@@ -233,7 +252,7 @@ export function renderLightSpots(ctx, width, height, spots = [], isExport = fals
         const t = i / 12;
         const k = t * t * (3 - 2 * t);
         const a = Math.min(1, intensity * 0.88) * (1 - k);
-        mulGrad.addColorStop(t, `rgba(${rgb30.r}, ${rgb30.g}, ${rgb30.b}, ${a.toFixed(4)})`);
+        mulGrad.addColorStop(t, `rgba(${haloCore.r}, ${haloCore.g}, ${haloCore.b}, ${a.toFixed(4)})`);
       }
       ctx.fillStyle = mulGrad;
       ctx.fillRect(0, 0, width, height);
@@ -241,9 +260,9 @@ export function renderLightSpots(ctx, width, height, spots = [], isExport = fals
       const outer = radius * 1.9;
       const grad = ctx.createRadialGradient(cx, cy, 0, cx, cy, outer);
       addEased(grad, (t) => {
-        const r = Math.round(rgb30.r + (rgb10.r - rgb30.r) * Math.min(1, t * 1.6));
-        const g = Math.round(rgb30.g + (rgb10.g - rgb30.g) * Math.min(1, t * 1.6));
-        const bl = Math.round(rgb30.b + (rgb10.b - rgb30.b) * Math.min(1, t * 1.6));
+        const r = Math.round(haloCore.r + (haloEdge.r - haloCore.r) * Math.min(1, t * 1.6));
+        const g = Math.round(haloCore.g + (haloEdge.g - haloCore.g) * Math.min(1, t * 1.6));
+        const bl = Math.round(haloCore.b + (haloEdge.b - haloCore.b) * Math.min(1, t * 1.6));
         return { r, g, b: bl, a: Math.min(1, intensity * 0.85) };
       });
       ctx.fillStyle = grad;
@@ -264,7 +283,7 @@ export function renderLightSpots(ctx, width, height, spots = [], isExport = fals
       ctx.arc(cx, cy, 14, 0, Math.PI * 2);
       ctx.stroke();
 
-      ctx.fillStyle = 'rgba(255, 42, 109, 0.9)';
+      ctx.fillStyle = spot.color || 'rgba(255, 42, 109, 0.9)';
       ctx.beginPath();
       ctx.arc(cx, cy, 3.5, 0, Math.PI * 2);
       ctx.fill();
