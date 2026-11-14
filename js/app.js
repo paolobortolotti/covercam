@@ -725,7 +725,15 @@ function updateLightSpotsUI() {
   }
 }
 
-function syncHaloSliders(intensity, radius) {
+function syncHaloColor(color = state.defaultHaloColor) {
+  const selected = /^#[0-9a-f]{6}$/i.test(color) ? color.toUpperCase() : state.defaultHaloColor;
+  if (dom.haloColorInput) dom.haloColorInput.value = selected;
+  if (dom.drawerHaloColorInput) dom.drawerHaloColorInput.value = selected;
+  if (dom.haloColorValue) dom.haloColorValue.textContent = selected;
+  if (dom.drawerHaloColorValue) dom.drawerHaloColorValue.textContent = selected;
+}
+
+function syncHaloSliders(intensity, radius, color) {
   const intPct = Math.round((intensity !== undefined ? intensity : state.defaultHaloIntensity) * 100);
   const radPct = Math.round((radius !== undefined ? radius : state.defaultHaloRadius) * 100);
   if (dom.haloIntensitySlider) dom.haloIntensitySlider.value = String(intPct);
@@ -737,6 +745,7 @@ function syncHaloSliders(intensity, radius) {
   if (dom.haloRadiusValue) dom.haloRadiusValue.textContent = `${radPct}%`;
   if (dom.drawerHaloRadiusSlider) dom.drawerHaloRadiusSlider.value = String(radPct);
   if (dom.drawerHaloRadiusValue) dom.drawerHaloRadiusValue.textContent = `${radPct}%`;
+  syncHaloColor(color);
 }
 
 function setHaloIntensity(pct) {
@@ -767,6 +776,20 @@ function setHaloRadius(pct) {
   scheduleOverlayRedraw();
 }
 
+function setHaloColor(value) {
+  if (typeof value !== 'string' || !/^#[0-9a-f]{6}$/i.test(value)) return;
+  const color = value.toUpperCase();
+  state.defaultHaloColor = color;
+  const selected = state.lightSpots[state.activeSpotIndex];
+  if (selected) {
+    selected.color = color;
+  } else {
+    for (const spot of state.lightSpots) spot.color = color;
+  }
+  syncHaloColor(color);
+  scheduleOverlayRedraw();
+}
+
 function toggleLightHud(forceState) {
   if (!dom.lightFloatingHud) return;
   const isHidden = dom.lightFloatingHud.classList.contains('hidden');
@@ -780,11 +803,13 @@ function toggleLightHud(forceState) {
         y: 0.42,
         radius: state.defaultHaloRadius,
         intensity: state.defaultHaloIntensity,
-        blendMode: state.lightBlendMode
+        blendMode: state.lightBlendMode,
+        color: state.defaultHaloColor
       });
       state.activeSpotIndex = 0;
     }
-    syncHaloSliders(state.defaultHaloIntensity, state.defaultHaloRadius);
+    const selected = state.lightSpots[state.activeSpotIndex];
+    syncHaloSliders(selected?.intensity, selected?.radius, selected?.color);
   }
   if (dom.btnLightModeToggle) {
     dom.btnLightModeToggle.setAttribute('aria-pressed', String(state.lightSpotMode));
@@ -837,7 +862,7 @@ function setupStageInteractions() {
         if (hitDist <= Math.max(0.08, (spot.radius || 0.34) * 0.42)) {
           draggingSpotIdx = i;
           state.activeSpotIndex = i;
-          syncHaloSliders(spot.intensity, spot.radius);
+          syncHaloSliders(spot.intensity, spot.radius, spot.color);
           tracking = false;
           return;
         }
@@ -935,7 +960,8 @@ function setupStageInteractions() {
           y: normY,
           radius: state.defaultHaloRadius,
           intensity: state.defaultHaloIntensity,
-          blendMode: state.lightBlendMode
+          blendMode: state.lightBlendMode,
+          color: state.defaultHaloColor
         });
         state.activeSpotIndex = state.lightSpots.length - 1;
         logger.info('Alone aggiunto con tocco', {
@@ -1430,7 +1456,8 @@ async function bootstrap() {
         y: 0.42,
         radius: state.defaultHaloRadius,
         intensity: state.defaultHaloIntensity,
-        blendMode: state.lightBlendMode
+        blendMode: state.lightBlendMode,
+        color: state.defaultHaloColor
       });
       state.activeSpotIndex = 0;
     }
@@ -1467,7 +1494,8 @@ async function bootstrap() {
         y: Math.max(0.15, Math.min(0.85, 0.42 + offset * 0.6)),
         radius: state.defaultHaloRadius,
         intensity: state.defaultHaloIntensity,
-        blendMode: state.lightBlendMode
+        blendMode: state.lightBlendMode,
+        color: state.defaultHaloColor
       });
       state.activeSpotIndex = state.lightSpots.length - 1;
       updateLightSpotsUI();
@@ -1507,6 +1535,9 @@ async function bootstrap() {
       setHaloRadius(Number(e.target.value));
     });
   }
+
+  dom.haloColorInput?.addEventListener('input', (e) => setHaloColor(e.target.value));
+  dom.drawerHaloColorInput?.addEventListener('input', (e) => setHaloColor(e.target.value));
 
   dom.btnFaceCutoutToggle.addEventListener('click', () => {
     state.faceCutoutEnabled = !state.faceCutoutEnabled;
