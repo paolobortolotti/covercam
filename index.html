@@ -13,7 +13,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Anton&family=Archivo+Black&family=Barlow+Condensed:ital,wght@0,600;0,700;0,800;1,700&family=Bebas+Neue&family=Bodoni+Moda:ital,opsz,wght@0,6..96,700;0,6..96,900;1,6..96,700&family=Cinzel:wght@700;800&family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400;1,600;1,700&family=DM+Sans:ital,wght@0,400;0,500;0,700;1,400&family=Inter:wght@400;500;600;700;800&family=Jost:ital,wght@0,400;0,500;0,600;0,700;0,800;0,900;1,500;1,700&family=Lato:ital,wght@0,400;0,700;0,900;1,400;1,700&family=League+Spartan:wght@600;700;800;900&family=Montserrat:wght@400;500;600;700;800;900&family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,600;0,6..72,800;1,6..72,400;1,6..72,800&family=Oswald:wght@500;600;700&family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400;1,700;1,900&family=Plus+Jakarta+Sans:wght@500;600;700;800&family=Space+Grotesk:wght@500;600;700&family=Syne:wght@700;800&family=Work+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="./styles.css?v=19">
+  <link rel="stylesheet" href="./styles.css?v=31">
 </head>
 <body>
   <div class="app-shell">
@@ -86,6 +86,11 @@
               <input type="range" id="haloRadiusSlider" min="15" max="65" value="34" step="1">
             </label>
           </div>
+          <label class="halo-color-control" for="haloColorInput">
+            <span>Colore alone</span>
+            <input type="color" id="haloColorInput" value="#f2c18d" aria-label="Scegli colore alone selezionato">
+            <code id="haloColorValue">#F2C18D</code>
+          </label>
         </div>
         <div class="camera-error hidden" id="cameraErrorBox">
           <p id="cameraErrorText">Accesso alla fotocamera non disponibile. Puoi comunque importare una foto dalla galleria.</p>
@@ -163,6 +168,13 @@
         </button>
       </div>
 
+      <div class="zoom-row" role="group" aria-label="Zoom digitale fotocamera e foto">
+        <span class="zoom-caption">ZOOM</span>
+        <button type="button" id="btnZoomOut" class="zoom-step" aria-label="Riduci zoom">−</button>
+        <input type="range" id="zoomSlider" min="1" max="3" step="0.1" value="1" aria-label="Zoom digitale da uno a tre ingrandimenti">
+        <button type="button" id="btnZoomIn" class="zoom-step" aria-label="Aumenta zoom">+</button>
+        <button type="button" id="btnZoomReset" class="zoom-readout" aria-label="Ripristina zoom a uno">1.0×</button>
+      </div>
       <div class="shutter-row">
         <div class="bottom-left">
           <input type="file" id="galleryInput" accept="image/*" class="sr-only">
@@ -390,6 +402,11 @@
               <input type="range" id="drawerHaloRadiusSlider" min="15" max="65" value="34" step="1">
             </label>
           </div>
+          <label class="halo-color-control halo-color-drawer" for="drawerHaloColorInput">
+            <span>Colore alone selezionato</span>
+            <input type="color" id="drawerHaloColorInput" value="#f2c18d" aria-label="Colore alone, impostazioni">
+            <code id="drawerHaloColorValue">#F2C18D</code>
+          </label>
           <div class="setting-toggles">
             <button type="button" id="btnLightModeToggle" class="toggle-pill" aria-pressed="false">
               <span>Overlay Aloni sulla foto</span>
@@ -479,6 +496,6 @@
     </div>
   </dialog>
 
-  <script type="module" src="./js/app.js?v=30"></script>
+  <script type="module" src="./js/app.js?v=31"></script>
 </body>
 </html>
