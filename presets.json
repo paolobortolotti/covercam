@@ -723,7 +723,7 @@
           "role": "kicker",
           "text": "INCONTRI",
           "x": 0.07,
-          "y": 0.535,
+          "y": 0.69,
           "w": 0.48,
           "align": "left",
           "font": "Inter",
@@ -736,16 +736,16 @@
         {
           "role": "body",
           "text": "La nuova guardia del cinema europeo posa in esclusiva.",
-          "x": 0.93,
-          "y": 0.765,
-          "w": 0.36,
-          "align": "right",
+          "x": 0.07,
+          "y": 0.75,
+          "w": 0.4,
+          "align": "left",
           "font": "Inter",
           "weight": "700",
           "size": 0.028,
           "lineHeight": 1.18,
           "box": "bar",
-          "maxLines": 2
+          "maxLines": 4
         },
         {
           "role": "cta",
@@ -822,7 +822,7 @@
           "size": 0.036,
           "lineHeight": 1.17,
           "box": "bar",
-          "maxLines": 3
+          "maxLines": 4
         },
         {
           "role": "cta",
@@ -2429,7 +2429,7 @@
           "size": 0.033,
           "lineHeight": 1.17,
           "box": "bracket",
-          "maxLines": 3
+          "maxLines": 4
         },
         {
           "role": "cta",
@@ -4358,7 +4358,7 @@
           "size": 0.035,
           "lineHeight": 1.17,
           "box": "bracket",
-          "maxLines": 3
+          "maxLines": 4
         },
         {
           "role": "cta",
@@ -4770,7 +4770,7 @@
           "size": 0.028,
           "lineHeight": 1.18,
           "box": "bar",
-          "maxLines": 2
+          "maxLines": 4
         },
         {
           "role": "headline",
