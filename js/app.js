@@ -828,6 +828,8 @@ function setupStageInteractions() {
   const activePointers = new Map();
   let initialPinchDist = null;
   let initialMaskRx = 0.24;
+  let initialZoom = 1;
+  let zoomPinchActive = false;
 
   dom.stageFrame.addEventListener('pointerdown', (e) => {
     if (e.target.closest('button') || e.target.closest('.light-floating-hud')) return;
@@ -841,7 +843,10 @@ function setupStageInteractions() {
 
     activePointers.set(e.pointerId, { x: e.clientX, y: e.clientY });
 
-    if (activePointers.size === 2 && state.faceCutoutEnabled) {
+    if (activePointers.size === 2) {
+      // Preserve mask-size pinch when cutout is enabled; otherwise zoom the photo.
+      zoomPinchActive = !state.faceCutoutEnabled;
+      initialZoom = state.zoom;
       const pts = [...activePointers.values()];
       initialPinchDist = Math.hypot(pts[0].x - pts[1].x, pts[0].y - pts[1].y);
       initialMaskRx = subjectMask.maskZone.rx;
@@ -888,27 +893,32 @@ function setupStageInteractions() {
       activePointers.set(e.pointerId, { x: e.clientX, y: e.clientY });
     }
 
+    if (activePointers.size === 2 && initialPinchDist > 10) {
+      const pts = [...activePointers.values()];
+      const dist = Math.hypot(pts[0].x - pts[1].x, pts[0].y - pts[1].y);
+      const scale = dist / initialPinchDist;
+      if (state.faceCutoutEnabled) {
+        const nextRx = Math.max(0.10, Math.min(0.50, initialMaskRx * scale));
+        subjectMask.setSize(nextRx);
+        if (dom.faceSizeSlider) {
+          const pct = Math.round(nextRx * 100);
+          dom.faceSizeSlider.value = String(pct);
+          dom.faceSizeValue.textContent = `${pct}%`;
+        }
+        scheduleOverlayRedraw();
+      } else {
+        setZoom(initialZoom * scale);
+      }
+      e.preventDefault();
+      return;
+    }
+
     if (draggingSpotIdx >= 0 && state.lightSpots[draggingSpotIdx]) {
       const rect = dom.stageFrame.getBoundingClientRect();
       const normX = Math.max(0.02, Math.min(0.98, (e.clientX - rect.left) / rect.width));
       const normY = Math.max(0.02, Math.min(0.98, (e.clientY - rect.top) / rect.height));
       state.lightSpots[draggingSpotIdx].x = normX;
       state.lightSpots[draggingSpotIdx].y = normY;
-      scheduleOverlayRedraw();
-      return;
-    }
-
-    if (activePointers.size === 2 && state.faceCutoutEnabled && initialPinchDist > 10) {
-      const pts = [...activePointers.values()];
-      const dist = Math.hypot(pts[0].x - pts[1].x, pts[0].y - pts[1].y);
-      const scale = dist / initialPinchDist;
-      const nextRx = Math.max(0.10, Math.min(0.50, initialMaskRx * scale));
-      subjectMask.setSize(nextRx);
-      if (dom.faceSizeSlider) {
-        const pct = Math.round(nextRx * 100);
-        dom.faceSizeSlider.value = String(pct);
-        dom.faceSizeValue.textContent = `${pct}%`;
-      }
       scheduleOverlayRedraw();
       return;
     }
@@ -926,6 +936,10 @@ function setupStageInteractions() {
     activePointers.delete(e.pointerId);
     if (activePointers.size < 2) {
       initialPinchDist = null;
+      if (zoomPinchActive) {
+        zoomPinchActive = false;
+        runSceneColorSample();
+      }
     }
     if (draggingSpotIdx >= 0) {
       draggingSpotIdx = -1;
