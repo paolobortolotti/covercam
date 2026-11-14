@@ -1,5 +1,5 @@
 import { logger } from './logger.js';
-import { FORMATS, resolveFilterCss, computeCropRect, renderCoverOverlay } from './renderer.js';
+import { FORMATS, resolveFilterCss, computeCropRect, renderCoverOverlay } from './renderer.js?v=30';
 
 function formatTimestamp(date = new Date()) {
   const pad = n => String(n).padStart(2, '0');
