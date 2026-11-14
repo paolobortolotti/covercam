@@ -1363,3 +1363,139 @@ textarea.editorial-input { min-height: 66px; resize: vertical; }
   .zoom-row { gap: 4px; padding-inline: 0; grid-template-columns: auto 44px minmax(32px, 1fr) 44px 54px; }
   .zoom-caption { font-size: 0.6rem; }
 }
+
+
+/* v32 - shutter response: keep capture acknowledgment independent of JPEG encoding. */
+.shutter-freeze {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 3;
+  pointer-events: none;
+}
+
+.shutter-flash {
+  position: absolute;
+  inset: 0;
+  z-index: 12;
+  background: rgba(255, 255, 255, 0.88);
+  pointer-events: none;
+  opacity: 0;
+  visibility: hidden;
+}
+
+.shutter-flash.active {
+  visibility: visible;
+  animation: shutter-flash 340ms ease-out both;
+}
+
+@keyframes shutter-flash {
+  0% { opacity: 0.8; }
+  25% { opacity: 0.48; }
+  100% { opacity: 0; }
+}
+
+.capture-feedback {
+  position: absolute;
+  top: max(12px, env(safe-area-inset-top, 0px));
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 14;
+  width: max-content;
+  max-width: calc(100% - 24px);
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 14px;
+  background: rgba(12, 16, 22, 0.93);
+  color: #fff;
+  border: 1px solid rgba(255, 255, 255, 0.42);
+  border-radius: 14px;
+  box-shadow: 0 8px 28px rgba(0, 0, 0, 0.32);
+  pointer-events: none;
+}
+
+.capture-feedback-mark {
+  display: grid;
+  place-items: center;
+  width: 25px;
+  height: 25px;
+  flex: 0 0 25px;
+  border-radius: 50%;
+  background: #d9f4e8;
+  color: #083d2b;
+  font: 800 16px/1 var(--font-ui);
+}
+
+.capture-feedback-copy {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  min-width: 0;
+  font-family: var(--font-ui);
+}
+
+.capture-feedback-copy strong {
+  font-size: 0.78rem;
+  font-weight: 750;
+  line-height: 1.25;
+}
+
+.capture-feedback-copy > span {
+  font-size: 0.7rem;
+  line-height: 1.3;
+  color: #d8dee7;
+}
+
+.capture-feedback-spinner {
+  width: 16px;
+  height: 16px;
+  flex: 0 0 16px;
+  border-radius: 50%;
+  border: 2px solid rgba(255, 255, 255, 0.26);
+  border-top-color: #fff;
+  animation: capture-spin 700ms linear infinite;
+}
+
+@keyframes capture-spin {
+  to { transform: rotate(360deg); }
+}
+
+.capture-feedback[data-state="error"] {
+  border-color: rgba(255, 174, 174, 0.8);
+}
+
+.capture-feedback[data-state="error"] .capture-feedback-mark {
+  background: #ffe1e1;
+  color: #842121;
+}
+
+.capture-feedback[data-state="error"] .capture-feedback-spinner {
+  display: none;
+}
+
+.shutter-btn.is-capturing {
+  border-color: #d9f4e8;
+  box-shadow: 0 0 0 5px rgba(217, 244, 232, 0.2), 0 6px 20px rgba(0, 0, 0, 0.45);
+}
+
+.shutter-btn.is-capturing .shutter-inner {
+  background: #d9f4e8;
+  transform: scale(0.72);
+}
+
+.shutter-btn:disabled {
+  opacity: 1;
+  cursor: progress;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .shutter-flash.active {
+    animation: none;
+    opacity: 0.28;
+  }
+  .capture-feedback-spinner {
+    animation-duration: 1.8s;
+  }
+}
