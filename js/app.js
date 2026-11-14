@@ -2,7 +2,7 @@ import { logger } from './logger.js';
 import { CameraController } from './camera.js';
 import { PALETTE, SceneColorSampler, hexToRgb, wcagContrastRatio } from './color.js';
 import { HorizonLevel } from './horizon.js';
-import { FORMATS, IMAGE_FILTERS, GRADING_TRIADS, COMPOSITION_GUIDES, LIGHT_BLEND_MODES, resolveFilterCss, computeCropRect, computeZoomCropRect, renderCoverOverlay } from './renderer.js?v=31';
+import { FORMATS, IMAGE_FILTERS, GRADING_TRIADS, COMPOSITION_GUIDES, LIGHT_BLEND_MODES, resolveFilterCss, computeCropRect, computeZoomCropRect, renderCoverOverlay } from './renderer.js?v=33';
 import { SubjectMaskController } from './subject-mask.js';
 import {
   captureDualResolution,
@@ -10,7 +10,7 @@ import {
   downloadBoth,
   canShareFiles,
   shareCapture
-} from './exporter.js?v=31';
+} from './exporter.js?v=33';
 
 const FORMAT_KEYS = ['magazine', 'post', 'story'];
 const EDITORIAL_ROLES = {
