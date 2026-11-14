@@ -176,6 +176,11 @@ const dom = {
   galleryInput: document.getElementById('galleryInput'),
   btnImportGallery: document.getElementById('btnImportGallery'),
   btnShutter: document.getElementById('btnShutter'),
+  shutterFreezeCanvas: document.getElementById('shutterFreezeCanvas'),
+  shutterFlash: document.getElementById('shutterFlash'),
+  captureFeedback: document.getElementById('captureFeedback'),
+  captureFeedbackTitle: document.getElementById('captureFeedbackTitle'),
+  captureFeedbackDetail: document.getElementById('captureFeedbackDetail'),
   zoomSlider: document.getElementById('zoomSlider'),
   btnZoomOut: document.getElementById('btnZoomOut'),
   btnZoomIn: document.getElementById('btnZoomIn'),
@@ -1068,59 +1073,148 @@ async function initCamera() {
   }
 }
 
+let captureFeedbackTimer = null;
+
+function showCaptureFeedback(title, detail, stateName = 'active') {
+  if (captureFeedbackTimer !== null) {
+    clearTimeout(captureFeedbackTimer);
+    captureFeedbackTimer = null;
+  }
+  dom.captureFeedbackTitle.textContent = title;
+  dom.captureFeedbackDetail.textContent = detail;
+  dom.captureFeedback.dataset.state = stateName;
+  dom.captureFeedback.classList.remove('hidden');
+}
+
+function clearCaptureFeedback() {
+  if (captureFeedbackTimer !== null) {
+    clearTimeout(captureFeedbackTimer);
+    captureFeedbackTimer = null;
+  }
+  dom.captureFeedback.classList.add('hidden');
+}
+
+// Capture before the first await so export cannot drift to a later video frame.
+// Both JPEGs are generated from the same immutable, zoomed source image.
+function freezeCurrentShot(source, width, height, formatId, zoom) {
+  const ratio = (FORMATS[formatId] || FORMATS.magazine).ratio;
+  const crop = computeCropRect(width, height, ratio);
+  const zoomCrop = computeZoomCropRect(width, height, ratio, zoom);
+  const shot = document.createElement('canvas');
+  shot.width = Math.round(crop.sw);
+  shot.height = Math.round(crop.sh);
+  if (!shot.width || !shot.height) throw new Error('Dimensioni dello scatto non valide');
+  const ctx = shot.getContext('2d');
+  if (!ctx) throw new Error('Canvas della fotocamera non disponibile');
+  ctx.drawImage(
+    source,
+    zoomCrop.sx, zoomCrop.sy, zoomCrop.sw, zoomCrop.sh,
+    0, 0, shot.width, shot.height
+  );
+  return shot;
+}
+
+function showFrozenShot(shot, preset) {
+  const frozen = dom.shutterFreezeCanvas;
+  const overlay = dom.overlayCanvas;
+  frozen.width = overlay.width;
+  frozen.height = overlay.height;
+  const ctx = frozen.getContext('2d');
+  if (!ctx) throw new Error('Anteprima dello scatto non disponibile');
+  const filterCss = resolveFilterCss(state.filterId, preset?.genre || 'fashion', state.toneAdjust);
+  if (filterCss !== 'none' && 'filter' in ctx) ctx.filter = filterCss;
+  ctx.drawImage(shot, 0, 0, frozen.width, frozen.height);
+  ctx.filter = 'none';
+  ctx.drawImage(overlay, 0, 0, frozen.width, frozen.height);
+  frozen.classList.remove('hidden');
+}
+
 async function handleShutter() {
+  if (dom.btnShutter.disabled) return;
   const { source, width, height } = getActiveSourceInfo();
   if (!width || !height) {
     logger.warn('Scatto ignorato: nessuna sorgente video o foto pronta');
+    showCaptureFeedback('Fotocamera non pronta', 'Riprova quando compare l’immagine.', 'error');
+    captureFeedbackTimer = setTimeout(clearCaptureFeedback, 3200);
+    return;
+  }
+  const formatId = state.formatId;
+  const zoom = state.zoom;
+  const preset = getCurrentPreset();
+  if (!preset) {
+    showCaptureFeedback('Copertina non pronta', 'Seleziona un layout e riprova.', 'error');
+    captureFeedbackTimer = setTimeout(clearCaptureFeedback, 3200);
     return;
   }
 
   dom.btnShutter.disabled = true;
-  try {
-    const preset = getCurrentPreset();
-    const result = await captureDualResolution({
-      source,
-      sourceWidth: width,
-      sourceHeight: height,
-      formatId: state.formatId,
-      preset,
-      renderOptions: {
-        editorialLineGap: state.editorialLineGap,
-        opacity: state.opacity,
-        colorMode: state.colorMode,
-        manualColor: state.manualColor,
-        autoColors: state.autoColors,
-        filterId: state.filterId,
-        lightSpots: state.lightSpots,
-        zoom: state.zoom,
-        lightBlendMode: state.lightBlendMode,
-        faceCutout: {
-          enabled: state.faceCutoutEnabled,
-          zone: subjectMask.maskZone
-        },
-        grading: state.grading,
-        toneAdjust: state.toneAdjust
-      }
-    });
+  dom.btnShutter.classList.add('is-capturing');
+  showCaptureFeedback('Acquisizione...', 'Blocco il fotogramma.');
+  dom.shutterFlash.classList.remove('active');
+  void dom.shutterFlash.offsetWidth;
+  dom.shutterFlash.classList.add('active');
 
+  let succeeded = false;
+  try {
+    const shot = freezeCurrentShot(source, width, height, formatId, zoom);
+    showFrozenShot(shot, preset);
+    showCaptureFeedback('Foto acquisita', 'Preparo i due file JPEG...');
+
+    const capturedPreset = JSON.parse(JSON.stringify(preset));
+    const renderOptions = {
+      editorialLineGap: state.editorialLineGap,
+      opacity: state.opacity,
+      colorMode: state.colorMode,
+      manualColor: state.manualColor,
+      autoColors: { ...state.autoColors },
+      filterId: state.filterId,
+      lightSpots: state.lightSpots.map(spot => ({ ...spot })),
+      zoom: 1, // Already applied to the frozen source.
+      lightBlendMode: state.lightBlendMode,
+      faceCutout: {
+        enabled: state.faceCutoutEnabled,
+        zone: { ...subjectMask.maskZone }
+      },
+      grading: { ...state.grading },
+      toneAdjust: { ...state.toneAdjust }
+    };
+
+    // Paint the feedback before expensive JPEG creation.
+    await new Promise(resolve => requestAnimationFrame(() => requestAnimationFrame(resolve)));
+
+    const result = await captureDualResolution({
+      source: shot,
+      sourceWidth: shot.width,
+      sourceHeight: shot.height,
+      formatId,
+      preset: capturedPreset,
+      renderOptions
+    });
     if (state.lastCapture) {
       URL.revokeObjectURL(state.lastCapture.cleanUrl);
       URL.revokeObjectURL(state.lastCapture.coverUrl);
     }
     state.lastCapture = result;
-
     dom.previewCoverImg.src = result.coverUrl;
     dom.previewCleanImg.src = result.cleanUrl;
     dom.captionCoverName.textContent = result.coverFilename;
     dom.captionCleanName.textContent = result.cleanFilename;
-    dom.exportMetaText.textContent = `${result.width} × ${result.height} px · Formato ${FORMATS[state.formatId].desc}`;
+    dom.exportMetaText.textContent = result.width + ' × ' + result.height + ' px · Formato ' + FORMATS[formatId].desc;
     dom.btnShareBoth.classList.toggle('hidden', !canShareFiles());
 
+    clearCaptureFeedback();
     dom.exportDialog.showModal();
+    succeeded = true;
   } catch (err) {
-    logger.error('Errore durante lo scatto ed esportazione', err);
+    logger.error('Errore durante lo scatto o il salvataggio', err);
+    showCaptureFeedback('Salvataggio non riuscito', 'Riprova lo scatto.', 'error');
+    captureFeedbackTimer = setTimeout(clearCaptureFeedback, 4200);
   } finally {
+    dom.shutterFreezeCanvas.classList.add('hidden');
+    dom.shutterFlash.classList.remove('active');
     dom.btnShutter.disabled = false;
+    dom.btnShutter.classList.remove('is-capturing');
+    if (succeeded) logger.info('Feedback scatto completato: anteprima esportazione aperta');
   }
 }
 
