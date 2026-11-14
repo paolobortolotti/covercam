@@ -5346,7 +5346,7 @@
           "font": "Barlow Condensed",
           "size": 0.12,
           "weight": "800",
-          "lineHeight": 1.23
+          "lineHeight": 1.18
         },
         {
           "role": "lead",
@@ -5358,7 +5358,7 @@
           "font": "Newsreader",
           "size": 0.038,
           "weight": "600",
-          "lineHeight": 1.4,
+          "lineHeight": 1.27,
           "maxLines": 3
         },
         {
@@ -5410,7 +5410,7 @@
           "role": "kicker",
           "text": "SPECIALE COMPORTAMENTO",
           "x": 0.93,
-          "y": 0.495,
+          "y": 0.48,
           "w": 0.8,
           "align": "right",
           "font": "Inter",
@@ -5422,25 +5422,25 @@
           "role": "headline",
           "text": "COSA CI DICONO DAVVERO",
           "x": 0.93,
-          "y": 0.565,
+          "y": 0.55,
           "w": 0.82,
           "align": "right",
           "font": "Barlow Condensed",
           "size": 0.105,
           "weight": "800",
-          "lineHeight": 1.23
+          "lineHeight": 1.18
         },
         {
           "role": "lead",
           "text": "Il linguaggio di cani e gatti, raccontato attraverso gesti, sguardi e abitudini.",
           "x": 0.93,
-          "y": 0.79,
+          "y": 0.75,
           "w": 0.77,
           "align": "right",
           "font": "Newsreader",
           "size": 0.045,
           "weight": "600",
-          "lineHeight": 1.4,
+          "lineHeight": 1.27,
           "maxLines": 3
         },
         {
@@ -5504,25 +5504,25 @@
           "role": "headline",
           "text": "IL CIELO È CASA",
           "x": 0.07,
-          "y": 0.575,
+          "y": 0.55,
           "w": 0.8,
           "align": "left",
           "font": "Newsreader",
           "size": 0.105,
           "weight": "800",
-          "lineHeight": 1.2
+          "lineHeight": 1.18
         },
         {
           "role": "lead",
           "text": "Rotte, migrazioni e strategie sorprendenti degli uccelli del nostro pianeta.",
           "x": 0.07,
-          "y": 0.79,
+          "y": 0.76,
           "w": 0.77,
           "align": "left",
           "font": "Inter",
           "size": 0.039,
           "weight": "700",
-          "lineHeight": 1.38,
+          "lineHeight": 1.27,
           "maxLines": 3
         },
         {
@@ -5592,7 +5592,7 @@
           "font": "Barlow Condensed",
           "size": 0.105,
           "weight": "800",
-          "lineHeight": 1.22
+          "lineHeight": 1.18
         },
         {
           "role": "lead",
@@ -5604,7 +5604,7 @@
           "font": "Newsreader",
           "size": 0.039,
           "weight": "600",
-          "lineHeight": 1.4,
+          "lineHeight": 1.27,
           "maxLines": 3
         },
         {
