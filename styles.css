@@ -1252,3 +1252,114 @@ dialog::backdrop {
 .editorial-input::placeholder { color: #9999a5; opacity: 1; }
 .editorial-input:focus-visible { outline: 2px solid #a8b8ff; outline-offset: 2px; }
 textarea.editorial-input { min-height: 66px; resize: vertical; }
+
+
+/* CoverCam v31: framing zoom and independent halo color. */
+#cameraVideo,
+#importedPhoto {
+  transform-origin: 50% 50%;
+  will-change: transform;
+}
+
+.stage-frame {
+  touch-action: none;
+}
+
+.zoom-row {
+  display: grid;
+  grid-template-columns: auto 34px minmax(68px, 1fr) 34px 58px;
+  align-items: center;
+  gap: 8px;
+  padding: 1px 6px 4px;
+}
+
+.zoom-caption {
+  font: 700 0.65rem var(--font-mono);
+  letter-spacing: 0.045em;
+  color: var(--text-muted);
+}
+
+.zoom-row input[type="range"] {
+  min-width: 0;
+  width: 100%;
+  accent-color: var(--brand-color);
+  touch-action: pan-x;
+}
+
+.zoom-step,
+.zoom-readout {
+  min-height: 34px;
+  border: 1px solid var(--glass-border-bright);
+  background: var(--glass-chip);
+  color: var(--text-primary);
+  border-radius: 10px;
+  cursor: pointer;
+}
+
+.zoom-step {
+  font: 700 1.15rem var(--font-ui);
+}
+
+.zoom-readout {
+  font: 700 0.77rem var(--font-mono);
+  font-variant-numeric: tabular-nums;
+}
+
+.zoom-step:focus-visible,
+.zoom-readout:focus-visible,
+.zoom-row input:focus-visible,
+.halo-color-control input:focus-visible {
+  outline: 2px solid var(--brand-color);
+  outline-offset: 2px;
+}
+
+.halo-color-control {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  min-height: 34px;
+  color: var(--text-primary);
+  font: 600 0.73rem var(--font-ui);
+}
+
+.halo-color-control span {
+  flex: 1;
+}
+
+.halo-color-control input[type="color"] {
+  width: 42px;
+  height: 30px;
+  padding: 2px;
+  border: 1px solid var(--glass-border-bright);
+  border-radius: 8px;
+  background: var(--glass-chip);
+  cursor: pointer;
+}
+
+.halo-color-control input[type="color"]::-webkit-color-swatch-wrapper {
+  padding: 0;
+}
+
+.halo-color-control input[type="color"]::-webkit-color-swatch {
+  border: none;
+  border-radius: 5px;
+}
+
+.halo-color-control code {
+  width: 66px;
+  font: 600 0.69rem var(--font-mono);
+  color: var(--text-muted);
+  text-align: right;
+}
+
+.halo-color-drawer {
+  margin-top: 10px;
+  padding: 6px 0;
+  border-top: 1px solid var(--glass-border);
+}
+
+@media (max-width: 360px) {
+  .zoom-row { gap: 5px; padding-inline: 0; grid-template-columns: auto 30px minmax(54px, 1fr) 30px 54px; }
+  .zoom-step, .zoom-readout { min-height: 32px; }
+  .zoom-caption { font-size: 0.6rem; }
+}
