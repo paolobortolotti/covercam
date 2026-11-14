@@ -2,7 +2,7 @@ import { logger } from './logger.js';
 import { CameraController } from './camera.js';
 import { PALETTE, SceneColorSampler, hexToRgb, wcagContrastRatio } from './color.js';
 import { HorizonLevel } from './horizon.js';
-import { FORMATS, IMAGE_FILTERS, GRADING_TRIADS, COMPOSITION_GUIDES, LIGHT_BLEND_MODES, resolveFilterCss, computeCropRect, renderCoverOverlay } from './renderer.js?v=30';
+import { FORMATS, IMAGE_FILTERS, GRADING_TRIADS, COMPOSITION_GUIDES, LIGHT_BLEND_MODES, resolveFilterCss, computeCropRect, computeZoomCropRect, renderCoverOverlay } from './renderer.js?v=31';
 import { SubjectMaskController } from './subject-mask.js';
 import {
   captureDualResolution,
@@ -10,7 +10,7 @@ import {
   downloadBoth,
   canShareFiles,
   shareCapture
-} from './exporter.js?v=30';
+} from './exporter.js?v=31';
 
 const FORMAT_KEYS = ['magazine', 'post', 'story'];
 const EDITORIAL_ROLES = {
@@ -28,6 +28,7 @@ const state = {
   variantIndex: 0,
   formatId: 'magazine',
   opacity: 1.0,
+  zoom: 1,
   editorialLineGap: 1,
   colorMode: 'auto',
   manualColor: '#FFFFFF',
@@ -59,6 +60,7 @@ const state = {
   activeSpotIndex: -1,
   defaultHaloIntensity: 0.48,
   defaultHaloRadius: 0.34,
+  defaultHaloColor: '#F2C18D',
   faceCutoutEnabled: false,
   compositionGuide: 'none',
   showSafeZones: false,
@@ -144,10 +146,14 @@ const dom = {
   haloIntensityValue: document.getElementById('haloIntensityValue'),
   haloRadiusSlider: document.getElementById('haloRadiusSlider'),
   haloRadiusValue: document.getElementById('haloRadiusValue'),
+  haloColorInput: document.getElementById('haloColorInput'),
+  haloColorValue: document.getElementById('haloColorValue'),
   drawerHaloIntensitySlider: document.getElementById('drawerHaloIntensitySlider'),
   drawerHaloIntensityValue: document.getElementById('drawerHaloIntensityValue'),
   drawerHaloRadiusSlider: document.getElementById('drawerHaloRadiusSlider'),
   drawerHaloRadiusValue: document.getElementById('drawerHaloRadiusValue'),
+  drawerHaloColorInput: document.getElementById('drawerHaloColorInput'),
+  drawerHaloColorValue: document.getElementById('drawerHaloColorValue'),
   btnFaceCutoutToggle: document.getElementById('btnFaceCutoutToggle'),
   faceCutoutStatusText: document.getElementById('faceCutoutStatusText'),
   faceSizeSlider: document.getElementById('faceSizeSlider'),
@@ -170,6 +176,10 @@ const dom = {
   galleryInput: document.getElementById('galleryInput'),
   btnImportGallery: document.getElementById('btnImportGallery'),
   btnShutter: document.getElementById('btnShutter'),
+  zoomSlider: document.getElementById('zoomSlider'),
+  btnZoomOut: document.getElementById('btnZoomOut'),
+  btnZoomIn: document.getElementById('btnZoomIn'),
+  btnZoomReset: document.getElementById('btnZoomReset'),
   btnFormatCycle: document.getElementById('btnFormatCycle'),
   formatRatioText: document.getElementById('formatRatioText'),
   formatNameText: document.getElementById('formatNameText'),
@@ -210,6 +220,39 @@ function getCurrentPreset() {
   if (!list.length) return null;
   const idx = ((state.variantIndex % list.length) + list.length) % list.length;
   return list[idx];
+}
+
+// Digital framing affects the source image only; editorial text remains at its
+// original cover coordinates. Export uses the same centered crop.
+function setZoom(value) {
+  const requested = Number(value);
+  const safe = Number.isFinite(requested) ? requested : 1;
+  state.zoom = Math.round(Math.max(1, Math.min(3, safe)) * 10) / 10;
+  const transform = `scale(${state.zoom})`;
+  dom.cameraVideo.style.transform = transform;
+  dom.importedPhoto.style.transform = transform;
+  if (dom.zoomSlider) dom.zoomSlider.value = String(state.zoom);
+  if (dom.btnZoomReset) dom.btnZoomReset.textContent = `${state.zoom.toFixed(1)}×`;
+  scheduleOverlayRedraw();
+}
+
+function setupZoomControls() {
+  if (!dom.zoomSlider) return;
+  dom.zoomSlider.addEventListener('input', () => setZoom(dom.zoomSlider.value));
+  dom.zoomSlider.addEventListener('change', () => runSceneColorSample());
+  dom.btnZoomOut?.addEventListener('click', () => {
+    setZoom(state.zoom - 0.1);
+    runSceneColorSample();
+  });
+  dom.btnZoomIn?.addEventListener('click', () => {
+    setZoom(state.zoom + 0.1);
+    runSceneColorSample();
+  });
+  dom.btnZoomReset?.addEventListener('click', () => {
+    setZoom(1);
+    runSceneColorSample();
+  });
+  setZoom(state.zoom);
 }
 
 function updateStageDimensions() {
@@ -639,7 +682,7 @@ async function runSceneColorSample() {
   if (!width || !height) return;
 
   const format = FORMATS[state.formatId] || FORMATS.magazine;
-  const crop = computeCropRect(width, height, format.ratio);
+  const crop = computeZoomCropRect(width, height, format.ratio, state.zoom);
   const preset = getCurrentPreset();
   const preferredHex = preset && preset.defaultColor ? preset.defaultColor : '#FFFFFF';
   const presetAccent = preset && preset.accentColor ? preset.accentColor : '#E63946';
@@ -1009,6 +1052,7 @@ async function handleShutter() {
         autoColors: state.autoColors,
         filterId: state.filterId,
         lightSpots: state.lightSpots,
+        zoom: state.zoom,
         lightBlendMode: state.lightBlendMode,
         faceCutout: {
           enabled: state.faceCutoutEnabled,
@@ -1133,6 +1177,7 @@ async function bootstrap() {
   setupDialogLightDismissFallback();
   setupLongPressDebug();
   setupStageInteractions();
+  setupZoomControls();
   renderPalette();
   renderGuideBar();
   renderFilterBar();
