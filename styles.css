@@ -1267,7 +1267,7 @@ textarea.editorial-input { min-height: 66px; resize: vertical; }
 
 .zoom-row {
   display: grid;
-  grid-template-columns: auto 34px minmax(68px, 1fr) 34px 58px;
+  grid-template-columns: auto 44px minmax(48px, 1fr) 44px 58px;
   align-items: center;
   gap: 8px;
   padding: 1px 6px 4px;
@@ -1281,6 +1281,7 @@ textarea.editorial-input { min-height: 66px; resize: vertical; }
 
 .zoom-row input[type="range"] {
   min-width: 0;
+  min-height: 44px;
   width: 100%;
   accent-color: var(--brand-color);
   touch-action: pan-x;
@@ -1288,7 +1289,7 @@ textarea.editorial-input { min-height: 66px; resize: vertical; }
 
 .zoom-step,
 .zoom-readout {
-  min-height: 34px;
+  min-height: 44px;
   border: 1px solid var(--glass-border-bright);
   background: var(--glass-chip);
   color: var(--text-primary);
@@ -1317,7 +1318,7 @@ textarea.editorial-input { min-height: 66px; resize: vertical; }
   display: flex;
   align-items: center;
   gap: 10px;
-  min-height: 34px;
+  min-height: 44px;
   color: var(--text-primary);
   font: 600 0.73rem var(--font-ui);
 }
@@ -1327,8 +1328,8 @@ textarea.editorial-input { min-height: 66px; resize: vertical; }
 }
 
 .halo-color-control input[type="color"] {
-  width: 42px;
-  height: 30px;
+  width: 44px;
+  height: 36px;
   padding: 2px;
   border: 1px solid var(--glass-border-bright);
   border-radius: 8px;
@@ -1359,7 +1360,6 @@ textarea.editorial-input { min-height: 66px; resize: vertical; }
 }
 
 @media (max-width: 360px) {
-  .zoom-row { gap: 5px; padding-inline: 0; grid-template-columns: auto 30px minmax(54px, 1fr) 30px 54px; }
-  .zoom-step, .zoom-readout { min-height: 32px; }
+  .zoom-row { gap: 4px; padding-inline: 0; grid-template-columns: auto 44px minmax(32px, 1fr) 44px 54px; }
   .zoom-caption { font-size: 0.6rem; }
 }
