@@ -384,7 +384,7 @@ export function renderCoverOverlay(ctx, width, height, preset, options) {
     const boxPadY = el.box === 'frame' || el.box === 'bracket' ? width * 0.014 : (el.box === 'bar' ? width * 0.007 : 0);
     const blockH = el.bg === 'accent' ? fontPx * 1.25 : inkHeight + (boxPadY ? boxPadY + Math.max(0, lineH - fontPx) : 0);
     // Rule clearance is reserved before placement, not added after collision checks.
-    const lineClearance = el.ruleTop ? width * (el.role === 'issue' ? 0.018 : el.role === 'cta' ? 0.034 : 0.028) : 0;
+    const lineClearance = el.ruleTop ? width * (el.role === 'issue' ? 0.018 : el.role === 'cta' ? 0.04 : 0.028) : 0;
 
     // Collisions use measured text width, not the entire wrap column.
     // Decorative strokes and frames extend those bounds explicitly.
@@ -403,14 +403,16 @@ export function renderCoverOverlay(ctx, width, height, preset, options) {
       boxRight = Math.max(boxRight, ruleLeft + maxW);
     }
     if (el.box === 'bar') {
-      boxLeft -= fontPx * 0.6;
-      boxRight += fontPx * 0.6;
+      const barOffset = Math.max(2, width * 0.0055) + fontPx * 0.52;
+      if (el.align === 'right') boxLeft -= barOffset;
+      else boxRight += barOffset;
     } else if (el.box === 'frame' || el.box === 'bracket') {
-      const decoratedWidth = Math.min(maxW, Math.max(measuredW, maxW * 0.65)) + fontPx * 1.04;
-      const frameLeft = el.align === 'center' ? xPos - decoratedWidth / 2
-        : el.align === 'right' ? xPos - decoratedWidth : xPos - fontPx * 0.52;
+      const frameW = Math.min(maxW, Math.max(measuredW, maxW * 0.65));
+      const padX = fontPx * 0.52;
+      const frameLeft = el.align === 'center' ? xPos - frameW / 2 - padX
+        : el.align === 'right' ? xPos - frameW - padX : xPos - padX;
       boxLeft = Math.min(boxLeft, frameLeft);
-      boxRight = Math.max(boxRight, frameLeft + decoratedWidth);
+      boxRight = Math.max(boxRight, frameLeft + frameW + padX * 2);
     }
 
     const isFlowRole = el.role === 'kicker' || el.role === 'headline' || el.role === 'lead' || el.role === 'body';
