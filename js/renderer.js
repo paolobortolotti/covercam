@@ -411,7 +411,13 @@ export function renderCoverOverlay(ctx, width, height, preset, options) {
     // A consistent editorial baseline grid, with distinct leading for every content role.
     const leadingByRole = { masthead: 1.0, issue: 1.2, kicker: 1.28, headline: 1.38, lead: 1.54, body: 1.56, cta: 1.2 };
     const defaultLeading = leadingByRole[el.role] || 1.3;
-    const lineH = fontPx * Math.max(1.12, Math.max(defaultLeading, el.lineHeight || 0) * Math.max(0.9, Math.min(1.65, editorialLineGap)));
+    // Animal editorial covers use their authored leading for headlines and
+    // summaries. All other genres keep the established role-based minimum.
+    const compactAnimalRole = preset.genre === 'animals' && (el.role === 'headline' || el.role === 'lead');
+    const effectiveLeading = compactAnimalRole
+      ? (Number(el.lineHeight) || defaultLeading)
+      : Math.max(defaultLeading, el.lineHeight || 0);
+    const lineH = fontPx * Math.max(1.12, effectiveLeading * Math.max(0.9, Math.min(1.65, editorialLineGap)));
     const inkHeight = (lines.length - 1) * lineH + fontPx;
     const boxPadY = el.box === 'frame' || el.box === 'bracket' ? width * 0.014 : (el.box === 'bar' ? width * 0.007 : 0);
     const blockH = el.bg === 'accent' ? fontPx * 1.25 : inkHeight + (boxPadY ? boxPadY + Math.max(0, lineH - fontPx) : 0);
