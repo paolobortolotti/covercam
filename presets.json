@@ -642,7 +642,7 @@
           "size": 0.024,
           "lineHeight": 1.18,
           "box": "bar",
-          "maxLines": 2
+          "maxLines": 3
         },
         {
           "role": "cta",
@@ -2988,7 +2988,7 @@
           "role": "headline",
           "text": "SILENZIO IN MOVIMENTO.",
           "x": 0.93,
-          "y": 0.65,
+          "y": 0.62,
           "w": 0.62,
           "align": "right",
           "font": "Space Grotesk",
@@ -3009,7 +3009,7 @@
           "size": 0.032,
           "lineHeight": 1.17,
           "box": "bar",
-          "maxLines": 3
+          "maxLines": 4
         },
         {
           "role": "cta",
