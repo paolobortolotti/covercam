@@ -377,19 +377,41 @@ export function renderCoverOverlay(ctx, width, height, preset, options) {
       lines = lines.slice(0, el.maxLines || 3);
     }
     // A consistent editorial baseline grid, with distinct leading for every content role.
-    const leadingByRole = { masthead: 1.0, issue: 1.18, kicker: 1.26, headline: 1.34, lead: 1.5, body: 1.52, cta: 1.18 };
+    const leadingByRole = { masthead: 1.0, issue: 1.2, kicker: 1.28, headline: 1.38, lead: 1.54, body: 1.56, cta: 1.2 };
     const defaultLeading = leadingByRole[el.role] || 1.3;
     const lineH = fontPx * Math.max(1.12, Math.max(defaultLeading, el.lineHeight || 0) * Math.max(0.9, Math.min(1.65, editorialLineGap)));
     const inkHeight = (lines.length - 1) * lineH + fontPx;
     const boxPadY = el.box === 'frame' || el.box === 'bracket' ? width * 0.014 : (el.box === 'bar' ? width * 0.007 : 0);
-    const blockH = el.bg === 'accent' ? fontPx * 1.45 : inkHeight + boxPadY * 2;
+    const blockH = el.bg === 'accent' ? fontPx * 1.25 : inkHeight + (boxPadY ? boxPadY + Math.max(0, lineH - fontPx) : 0);
     // Rule clearance is reserved before placement, not added after collision checks.
-    const lineClearance = el.ruleTop ? width * (el.role === 'issue' ? 0.015 : 0.026) : 0;
+    const lineClearance = el.ruleTop ? width * (el.role === 'issue' ? 0.018 : el.role === 'cta' ? 0.034 : 0.028) : 0;
 
+    // Collisions use measured text width, not the entire wrap column.
+    // Decorative strokes and frames extend those bounds explicitly.
+    const measuredW = Math.max(0, ...lines.map(line => ctx.measureText(line).width));
+    const inkW = el.bg === 'accent'
+      ? Math.min(maxW, measuredW + fontPx * 1.2)
+      : measuredW;
     let boxLeft = xPos;
-    if (el.align === 'center') boxLeft = xPos - maxW / 2;
-    else if (el.align === 'right') boxLeft = xPos - maxW;
-    let boxRight = boxLeft + maxW;
+    if (el.align === 'center') boxLeft = xPos - inkW / 2;
+    else if (el.align === 'right') boxLeft = xPos - inkW;
+    let boxRight = boxLeft + inkW;
+    if (el.ruleTop) {
+      const ruleLeft = el.align === 'center' ? xPos - maxW / 2
+        : el.align === 'right' ? xPos - maxW : xPos;
+      boxLeft = Math.min(boxLeft, ruleLeft);
+      boxRight = Math.max(boxRight, ruleLeft + maxW);
+    }
+    if (el.box === 'bar') {
+      boxLeft -= fontPx * 0.6;
+      boxRight += fontPx * 0.6;
+    } else if (el.box === 'frame' || el.box === 'bracket') {
+      const decoratedWidth = Math.min(maxW, Math.max(measuredW, maxW * 0.65)) + fontPx * 1.04;
+      const frameLeft = el.align === 'center' ? xPos - decoratedWidth / 2
+        : el.align === 'right' ? xPos - decoratedWidth : xPos - fontPx * 0.52;
+      boxLeft = Math.min(boxLeft, frameLeft);
+      boxRight = Math.max(boxRight, frameLeft + decoratedWidth);
+    }
 
     const isFlowRole = el.role === 'kicker' || el.role === 'headline' || el.role === 'lead' || el.role === 'body';
     if (
@@ -404,8 +426,8 @@ export function renderCoverOverlay(ctx, width, height, preset, options) {
 
     // Shared editorial rhythm: spacing is defined in cover units rather than accidental font sizes.
     const gapScale = el.role === 'lead' ? 0.72 : el.role === 'body' ? 0.65 : el.role === 'headline' ? 0.52 : 0.4;
-    const minGap = Math.max(width * 0.022, fontPx * gapScale);
-    const topInset = lineClearance + boxPadY;
+    const minGap = Math.max(width * 0.025, fontPx * gapScale);
+    const topInset = Math.max(lineClearance, boxPadY, el.bg === 'accent' ? fontPx * 0.2 : 0);
     const targetY = yPos;
     const bottomLimit = height * 0.956;
     const topLimit = width * 0.018;
